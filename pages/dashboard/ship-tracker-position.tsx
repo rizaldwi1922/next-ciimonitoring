@@ -1,11 +1,31 @@
-import { ReactElement } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import PageContainer from '../../src/components/container/PageContainer';
 import DashboardCard from '../../src/components/shared/DashboardCard';
 import FullLayout from '../../src/layouts/full/FullLayout';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
+import dynamic from 'next/dynamic';
 
 
 const ShipTrackerPosition = () => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted || typeof window === "undefined") return null;
+
+  const MapContainer = dynamic(() => import("react-leaflet").then((mod) => mod.MapContainer), {
+    ssr: false,
+  });
+  const TileLayer = dynamic(() => import("react-leaflet").then((mod) => mod.TileLayer), {
+    ssr: false,
+  });
+  const Marker = dynamic(() => import("react-leaflet").then((mod) => mod.Marker), {
+    ssr: false,
+  });
+  const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), {
+    ssr: false,
+  });
 
   return (
     <PageContainer title="Ship Tracker Position">
