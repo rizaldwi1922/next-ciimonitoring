@@ -6,7 +6,7 @@ module.exports = {
   deploy : {
     production : {
       user : 'root',
-      host : '103.190.28.23',
+      host : '103.190.28.232',
       ref  : 'origin/main',
       repo : 'git@github.com:rizaldwi1922/next-ciimonitoring.git',
       path : '/home/next-ciimonitoring',
