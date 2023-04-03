@@ -6,4 +6,5 @@ module.exports = {
   env: {
     NEXT_PUBLIC_URL: localEnv.NEXT_PUBLIC_URL,
   },
+  staticPageGenerationTimeout: 1000,
 };
