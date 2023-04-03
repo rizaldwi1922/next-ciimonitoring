@@ -8,6 +8,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import createEmotionCache from "../src/createEmotionCache";
 import { baselightTheme } from "../src/theme/DefaultColors";
+import 'bootstrap/dist/css/bootstrap.css'
+
 //import './../public/css/leaflet-style.css'
 import 'leaflet/dist/leaflet.css';
 import 'leaflet/dist/images/marker-icon.png'

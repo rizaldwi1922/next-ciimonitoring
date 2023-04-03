@@ -1,49 +1,36 @@
 import type { ReactElement } from 'react';
-import { Grid, Box } from '@mui/material';
-import PageContainer from '../src/components/container/PageContainer';
-
-// components
-import SalesOverview from '../src/components/dashboard/SalesOverview';
-import YearlyBreakup from '../src/components/dashboard/YearlyBreakup';
-import RecentTransactions from '../src/components/dashboard/RecentTransactions';
-import ProductPerformance from '../src/components/dashboard/ProductPerformance';
-import Blog from '../src/components/dashboard/Blog';
-import MonthlyEarnings from '../src/components/dashboard/MonthlyEarnings';
-import FullLayout from '../src/layouts/full/FullLayout';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import { useRouter } from 'next/router';
 
 export default function Home() {
-  return (
-    <PageContainer title="Dashboard" description="this is Dashboard">
-      <Box>
-        <Grid container spacing={3}>
-          <Grid item xs={12} lg={8}>
-            <SalesOverview />
-          </Grid>
-          <Grid item xs={12} lg={4}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <YearlyBreakup />
-              </Grid>
-              <Grid item xs={12}>
-                <MonthlyEarnings />
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={12} lg={4}>
-            <RecentTransactions />
-          </Grid>
-          <Grid item xs={12} lg={8}>
-            <ProductPerformance />
-          </Grid>
-          <Grid item xs={12}>
-            <Blog />
-          </Grid>
-        </Grid>
-      </Box>
-    </PageContainer>
-  );
-}
 
-Home.getLayout = function getLayout(page: ReactElement) {
-  return <FullLayout>{page}</FullLayout>;
-};
+  const route = useRouter();
+
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            CII Monitoring
+          </Typography>
+          <Button color="inherit" onClick={() => route.push('/authentication/login')}>Login</Button>
+        </Toolbar>
+      </AppBar>
+    </Box>
+  )
+}

@@ -9,10 +9,6 @@ const SidebarItems = ({toggleMobileSidebar}: any) => {
   const { pathname } = useRouter();
   const pathDirect = pathname;
 
-  const onAlert = () => {
-    alert("Test")
-  }
-
   return (
     <Box sx={{ px: 3 }}>
       <List sx={{ pt: 0 }} className="sidebarNav" component="div">
@@ -24,10 +20,7 @@ const SidebarItems = ({toggleMobileSidebar}: any) => {
             // {/********If Sub Menu**********/}
             /* eslint no-else-return: "off" */
           } else {
-            if(item.title == 'Logout')
-              return <NavItem item={item} key={item.id} pathDirect={pathDirect}  onClick={onAlert}/>
-            else
-              return <NavItem item={item} key={item.id} pathDirect={pathDirect}  onClick={toggleMobileSidebar}/>
+            return <NavItem item={item} key={item.id} pathDirect={pathDirect}  onClick={toggleMobileSidebar}/>
           }
         })}
       </List>

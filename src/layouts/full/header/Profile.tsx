@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Link from "next/link";
+import axios from "axios";
 import {
   Avatar,
   Box,
@@ -11,16 +11,42 @@ import {
   ListItemText,
 } from "@mui/material";
 
+import Cookie from 'js-cookie';
+import { useRouter } from "next/router";
+
 import { IconListCheck, IconMail, IconUser } from "@tabler/icons-react";
 
 const Profile = () => {
   const [anchorEl2, setAnchorEl2] = useState(null);
+  const baseURl = process.env.NEXT_PUBLIC_URL;
+  const route = useRouter();
   const handleClick2 = (event: any) => {
     setAnchorEl2(event.currentTarget);
   };
   const handleClose2 = () => {
     setAnchorEl2(null);
   };
+
+  const onLogOut = () => {
+    if(localStorage.getItem('token')){
+      const token = localStorage.getItem('token');
+      axios.post(`${baseURl}/api/logout`, null, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+        })
+        .then(response => {
+          console.log(response.data);
+          Cookie.remove("session");
+          localStorage.removeItem("token");
+          route.replace("/authentication/login")
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+    
+  }
 
   return (
     <Box>
@@ -83,11 +109,10 @@ const Profile = () => {
         </MenuItem>
         <Box mt={1} py={1} px={2}>
           <Button
-            href="/authentication/login"
             variant="outlined"
             color="primary"
-            component={Link}
             fullWidth
+            onClick={onLogOut}
           >
             Logout
           </Button>
