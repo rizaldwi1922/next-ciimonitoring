@@ -86,7 +86,6 @@ const Sidebar = ({isMobileSidebarOpen, onSidebarClose, isSidebarOpen }: ItemType
       {/* Sidebar For Mobile */}
       {/* ------------------------------------------- */}
       <SidebarItems />
-      <Upgrade />
     </Drawer>
   );
 };

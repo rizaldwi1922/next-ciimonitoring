@@ -82,6 +82,16 @@ const Menuitems = [
   },
   {
     navlabel: true,
+    subheader: 'Master Data',
+  },
+  {
+    id: uniqueId(),
+    title: 'Ship',
+    icon: IconShip,
+    href: '/dashboard/master-ship'
+  },
+  {
+    navlabel: true,
     subheader: 'Report',
   },
   {
