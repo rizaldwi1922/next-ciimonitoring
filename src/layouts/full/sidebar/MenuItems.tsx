@@ -1,11 +1,5 @@
 import {
-  IconAperture, 
-  IconCopy, 
   IconLayoutDashboard, 
-  IconLogin, 
-  IconMoodHappy, 
-  IconTypography, 
-  IconUserPlus, 
   IconShip, 
   IconLocation,
   IconSunWind,
@@ -60,7 +54,7 @@ const Menuitems = [
     id: uniqueId(),
     title: 'Ship Resistance',
     icon: IconSpeedboat,
-    href: ''
+    href: '/dashboard/ship-resistance'
   },
   {
     id: uniqueId(),

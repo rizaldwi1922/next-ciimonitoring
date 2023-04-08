@@ -6,16 +6,13 @@ import {
 import PageContainer from '../../../src/components/container/PageContainer';
 import DashboardCard from '../../../src/components/shared/DashboardCard';
 import FullLayout from '../../../src/layouts/full/FullLayout';
+import Breadcrumbs from '../../../src/components/header/breadcrumbs';
+import { useRouter } from 'next/router';
 
 import DataTable from 'react-data-table-component';
 
 const Ship = () => {
-
-    const [open, setOpen] = useState(false);
-
-    const toggle = () => {
-        setOpen(!open)
-    }
+    const route = useRouter()
 
     const columns = [
         {
@@ -40,14 +37,21 @@ const Ship = () => {
             year: '1984',
         },
     ]
+
+const breadcrumb = [
+    {
+        title: "Ship",
+    }
+];
     
 
   return (
     <PageContainer title="Master Ship">
+        <Breadcrumbs breadcrumb={breadcrumb} />
         <DashboardCard title="Master Ship">
             <div>
                 <Box sx={{ p: 2, textAlign: 'right'}}>
-                    <Button variant="contained" onClick={toggle}>Add Ship</Button>
+                    <Button variant="contained" onClick={() => route.push('/dashboard/master-ship/form?test=halo')}>Add Ship</Button>
                 </Box>
                 <Box
                 component="form"

@@ -62,7 +62,7 @@ const Login2 = () => {
           >
             <Card elevation={9} sx={{ p: 4, zIndex: 1, width: '100%', maxWidth: '500px' }}>
               <Box display="flex" alignItems="center" justifyContent="center">
-                <Logo />
+                <Logo height={154} width={292} />
               </Box>
               <Stack sx={{ mb:4 }}>
                 <Box>
