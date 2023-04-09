@@ -73,7 +73,7 @@ const Ship = () => {
         const Vms = v * 0.514444;
         const fn = Vms / Math.pow(g*lwl, 0.5);
         const LB = lwl / b;
-        const BT = b/t;
+        const BT = b/tops;
 
         const statusFN = fn < 1 ? txtQualify : txtNotQualify;
         const statusLB = LB > 3.90 && LB < 14.90 ? txtQualify : txtNotQualify;
@@ -138,7 +138,7 @@ const Ship = () => {
                     />
                      <TextField
                             required
-                            label="LOA"
+                            label={loa}
                             type="number"
                             value={loa}
                             onChange={e => setLoa(parseFloat(e.target.value))}
