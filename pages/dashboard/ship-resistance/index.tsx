@@ -224,7 +224,7 @@ const Ship = () => {
                     />
                      <TextField
                             required
-                            label={loa}
+                            label="LOA"
                             type="number"
                             value={loa}
                             onChange={e => setLoa(parseFloat(e.target.value))}
