@@ -7,6 +7,7 @@ import {
     TableCell,
     TableContainer,
     TableRow,
+    TableHead,
     Paper,
     Typography,
     Button
@@ -19,9 +20,38 @@ import { useRouter } from 'next/router';
 import RenderIf from '../../../src/components/container/RenderIf';
 
 const Ship = () => {
+
+    interface FormFactor {
+        knot: number,
+        ms: number,
+        rn: number,
+        cf: number,
+        rf: number,
+        k1: number
+      }
+      
+    interface Tahanan {
+        knot: number,
+        ms: number,
+        rn: number,
+        cf: number,
+        rf: number,
+    }
+
     const baseURl = process.env.NEXT_PUBLIC_URL;
     const [owner, setOwner] = useState('Kemenhub/BPSDM-Poltekpel');
     const [tipe, setTipe] = useState('Kapal latih');
+    // const [loa, setLoa] = useState(63);
+    // const [lpp, setLpp] = useState(59.16);
+    // const [b, setB] = useState(12);
+    // const [h, setH] = useState(4);
+    // const [t, setT] = useState(2.8);
+    // const [gt, setGt] = useState(1200);
+    // const [dwt, setDwt] = useState(186.824);
+    // const [v, setV] = useState(12);
+    // const [lwl, setLwl] = useState(59.626);
+    // const [bwl, setBwl] = useState(12);
+    // const [cp, setCp] = useState(0.678);
     const [loa, setLoa] = useState(0);
     const [lpp, setLpp] = useState(0);
     const [b, setB] = useState(0);
@@ -57,6 +87,9 @@ const Ship = () => {
     ])
     const tops = (2.3+2.8)/2;
     const g = 9.81;
+
+    const [dataTahanan, setDataTahanan] = useState<Tahanan[]>([]);
+    const [dataFormFactor, setDataFormFactor] = useState<FormFactor[]>([]);
 
 
     const breadcrumb = [
@@ -106,6 +139,59 @@ const Ship = () => {
 
         setData(Rows)
 
+    }
+
+    const perhitunganTahanan = () => {
+        const hasilTahanan = [];
+        const viskositas = 0.94252 * 10 ** -6;
+        const p = 1.025;
+        const ABT = (618811/1000000)*2;
+        const CM = 0.976;
+        const CB = 0.662;
+        const CW = 0.808;
+        const S = lwl * (2*tops+bwl) * CM ** 0.5 * (0.453 + 0.4425 * CB - 0.2862 * CM - 0.003467 * (bwl/tops) + 0.3696 * CW) + 2.38 * ABT/CB;
+        for (let i = 0; i < 15; i++) {
+            const knot = i + 1;
+            const ms = knot * 0.514444;
+            const rn = Math.round(ms * lwl / viskositas);
+            const cf = 0.075 / (Math.log10(rn)-2) ** 2;
+            const rf = (0.5 * p * ms ** 2 * S) * cf;
+            hasilTahanan.push({
+                knot: knot,
+                ms: ms,
+                rn: rn,
+                cf: cf,
+                rf: rf
+            });
+        }
+        setDataTahanan(hasilTahanan);
+    }
+
+    const formFactor = () => {
+        const midship = lpp/2;
+        const LCB = 26.533;
+        const fromMidship = LCB - midship;
+        const LR = lwl * (1-cp+(0.06*cp*(fromMidship / (4*cp)-1)));
+        const Cstern = -22;
+        const C14 = 1+0.001*Cstern;
+        const Displ = 1238;
+        const p = 1.025;
+        const Vdispl  = Displ / p;
+        const K1 = 0.93 + 0.487118 * C14 * ((bwl/lwl) ** 1.06806) * ((tops/lwl) ** 0.46106) * ((lwl/LR) ** 0.121563) * ((lwl ** 3 / Vdispl) ** 0.36486) * ((1-cp) ** -0.604247);
+        
+        const hasilFormFactor: FormFactor[] = [];
+
+        dataTahanan.forEach((item: Tahanan) => {
+            hasilFormFactor.push({
+                knot: item.knot,
+                ms: item.ms,
+                rn: item.rn,
+                cf: item.cf,
+                rf: item.rf,
+                k1: K1 * item.rf
+            });
+        });
+        setDataFormFactor(hasilFormFactor);
     }
 
 
@@ -249,6 +335,108 @@ const Ship = () => {
             </TableContainer>
             <Box sx={{ p: 2, textAlign: 'right'}}>
                 <Button variant="contained" onClick={onProcessPart1}>Kalkulasi</Button>
+            </Box>
+            </div>
+        </DashboardCard>
+        <DashboardCard title="Perhitungan Tahanan">
+            <div>
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align="center">Knot</TableCell>
+                            <TableCell align="center">m/s</TableCell>
+                            <TableCell align="center">Rn</TableCell>
+                            <TableCell align="center">Cf</TableCell>
+                            <TableCell align="center">Rf (KN)</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>                    
+                        <RenderIf condition={data.length < 1}>
+                            <Box sx={{ p:5, textAlign: 'center' }}>
+                                <Typography variant="h6" component="h6">Belum ada data</Typography>
+                            </Box>
+                        </RenderIf>
+                        {dataTahanan.map((row) => (
+                            <TableRow
+                                key={row.knot}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                <TableCell align='center'>
+                                    {row.knot}
+                                </TableCell>
+                                <TableCell align='center'>
+                                    {row.ms}
+                                </TableCell>
+                                <TableCell align='center'>
+                                    {row.rn}
+                                </TableCell>
+                                <TableCell align='center'>
+                                    {row.cf}
+                                </TableCell>
+                                <TableCell align='center'>
+                                    {row.rf}
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <Box sx={{ p: 2, textAlign: 'right'}}>
+                <Button variant="contained" onClick={perhitunganTahanan}>Kalkulasi</Button>
+            </Box>
+            </div>
+        </DashboardCard>
+         <DashboardCard title="Form Factor">
+            <div>
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align="center">Knot</TableCell>
+                            <TableCell align="center">m/s</TableCell>
+                            <TableCell align="center">Rn</TableCell>
+                            <TableCell align="center">Cf</TableCell>
+                            <TableCell align="center">Rf (KN)</TableCell>
+                             <TableCell align="center">Rf(1 + K1)(KN)</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>                    
+                        <RenderIf condition={data.length < 1}>
+                            <Box sx={{ p:5, textAlign: 'center' }}>
+                                <Typography variant="h6" component="h6">Belum ada data</Typography>
+                            </Box>
+                        </RenderIf>
+                        {dataFormFactor.map((row) => (
+                            <TableRow
+                                key={row.knot}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                <TableCell align='center'>
+                                    {row.knot}
+                                </TableCell>
+                                <TableCell align='center'>
+                                    {row.ms}
+                                </TableCell>
+                                <TableCell align='center'>
+                                    {row.rn}
+                                </TableCell>
+                                <TableCell align='center'>
+                                    {row.cf}
+                                </TableCell>
+                                <TableCell align='center'>
+                                    {row.rf}
+                                </TableCell>
+                                <TableCell align='center'>
+                                    {row.k1}
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <Box sx={{ p: 2, textAlign: 'right'}}>
+                <Button variant="contained" onClick={formFactor}>Kalkulasi</Button>
             </Box>
             </div>
         </DashboardCard>
