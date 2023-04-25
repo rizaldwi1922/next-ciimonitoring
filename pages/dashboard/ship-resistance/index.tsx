@@ -10,7 +10,9 @@ import {
     TableHead,
     Paper,
     Typography,
-    Button
+    Button,
+    Tabs,
+    Tab
 } from '@mui/material';
 import PageContainer from '../../../src/components/container/PageContainer';
 import DashboardCard from '../../../src/components/shared/DashboardCard';
@@ -18,78 +20,116 @@ import FullLayout from '../../../src/layouts/full/FullLayout';
 import Breadcrumbs from '../../../src/components/header/breadcrumbs';
 import { useRouter } from 'next/router';
 import RenderIf from '../../../src/components/container/RenderIf';
+import ParameterMetodeHoltrop from './tabsValue/ParameterMetodeHoltrop';
+import PerhitunganTahan from './tabsValue/PerhitunganTahanan';
+import FormFactor from './tabsValue/FormFactor';
+import TambahanTahanan from './tabsValue/TambahanTahanan';
+import TahananGelombang from './tabsValue/TahananGelombang';
+import TahananBulbousBow from './tabsValue/TahananBulbousBow';
+import TahananKorelasiModelKapal from './tabsValue/TahananKorelasiModelKapal';
+import TahananTotal from './tabsValue/TahananTotal';
+import TahananKapal from './tabsValue/TahananKapal';
 
 const Ship = () => {
 
-    interface FormFactor {
+    interface TabPanelProps {
+        children?: React.ReactNode;
+        index: number;
+        value: number;
+    }
+
+    interface ParameterHoltrop {
+        name: string,
+        value: number,
+        status: string
+    }
+
+    interface ResultCalculate {
         knot: number,
         ms: number,
         rn: number,
         cf: number,
-        rf: number,
-        k1: number
-      }
-      
-    interface Tahanan {
-        knot: number,
-        ms: number,
-        rn: number,
-        cf: number,
-        rf: number,
+        rf: number
+        k1: number,
+        rapp: number,
+        fn: number,
+        m2: number,
+        rw: number,
+        fni: number,
+        rb: number,
+        ra: number,
+        rt: number,
+        seaMargin: number
     }
 
     const baseURl = process.env.NEXT_PUBLIC_URL;
     const [owner, setOwner] = useState('Kemenhub/BPSDM-Poltekpel');
     const [tipe, setTipe] = useState('Kapal latih');
-    // const [loa, setLoa] = useState(63);
-    // const [lpp, setLpp] = useState(59.16);
-    // const [b, setB] = useState(12);
-    // const [h, setH] = useState(4);
-    // const [t, setT] = useState(2.8);
-    // const [gt, setGt] = useState(1200);
-    // const [dwt, setDwt] = useState(186.824);
-    // const [v, setV] = useState(12);
-    // const [lwl, setLwl] = useState(59.626);
-    // const [bwl, setBwl] = useState(12);
-    // const [cp, setCp] = useState(0.678);
-    const [loa, setLoa] = useState(0);
-    const [lpp, setLpp] = useState(0);
-    const [b, setB] = useState(0);
-    const [h, setH] = useState(0);
-    const [t, setT] = useState(0);
-    const [gt, setGt] = useState(0);
-    const [dwt, setDwt] = useState(0);
-    const [v, setV] = useState(0);
-    const [lwl, setLwl] = useState(0);
-    const [bwl, setBwl] = useState(0);
-    const [cp, setCp] = useState(0);
-    const [data, setData] = useState([
-        {
-            name: 'FN',
-            value: 0,
-            status: ''
-        },
-        {
-            name: 'CP',
-            value: 0,
-            status: ''
-        },
-        {
-            name: 'L/B',
-            value: 0,
-            status: ''
-        },
-        {
-            name: 'B/T',
-            value: 0,
-            status: ''
-        }
-    ])
+    const [loa, setLoa] = useState(63);
+    const [lpp, setLpp] = useState(59.16);
+    const [b, setB] = useState(12);
+    const [h, setH] = useState(4);
+    const [t, setT] = useState(2.8);
+    const [gt, setGt] = useState(1200);
+    const [dwt, setDwt] = useState(186.824);
+    const [v, setV] = useState(12);
+    const [lwl, setLwl] = useState(59.626);
+    const [bwl, setBwl] = useState(12);
+    const [cp, setCp] = useState(0.678);
+    // const [loa, setLoa] = useState(0);
+    // const [lpp, setLpp] = useState(0);
+    // const [b, setB] = useState(0);
+    // const [h, setH] = useState(0);
+    // const [t, setT] = useState(0);
+    // const [gt, setGt] = useState(0);
+    // const [dwt, setDwt] = useState(0);
+    // const [v, setV] = useState(0);
+    // const [lwl, setLwl] = useState(0);
+    // const [bwl, setBwl] = useState(0);
+    // const [cp, setCp] = useState(0);
     const tops = (2.3+2.8)/2;
     const g = 9.81;
+    const p = 1.025;
+    const LCB = 26.533;
+    const Displ = 1238;
+    const ABT = (618811/1000000)*2;
+    const hB = 986.3795/1000;
+    const CB = 0.662;
+    const C7 = bwl / lwl;
+    const C15 = -1.69385;
+    const TB = tops / bwl;
+    const viskositas = 0.94252 * 10 ** -6;
+    const CM = 0.976;
+    const CW = 0.808;
+    const midship = lpp/2;
+    const fromMidship = LCB - midship;
+    const LR = lwl * (1-cp+(0.06*cp*(fromMidship / (4*cp)-1)));
+    const LRB = LR / bwl;
+    const LT = lwl/tops;
+    const BL = bwl/lwl;
+    const Vdispl  = Displ / p;
+    const iE = 1 + 89 * Math.exp(-((lwl/bwl) ** 0.80856) * ((1-CW) ** 0.30484) * ((1 - cp - 0.0225 * fromMidship) ** 0.6367) * LRB ** 0.34574) * ((100 * Vdispl / (lwl ** 3)) ** 0.16302);
+    const AT = 0;
+    const C1 =  222.3105 * (C7 ** 3.78613) * (TB ** 1.07961) * ((90 - iE ) ** 1.07961);
+    const C3 = (0.56 * (ABT ** 1.5)) / (bwl * tops * (0.31 * (ABT ** 0.5) + tops - hB));
+    const C2 = Math.exp(-1.89 * (C3 ** 0.5));
+    const C5 = 1-((0.8 * AT)/(bwl * tops * CM));
+    const C4 = 0.04;
+    const CA = 0.00546 * ((lwl + 100) ** -0.16) - 0.002 + 0.003 * ((lwl / 7.5) ** 0.5) * (CB ** 4) * C2 * (0.04 - C4);
+    const TFLWL = tops / lwl;
+    const Cstern = -22;
+    const C14 = 1+0.001*Cstern;
+    const K1 = 0.93 + 0.487118 * C14 * ((bwl/lwl) ** 1.06806) * ((tops/lwl) ** 0.46106) * ((lwl/LR) ** 0.121563) * ((lwl ** 3 / Vdispl) ** 0.36486) * ((1-cp) ** -0.604247);
+    const lamda = (1.446 * cp) * (0.03 * (lwl/bwl));
+    const C16 = 8.07981 * cp - 13.8673 * (cp ** 2) + 6.984388 * (cp ** 3);
+    const m1 = 0.0140407 * LT - 1.75254 * ((Vdispl ** (1/3))/lwl) - 4.79323 * BL - C16;
+    const m4 = 0.4 * C15 * Math.exp(-0.034 * (0.4 ** -3.29));
+    const d = -0.9;
+    const PB = 0.56 * ABT ** 0.5 / (tops - 1.5 * hB);
+    const S = lwl * (2*tops+bwl) * CM ** 0.5 * (0.453 + 0.4425 * CB - 0.2862 * CM - 0.003467 * (bwl/tops) + 0.3696 * CW) + 2.38 * ABT/CB;
 
-    const [dataTahanan, setDataTahanan] = useState<Tahanan[]>([]);
-    const [dataFormFactor, setDataFormFactor] = useState<FormFactor[]>([]);
+    const [dataParameterHoltrop, setDataParameterHoltrop] = useState<ParameterHoltrop[]>([]);
+    const [dataResultCalculate, setDataResultCalculate] = useState<ResultCalculate[]>([]);
 
 
     const breadcrumb = [
@@ -98,8 +138,11 @@ const Ship = () => {
         }
     ];
 
+    const toFixNumber = (value: number, length: number) => {
+        return Number(value.toFixed(length));
+    }
 
-    const onProcessPart1 = () => {
+    const paramterHoltrop = () => {
         const txtQualify = "Memenuhi parameter Holtrop";
         const txtNotQualify = "Tidak memenuhi parameter Holtrop";
 
@@ -112,334 +155,332 @@ const Ship = () => {
         const statusLB = LB > 3.90 && LB < 14.90 ? txtQualify : txtNotQualify;
         const statusBT = BT > 2.10 && BT < 4 ? txtQualify : txtNotQualify;
         const statusCP = cp > 0.55 && cp < 0.85 ? txtQualify : txtNotQualify;
-        
 
-        const Rows = [
+        const Rows: ParameterHoltrop[] = [
             {
                 name: 'FN',
-                value: fn,
+                value: toFixNumber(fn,3),
                 status: statusFN
             },
             {
                 name: 'CP',
-                value: cp,
+                value: toFixNumber(cp, 3),
                 status: statusCP
             },
             {
                 name: 'L/B',
-                value: LB,
+                value: toFixNumber(LB, 3),
                 status: statusLB
             },
             {
                 name: 'B/T',
-                value: BT,
+                value: toFixNumber(BT, 3),
                 status: statusBT
             }
         ]
 
-        setData(Rows)
+        setDataParameterHoltrop(Rows)
 
     }
 
-    const perhitunganTahanan = () => {
-        const hasilTahanan = [];
-        const viskositas = 0.94252 * 10 ** -6;
-        const p = 1.025;
-        const ABT = (618811/1000000)*2;
-        const CM = 0.976;
-        const CB = 0.662;
-        const CW = 0.808;
-        const S = lwl * (2*tops+bwl) * CM ** 0.5 * (0.453 + 0.4425 * CB - 0.2862 * CM - 0.003467 * (bwl/tops) + 0.3696 * CW) + 2.38 * ABT/CB;
-        for (let i = 0; i < 15; i++) {
+    const perhitunganTahanan = (ms: number) => {
+        const rn = Math.round(ms * lwl / viskositas);
+        const cf = 0.075 / (Math.log10(rn)-2) ** 2;
+        const rf = (0.5 * p * ms ** 2 * S) * cf;
+        console.log(S);
+        return {rn: rn, cf:cf, rf: rf}
+    }
+
+    const formFactor = (rf:number) => {
+        return K1 * rf;
+    }
+
+
+    const tambahanTahanan = (ms:number, cf:number) => {
+        const K2Skeg = 2;
+        const K2TwinScrewBalanceRudder = 2.8;
+        const sigmaK2 = K2Skeg + K2TwinScrewBalanceRudder;
+        const c1 = 1;
+        const c2 = 1;
+        const c3 = 1;
+        const c4 = 1.5;
+        const Saap = c1 * c2 * c3 * c4 * ((1.75*lwl*tops)/100);
+        const K2eq = sigmaK2 * Saap / Saap;
+        const rapp = 0.5 * p * (ms ** 2) * Saap * K2eq * cf;
+
+        return rapp;
+    }
+
+    const tahananGelombang = (ms: number) => {
+        const fn = ms / ((g * lwl) ** 0.5); 
+        const m2 = C15 * (cp ** 2) * Math.exp(-0.1 * fn ** -2);
+        const Rw = C1 * C2 * C5 * p * g * Vdispl * Math.exp(m1 * (fn ** d) + m4 * Math.cos(lamda * fn ** -2));
+
+        return {fn: fn, m2: m2, Rw: Rw}
+    }
+
+
+    const tahananBulbousBow = (ms:number) => {
+        const fni = ms / (g * (tops - hB - 0.25 * ABT ** 0.5 ) + 0.15 * ms ** 2) ** 0.5;
+        const RB = 0.11 * Math.exp(-3 * PB ** -2) * fni ** 3 * ABT ** 1.5 * p * g / (1 + fni ** 2);
+
+        return {fni: fni, RB:RB}
+    }
+
+
+    const tahananKorelasiKapal = (ms: number) => {
+        const ra = 0.5 * CA * p * S * ms ** 2;
+        return ra;
+    }
+
+    const onCalculate = () => {
+        paramterHoltrop()
+        const result: ResultCalculate[] = [];
+        for(let i = 0; i < 15; i++){
             const knot = i + 1;
             const ms = knot * 0.514444;
-            const rn = Math.round(ms * lwl / viskositas);
-            const cf = 0.075 / (Math.log10(rn)-2) ** 2;
-            const rf = (0.5 * p * ms ** 2 * S) * cf;
-            hasilTahanan.push({
+            const hitunganTahanan = perhitunganTahanan(ms);
+            const k1 = formFactor(hitunganTahanan.rf);
+            const rapp = tambahanTahanan(ms, hitunganTahanan.cf);
+            const gelombang = tahananGelombang(ms);
+            const bulbousBow = tahananBulbousBow(ms);
+            const ra = tahananKorelasiKapal(ms);
+            const rt = k1 + rapp + gelombang.Rw + bulbousBow.RB + ra;
+            const seaMargin = rt + (0.15 * rt);
+            result.push({
                 knot: knot,
                 ms: ms,
-                rn: rn,
-                cf: cf,
-                rf: rf
-            });
+                rn: hitunganTahanan.rn,
+                cf: hitunganTahanan.cf,
+                rf: hitunganTahanan.rf,
+                k1: k1,
+                rapp: rapp,
+                fn: gelombang.fn,
+                m2: gelombang.m2,
+                rw: gelombang.Rw,
+                fni: bulbousBow.fni,
+                rb: bulbousBow.RB,
+                ra: ra,
+                rt: rt,
+                seaMargin: seaMargin
+            })
         }
-        setDataTahanan(hasilTahanan);
+        setDataResultCalculate(result);
     }
 
-    const formFactor = () => {
-        const midship = lpp/2;
-        const LCB = 26.533;
-        const fromMidship = LCB - midship;
-        const LR = lwl * (1-cp+(0.06*cp*(fromMidship / (4*cp)-1)));
-        const Cstern = -22;
-        const C14 = 1+0.001*Cstern;
-        const Displ = 1238;
-        const p = 1.025;
-        const Vdispl  = Displ / p;
-        const K1 = 0.93 + 0.487118 * C14 * ((bwl/lwl) ** 1.06806) * ((tops/lwl) ** 0.46106) * ((lwl/LR) ** 0.121563) * ((lwl ** 3 / Vdispl) ** 0.36486) * ((1-cp) ** -0.604247);
-        
-        const hasilFormFactor: FormFactor[] = [];
+    
 
-        dataTahanan.forEach((item: Tahanan) => {
-            hasilFormFactor.push({
-                knot: item.knot,
-                ms: item.ms,
-                rn: item.rn,
-                cf: item.cf,
-                rf: item.rf,
-                k1: K1 * item.rf
-            });
-        });
-        setDataFormFactor(hasilFormFactor);
+    function TabPanel(props: TabPanelProps) {
+        const { children, value, index, ...other } = props;
+
+        return (
+            <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            {...other}
+            >
+            {value === index && (
+                <Box sx={{ p: 3 }}>
+                <Typography>{children}</Typography>
+                </Box>
+            )}
+            </div>
+        );
     }
+
+    const ShipResistance = () => {
+        return (
+            <DashboardCard title="Ship Resistance">
+                <div>
+                    <Box
+                    component="form"
+                    sx={{
+                        '& .MuiTextField-root': { m: 1, width: '40ch' },
+                    }}
+                    noValidate
+                    autoComplete="off"
+                >
+                        <TextField
+                            required
+                            label="Owner"
+                            type="text"
+                            value={owner}
+                            onChange={e => setOwner(e.target.value)}
+                        />
+                        <TextField
+                            required
+                            label="Tipe"
+                            type="text"
+                            value={tipe}
+                            onChange={e => setTipe(e.target.value)}
+                        />
+                        <TextField
+                                required
+                                label="LOA"
+                                type="number"
+                                value={loa}
+                                onChange={e => setLoa(parseFloat(e.target.value))}
+                            />
+                            <TextField
+                                required
+                                label="LPP"
+                                type="number"
+                                onChange={e => setLpp(parseFloat(e.target.value))}
+                                value={lpp}
+                            />
+                            <TextField
+                                required
+                                label="B"
+                                type="number"
+                                value={b}
+                                onChange={e => setB(parseFloat(e.target.value))}
+                            />
+                            <TextField
+                                required
+                                label="H"
+                                type="number"
+                                value={h}
+                                onChange={e => setH(parseFloat(e.target.value))}
+                            />
+                            <TextField
+                                required
+                                label="T"
+                                type="number"
+                                value={t}
+                                onChange={e => setT(parseFloat(e.target.value))}
+                            />
+                            <TextField
+                                required
+                                label="GT"
+                                type="number"
+                                value={gt}
+                                onChange={e => setGt(parseFloat(e.target.value))}
+                            />
+                            <TextField
+                                required
+                                label="DWT"
+                                type="number"
+                                value={dwt}
+                                onChange={e => setDwt(parseFloat(e.target.value))}
+                            />
+                            <TextField
+                                required
+                                label="V"
+                                type="number"
+                                value={v}
+                                onChange={e => setV(parseFloat(e.target.value))}
+                            />
+                            <TextField
+                                required
+                                label="LWL"
+                                type="number"
+                                value={lwl}
+                                onChange={e => setLwl(parseFloat(e.target.value))}
+                            />
+                            <TextField
+                                required
+                                label="BWL"
+                                type="number"
+                                value={bwl}
+                                onChange={e => setBwl(parseFloat(e.target.value))}
+                            />
+                            <TextField
+                                required
+                                label="CP"
+                                type="number"
+                                value={cp}
+                                onChange={e => setCp(parseFloat(e.target.value))}
+                            />
+                            <TextField
+                                required
+                                label="TOPS"
+                                type="number"
+                                value={tops}
+                            />
+                    </Box>
+                    <Box sx={{ p: 2, textAlign: 'right'}}>
+                        <Button variant="contained" onClick={onCalculate}>Kalkulasi</Button>
+                    </Box>
+                </div>
+            </DashboardCard>
+        )
+    }
+
+function a11yProps(index: number) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+
+    const [value, setValue] = useState(0);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
 
 
   return (
     <PageContainer title="Ship Resistance">
         <Breadcrumbs breadcrumb={breadcrumb} />
-        <DashboardCard title="Ship Resistance">
-            <Box
-                component="form"
-                sx={{
-                    '& .MuiTextField-root': { m: 1, width: '50ch' },
-                }}
-                noValidate
-                autoComplete="off"
-            >
-                <div>
-                    <TextField
-                        required
-                        label="Owner"
-                        type="text"
-                        value={owner}
-                        onChange={e => setOwner(e.target.value)}
-                    />
-                    <TextField
-                        required
-                        label="Tipe"
-                        type="text"
-                        value={tipe}
-                        onChange={e => setTipe(e.target.value)}
-                    />
-                     <TextField
-                            required
-                            label="LOA"
-                            type="number"
-                            value={loa}
-                            onChange={e => setLoa(parseFloat(e.target.value))}
-                        />
-                        <TextField
-                            required
-                            label="LPP"
-                            type="number"
-                            onChange={e => setLpp(parseFloat(e.target.value))}
-                            value={lpp}
-                        />
-                        <TextField
-                            required
-                            label="B"
-                            type="number"
-                            value={b}
-                            onChange={e => setB(parseFloat(e.target.value))}
-                        />
-                        <TextField
-                            required
-                            label="H"
-                            type="number"
-                            value={h}
-                            onChange={e => setH(parseFloat(e.target.value))}
-                        />
-                        <TextField
-                            required
-                            label="T"
-                            type="number"
-                            value={t}
-                            onChange={e => setT(parseFloat(e.target.value))}
-                        />
-                        <TextField
-                            required
-                            label="GT"
-                            type="number"
-                            value={gt}
-                            onChange={e => setGt(parseFloat(e.target.value))}
-                        />
-                        <TextField
-                            required
-                            label="DWT"
-                            type="number"
-                            value={dwt}
-                            onChange={e => setDwt(parseFloat(e.target.value))}
-                        />
-                        <TextField
-                            required
-                            label="V"
-                            type="number"
-                            value={v}
-                            onChange={e => setV(parseFloat(e.target.value))}
-                        />
-                     <TextField
-                        required
-                        label="LWL"
-                        type="number"
-                        value={lwl}
-                        onChange={e => setLwl(parseFloat(e.target.value))}
-                    />
-                    <TextField
-                        required
-                        label="BWL"
-                        type="number"
-                        value={bwl}
-                        onChange={e => setBwl(parseFloat(e.target.value))}
-                    />
-                     <TextField
-                        required
-                        label="CP"
-                        type="number"
-                        value={cp}
-                        onChange={e => setCp(parseFloat(e.target.value))}
-                    />
-                     <TextField
-                        required
-                        label="TOPS"
-                        type="number"
-                        value={tops}
-                    />
-                </div>
+        <Box sx={{ width: '90%' }}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <Tabs 
+                    value={value} 
+                    onChange={handleChange} 
+                    variant="scrollable"
+                    scrollButtons
+                    allowScrollButtonsMobile
+                >
+                    <Tab label="Ship Resistance" {...a11yProps(0)} />
+                    <Tab label="Parameter metode Holtrop" {...a11yProps(1)} />
+                    <Tab label="Perhitungan Tahanan" {...a11yProps(2)} />
+                    <Tab label="Form Factor" {...a11yProps(3)} />
+                    <Tab label="Tambahan Tahanan" {...a11yProps(4)} />
+                    <Tab label="Tahanan Gelombang" {...a11yProps(5)} />
+                    <Tab label="Tahanan akibat adanya bulbous bow" {...a11yProps(6)} />
+                    <Tab label="Tahanan immersed transom" {...a11yProps(7)} />
+                    <Tab label="Tahanan Korelasi Model Kapal" {...a11yProps(8)} />
+                    <Tab label="Tahanan Total" {...a11yProps(9)} />
+                    <Tab label="Tahanan Kapal" {...a11yProps(10)} />
+                </Tabs>
             </Box>
-        </DashboardCard>
-        <DashboardCard title="Parameter metode Holtrop">
-            <div>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableBody>                    
-                        <RenderIf condition={data.length < 1}>
-                            <Box sx={{ p:5, textAlign: 'center' }}>
-                                <Typography variant="h6" component="h6">Belum ada data</Typography>
-                            </Box>
-                        </RenderIf>
-                        {data.map((row) => (
-                            <TableRow
-                                key={row.name}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
-                                <TableCell component="th" scope="row">
-                                    {row.name}
-                                </TableCell>
-                                <TableCell align="right">{row.value}</TableCell>
-                                <TableCell align="right">{row.status}</TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <Box sx={{ p: 2, textAlign: 'right'}}>
-                <Button variant="contained" onClick={onProcessPart1}>Kalkulasi</Button>
-            </Box>
-            </div>
-        </DashboardCard>
-        <DashboardCard title="Perhitungan Tahanan">
-            <div>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell align="center">Knot</TableCell>
-                            <TableCell align="center">m/s</TableCell>
-                            <TableCell align="center">Rn</TableCell>
-                            <TableCell align="center">Cf</TableCell>
-                            <TableCell align="center">Rf (KN)</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>                    
-                        <RenderIf condition={data.length < 1}>
-                            <Box sx={{ p:5, textAlign: 'center' }}>
-                                <Typography variant="h6" component="h6">Belum ada data</Typography>
-                            </Box>
-                        </RenderIf>
-                        {dataTahanan.map((row) => (
-                            <TableRow
-                                key={row.knot}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
-                                <TableCell align='center'>
-                                    {row.knot}
-                                </TableCell>
-                                <TableCell align='center'>
-                                    {row.ms}
-                                </TableCell>
-                                <TableCell align='center'>
-                                    {row.rn}
-                                </TableCell>
-                                <TableCell align='center'>
-                                    {row.cf}
-                                </TableCell>
-                                <TableCell align='center'>
-                                    {row.rf}
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <Box sx={{ p: 2, textAlign: 'right'}}>
-                <Button variant="contained" onClick={perhitunganTahanan}>Kalkulasi</Button>
-            </Box>
-            </div>
-        </DashboardCard>
-         <DashboardCard title="Form Factor">
-            <div>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell align="center">Knot</TableCell>
-                            <TableCell align="center">m/s</TableCell>
-                            <TableCell align="center">Rn</TableCell>
-                            <TableCell align="center">Cf</TableCell>
-                            <TableCell align="center">Rf (KN)</TableCell>
-                             <TableCell align="center">Rf(1 + K1)(KN)</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>                    
-                        <RenderIf condition={data.length < 1}>
-                            <Box sx={{ p:5, textAlign: 'center' }}>
-                                <Typography variant="h6" component="h6">Belum ada data</Typography>
-                            </Box>
-                        </RenderIf>
-                        {dataFormFactor.map((row) => (
-                            <TableRow
-                                key={row.knot}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
-                                <TableCell align='center'>
-                                    {row.knot}
-                                </TableCell>
-                                <TableCell align='center'>
-                                    {row.ms}
-                                </TableCell>
-                                <TableCell align='center'>
-                                    {row.rn}
-                                </TableCell>
-                                <TableCell align='center'>
-                                    {row.cf}
-                                </TableCell>
-                                <TableCell align='center'>
-                                    {row.rf}
-                                </TableCell>
-                                <TableCell align='center'>
-                                    {row.k1}
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <Box sx={{ p: 2, textAlign: 'right'}}>
-                <Button variant="contained" onClick={formFactor}>Kalkulasi</Button>
-            </Box>
-            </div>
-        </DashboardCard>
+            <TabPanel value={value} index={0}>
+                <ShipResistance/>
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+                <ParameterMetodeHoltrop data={dataParameterHoltrop} />
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+                <PerhitunganTahan data={dataResultCalculate} toFixNumber={toFixNumber} />
+            </TabPanel>
+            <TabPanel value={value} index={3}>
+                <FormFactor data={dataResultCalculate} toFixNumber={toFixNumber} />
+            </TabPanel>
+            <TabPanel value={value} index={4}>
+                <TambahanTahanan data={dataResultCalculate} toFixNumber={toFixNumber} />
+            </TabPanel>
+            <TabPanel value={value} index={5}>
+                <TahananGelombang data={dataResultCalculate} toFixNumber={toFixNumber} />
+            </TabPanel>
+            <TabPanel value={value} index={6}>
+                <TahananBulbousBow data={dataResultCalculate} toFixNumber={toFixNumber} />
+            </TabPanel>
+            <TabPanel value={value} index={7}>
+                0
+            </TabPanel>
+            <TabPanel value={value} index={8}>
+                <TahananKorelasiModelKapal data={dataResultCalculate} toFixNumber={toFixNumber} />
+            </TabPanel>
+            <TabPanel value={value} index={9}>
+                <TahananTotal data={dataResultCalculate} toFixNumber={toFixNumber} />
+            </TabPanel>
+            <TabPanel value={value} index={10}>
+                <TahananKapal data={dataResultCalculate} />
+            </TabPanel>
+        </Box>
     </PageContainer>
   );
 };
