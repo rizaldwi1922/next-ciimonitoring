@@ -14,7 +14,7 @@ const LinkStyled = styled(Link)(() => ({
 const Logo = (props: any) => {
   return (
     <LinkStyled href="/">
-      <Image src="/images/logos/logo.png" alt="logo" height={props.height} width={props.width} priority/>
+      <Image src="/images/logos/logo.png" alt="logo" height={props.height ? props.height : 75} width={props.width ? props.width : 180} priority/>
     </LinkStyled>
   );
 };

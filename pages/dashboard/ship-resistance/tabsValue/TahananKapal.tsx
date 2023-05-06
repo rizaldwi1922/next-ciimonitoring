@@ -86,7 +86,7 @@ export default function(props: MyComponentProps){
     return (
         <DashboardCard title="Tahanan Total">
             <Box>
-                <Line options={options} data={dataChart} />;
+                <Line options={options} data={dataChart} />
             </Box>
         </DashboardCard>
     )

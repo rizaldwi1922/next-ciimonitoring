@@ -3,13 +3,31 @@ import PageContainer from '../../src/components/container/PageContainer';
 import DashboardCard from '../../src/components/shared/DashboardCard';
 import FullLayout from '../../src/layouts/full/FullLayout';
 import dynamic from 'next/dynamic';
-
+import io from 'socket.io-client';
 
 const ShipTrackerPosition = () => {
   const [isMounted, setIsMounted] = useState(false);
+  const AIS = "http://172.105.112.202:3333";
 
   useEffect(() => {
     setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    const socket = io(AIS); // Ubah URL sesuai dengan URL server WebSocket Anda
+
+    // Mengatur penanganan pesan yang diterima dari server WebSocket
+    socket.on('message', (data) => {
+      console.log('Menerima pesan:', data);
+    });
+
+    // Mengirim pesan ke server WebSocket
+    //socket.emit('message', 'Halo server!');
+
+    return () => {
+      // Membersihkan koneksi WebSocket saat komponen dilepas
+      socket.disconnect();
+    };
   }, []);
 
   if (!isMounted || typeof window === "undefined") return null;

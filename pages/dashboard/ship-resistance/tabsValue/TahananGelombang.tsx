@@ -1,16 +1,13 @@
 import DashboardCard from '../../../../src/components/shared/DashboardCard';
 import {
-    Box,
     Table,
     TableBody,
     TableCell,
     TableContainer,
     TableRow,
     Paper,
-    Typography,
     TableHead
 } from '@mui/material';
-import RenderIf from '../../../../src/components/container/RenderIf';
 
 interface ResultCalculate {
     knot: number,
@@ -49,6 +46,7 @@ export default function(props: MyComponentProps){
                     <TableHead>
                         <TableRow>
                             <TableCell align="center">Knot</TableCell>
+                            <TableCell align="center">Knot</TableCell>
                             <TableCell align="center">m/s</TableCell>
                             <TableCell align="center">Fn</TableCell>
                             <TableCell align="center">m2</TableCell>
@@ -56,16 +54,14 @@ export default function(props: MyComponentProps){
                         </TableRow>
                     </TableHead>
                     <TableBody>                    
-                        <RenderIf condition={data.length < 1}>
-                            <Box sx={{ p:5, textAlign: 'center' }}>
-                                <Typography variant="h6" component="h6">Belum ada data</Typography>
-                            </Box>
-                        </RenderIf>
-                        {data.map((row: any) => (
+                        {data.map((row: any, index) => (
                             <TableRow
                                 key={row.knot}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
+                                <TableCell align='center'>
+                                    {index + 1}
+                                </TableCell>
                                 <TableCell align='center'>
                                     {row.knot}
                                 </TableCell>
@@ -79,7 +75,7 @@ export default function(props: MyComponentProps){
                                     {props.toFixNumber(row.m2, 5)}
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {props.toFixNumber(row.rw, 3)}
+                                    {props.toFixNumber(row.rw, 4)}
                                 </TableCell>
                             </TableRow>
                         ))}
