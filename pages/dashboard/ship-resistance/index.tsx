@@ -337,124 +337,6 @@ const Ship = () => {
         setDataResultCalculate(result);
     }
 
-    const ShipResistance = () => {
-        return (
-            <DashboardCard title="Form">
-                <div>
-                    <Box
-                    component="form"
-                    sx={{
-                        '& .MuiTextField-root': { m: 1},
-                    }}
-                    noValidate
-                    autoComplete="off"
-                >
-                        <TextField
-                            required
-                            label="Owner"
-                            type="text"
-                            value={owner}
-                            onChange={e => setOwner(e.target.value)}
-                        />
-                        <TextField
-                            required
-                            label="Tipe"
-                            type="text"
-                            value={tipe}
-                            onChange={e => setTipe(e.target.value)}
-                        />
-                        <TextField
-                                required
-                                label="LOA"
-                                type="number"
-                                value={loa}
-                                onChange={e => setLoa(parseFloat(e.target.value))}
-                            />
-                            <TextField
-                                required
-                                label="LPP"
-                                type="number"
-                                onChange={e => setLpp(parseFloat(e.target.value))}
-                                value={lpp}
-                            />
-                            <TextField
-                                required
-                                label="B"
-                                type="number"
-                                value={b}
-                                onChange={e => setB(parseFloat(e.target.value))}
-                            />
-                            <TextField
-                                required
-                                label="H"
-                                type="number"
-                                value={h}
-                                onChange={e => setH(parseFloat(e.target.value))}
-                            />
-                            <TextField
-                                required
-                                label="T"
-                                type="number"
-                                value={t}
-                                onChange={e => setT(parseFloat(e.target.value))}
-                            />
-                            <TextField
-                                required
-                                label="GT"
-                                type="number"
-                                value={gt}
-                                onChange={e => setGt(parseFloat(e.target.value))}
-                            />
-                            <TextField
-                                required
-                                label="DWT"
-                                type="number"
-                                value={dwt}
-                                onChange={e => setDwt(parseFloat(e.target.value))}
-                            />
-                            <TextField
-                                required
-                                label="V"
-                                type="number"
-                                value={v}
-                                onChange={e => setV(parseFloat(e.target.value))}
-                            />
-                            <TextField
-                                required
-                                label="LWL"
-                                type="number"
-                                value={lwl}
-                                onChange={e => setLwl(parseFloat(e.target.value))}
-                            />
-                            <TextField
-                                required
-                                label="BWL"
-                                type="number"
-                                value={bwl}
-                                onChange={e => setBwl(parseFloat(e.target.value))}
-                            />
-                            <TextField
-                                required
-                                label="CP"
-                                type="number"
-                                value={cp}
-                                onChange={e => setCp(parseFloat(e.target.value))}
-                            />
-                            <TextField
-                                required
-                                label="TOPS"
-                                type="number"
-                                value={tops}
-                            />
-                    </Box>
-                    <Box sx={{ p: 2, textAlign: 'right'}}>
-                        <Button variant="contained" onClick={onCalculate}>Kalkulasi</Button>
-                    </Box>
-                </div>
-            </DashboardCard>
-        )
-    }
-
 
   return (
     <Box>
@@ -465,7 +347,119 @@ const Ship = () => {
                     <PageContainer title="Ship Resistance">
                         <Box sx={{ width: '90%' }}>
                             <RenderIf condition={selectedMenu == 0}>
-                                <ShipResistance/>
+                                <DashboardCard title="Form">
+                                    <div>
+                                        <Box
+                                        component="form"
+                                        sx={{
+                                            '& .MuiTextField-root': { m: 1},
+                                        }}
+                                        noValidate
+                                        autoComplete="off"
+                                    >
+                                            <TextField
+                                                required
+                                                label="Owner"
+                                                type="text"
+                                                value={owner}
+                                                onChange={e => setOwner(e.target.value)}
+                                            />
+                                            <TextField
+                                                required
+                                                label="Tipe"
+                                                type="text"
+                                                value={tipe}
+                                                onChange={e => setTipe(e.target.value)}
+                                            />
+                                            <TextField
+                                                    required
+                                                    label="LOA"
+                                                    type="number"
+                                                    value={loa}
+                                                    onChange={e => setLoa(parseFloat(e.target.value))}
+                                                />
+                                                <TextField
+                                                    required
+                                                    label="LPP"
+                                                    type="number"
+                                                    onChange={e => setLpp(parseFloat(e.target.value))}
+                                                    value={lpp}
+                                                />
+                                                <TextField
+                                                    required
+                                                    label="B"
+                                                    type="number"
+                                                    value={b}
+                                                    onChange={e => setB(parseFloat(e.target.value))}
+                                                />
+                                                <TextField
+                                                    required
+                                                    label="H"
+                                                    type="number"
+                                                    value={h}
+                                                    onChange={e => setH(parseFloat(e.target.value))}
+                                                />
+                                                <TextField
+                                                    required
+                                                    label="T"
+                                                    type="number"
+                                                    value={t}
+                                                    onChange={e => setT(parseFloat(e.target.value))}
+                                                />
+                                                <TextField
+                                                    required
+                                                    label="GT"
+                                                    type="number"
+                                                    value={gt}
+                                                    onChange={e => setGt(parseFloat(e.target.value))}
+                                                />
+                                                <TextField
+                                                    required
+                                                    label="DWT"
+                                                    type="number"
+                                                    value={dwt}
+                                                    onChange={e => setDwt(parseFloat(e.target.value))}
+                                                />
+                                                <TextField
+                                                    required
+                                                    label="V"
+                                                    type="number"
+                                                    value={v}
+                                                    onChange={e => setV(parseFloat(e.target.value))}
+                                                />
+                                                <TextField
+                                                    required
+                                                    label="LWL"
+                                                    type="number"
+                                                    value={lwl}
+                                                    onChange={e => setLwl(parseFloat(e.target.value))}
+                                                />
+                                                <TextField
+                                                    required
+                                                    label="BWL"
+                                                    type="number"
+                                                    value={bwl}
+                                                    onChange={e => setBwl(parseFloat(e.target.value))}
+                                                />
+                                                <TextField
+                                                    required
+                                                    label="CP"
+                                                    type="number"
+                                                    value={cp}
+                                                    onChange={e => setCp(parseFloat(e.target.value))}
+                                                />
+                                                <TextField
+                                                    required
+                                                    label="TOPS"
+                                                    type="number"
+                                                    value={tops}
+                                                />
+                                        </Box>
+                                        <Box sx={{ p: 2, textAlign: 'right'}}>
+                                            <Button variant="contained" onClick={onCalculate}>Kalkulasi</Button>
+                                        </Box>
+                                    </div>
+                                </DashboardCard>
                             </RenderIf>
                             <RenderIf condition={selectedMenu == 1}>
                                 <ParameterMetodeHoltrop data={dataParameterHoltrop} />

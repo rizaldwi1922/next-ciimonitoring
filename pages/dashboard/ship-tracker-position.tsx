@@ -3,31 +3,58 @@ import PageContainer from '../../src/components/container/PageContainer';
 import DashboardCard from '../../src/components/shared/DashboardCard';
 import FullLayout from '../../src/layouts/full/FullLayout';
 import dynamic from 'next/dynamic';
-import io from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
+import AisDecoder from 'ais-stream-decoder';
+import Ship from './master-ship';
+import L from 'leaflet';
+
+interface Coordinates {
+  lon: number;
+  lat: number;
+}
 
 const ShipTrackerPosition = () => {
   const [isMounted, setIsMounted] = useState(false);
+  const aisDecoder = new AisDecoder();
+
+  const [coordinates, setCoordinates] = useState<Coordinates>({
+    lon: 0,
+    lat: 0,
+  });
+
   const AIS = "http://172.105.112.202:3333";
 
   useEffect(() => {
-    setIsMounted(true);
+   // aisDecoder.on('error', err => console.error("Malah Error", err));
+    aisDecoder.on('data', decodedMessage => {
+      const Ships = JSON.parse(decodedMessage);
+      if(Ships.mmsi == 525401266){
+        console.log("KM. DHARMA FERRY V", Ships);
+        setCoordinates({ lon: Ships.lon, lat: Ships.lat });
+      }
+    });
+   
+    const socket:Socket = io(AIS, {
+      withCredentials: true
+    });
+
+    socket.on('ais_mesg', (data) => {
+      var txtList = data.ais_mesg.split("\n");
+      txtList.map((item: string) => {
+        if(item){
+          var actualAIS = item.replace('\r','');
+          aisDecoder.write(actualAIS);
+        }
+      })
+   });
+
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   useEffect(() => {
-    const socket = io(AIS); // Ubah URL sesuai dengan URL server WebSocket Anda
-
-    // Mengatur penanganan pesan yang diterima dari server WebSocket
-    socket.on('message', (data) => {
-      console.log('Menerima pesan:', data);
-    });
-
-    // Mengirim pesan ke server WebSocket
-    //socket.emit('message', 'Halo server!');
-
-    return () => {
-      // Membersihkan koneksi WebSocket saat komponen dilepas
-      socket.disconnect();
-    };
+    setIsMounted(true);
   }, []);
 
   if (!isMounted || typeof window === "undefined") return null;
@@ -45,17 +72,23 @@ const ShipTrackerPosition = () => {
     ssr: false,
   });
 
+  // const icon = new L.Icon({
+  //   iconUrl: './../../public/images/marker-icon.png',
+  //   iconSize: [32, 32],
+  //   iconAnchor: [16, 32],
+  // });
+
   return (
     <PageContainer title="Ship Tracker Position">
         <DashboardCard title="Ship Tracker Position">
-            <MapContainer center={[-7.310188814312793, 112.77348308343285]} zoom={13} scrollWheelZoom={true} style={{ height: 700 }}>
+            <MapContainer center={[-7.196713333333333, 112.73029166666667]} zoom={13} scrollWheelZoom={true} style={{ height: 700 }}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                <Marker position={[-7.309671115757343, 112.77289479012505]}>
+                <Marker position={[coordinates.lat, coordinates.lon]}>
                     <Popup>
-                        Rawon Mantap
+                      KM. DHARMA FERRY V
                     </Popup>
                 </Marker>
             </MapContainer>
