@@ -1,18 +1,26 @@
 import { useMediaQuery, Box, Drawer } from '@mui/material';
 import Logo from '../shared/logo/Logo';
 import SidebarItems from './SidebarItems';
+import SidebarItemsShipResistance from './SidebarShipResistance/SidebarItems';
+import RenderIf from '../../../components/container/RenderIf';
+import { useEffect } from 'react';
 
 interface ItemType {
   isMobileSidebarOpen:  boolean;
   onSidebarClose:  (event: React.MouseEvent<HTMLElement>) => void;
   isSidebarOpen: boolean;
+  type?: string;
 }
 
-const Sidebar = ({isMobileSidebarOpen, onSidebarClose, isSidebarOpen }: ItemType) => {
+const Sidebar = ({isMobileSidebarOpen, onSidebarClose, isSidebarOpen, type }: ItemType) => {
 
   const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up("lg"));
 
   const sidebarWidth = '270px';
+
+  useEffect(() => {
+    console.log("tipe", type);
+  }, [])
 
   if (lgUp) {
     return (
@@ -54,7 +62,12 @@ const Sidebar = ({isMobileSidebarOpen, onSidebarClose, isSidebarOpen }: ItemType
               {/* ------------------------------------------- */}
               {/* Sidebar Items */}
               {/* ------------------------------------------- */}
-              <SidebarItems />
+              <RenderIf condition={type === undefined}>
+                <SidebarItems />
+              </RenderIf>
+              <RenderIf condition={type === "ShipResistance"}>
+                <SidebarItemsShipResistance />
+              </RenderIf>
             </Box>
             
           </Box>
@@ -85,7 +98,12 @@ const Sidebar = ({isMobileSidebarOpen, onSidebarClose, isSidebarOpen }: ItemType
       {/* ------------------------------------------- */}
       {/* Sidebar For Mobile */}
       {/* ------------------------------------------- */}
-      <SidebarItems />
+      <RenderIf condition={type === undefined}>
+          <SidebarItems />
+      </RenderIf>
+      <RenderIf condition={type === "ShipResistance"}>
+          <SidebarItemsShipResistance />
+      </RenderIf>
     </Drawer>
   );
 };

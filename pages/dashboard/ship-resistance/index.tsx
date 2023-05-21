@@ -26,10 +26,12 @@ import TahananTotal from './tabsValue/TahananTotal';
 import TahananKapal from './tabsValue/TahananKapal';
 import ListItemText from '@mui/material/ListItemText';
 import HullRoughness from './tabsValue/HullRoughness';
+import ImmersedTransform from './tabsValue/ImmersedTransform';
+import { IconClockHour6 } from '@tabler/icons';
 
 const Ship = () => {
 
-    const drawerWidth = 240;
+    const drawerWidth = 200;
 
     interface TabPanelProps {
         children?: React.ReactNode;
@@ -56,6 +58,9 @@ const Ship = () => {
         rw: number,
         fni: number,
         rb: number,
+        fnt:number,
+        c6: number,
+        rtr: number,
         ra: number,
         rt: number,
         RAf: number,
@@ -64,19 +69,19 @@ const Ship = () => {
 
     const baseURl = process.env.NEXT_PUBLIC_URL;
     const [selectedMenu, setSelectedMenu] = useState(0);
-    const [owner, setOwner] = useState('Kemenhub/BPSDM-Poltekpel');
-    const [tipe, setTipe] = useState('Kapal latih');
-    const [loa, setLoa] = useState(63);
-    const [lpp, setLpp] = useState(59.16);
-    const [b, setB] = useState(12);
-    const [h, setH] = useState(4);
-    const [t, setT] = useState(2.8);
-    const [gt, setGt] = useState(1200);
-    const [dwt, setDwt] = useState(436);
-    const [v, setV] = useState(12);
-    const [lwl, setLwl] = useState(59.626);
-    const [bwl, setBwl] = useState(12);
-    const [cp, setCp] = useState(0.678);
+    const [owner, setOwner] = useState('PT Meratus');
+    const [tipe, setTipe] = useState('General cargo, container');
+    const [loa, setLoa] = useState(117);
+    const [lpp, setLpp] = useState(110);
+    const [b, setB] = useState(19.7);
+    const [h, setH] = useState(8.5);
+    const [t, setT] = useState(6.4);
+    const [gt, setGt] = useState(5745);
+    const [dwt, setDwt] = useState(7664.6);
+    const [v, setV] = useState(13.8);
+    const [lwl, setLwl] = useState(112.39);
+    const [bwl, setBwl] = useState(19.7);
+    const [cp, setCp] = useState(0.784);
     // const [loa, setLoa] = useState(0);
     // const [lpp, setLpp] = useState(0);
     // const [b, setB] = useState(0);
@@ -88,20 +93,20 @@ const Ship = () => {
     // const [lwl, setLwl] = useState(0);
     // const [bwl, setBwl] = useState(0);
     // const [cp, setCp] = useState(0);
-    const tops = (2.3+2.8)/2;
+    const tops = t;
     const g = 9.81;
     const p = 1.0234;
-    const LCB = 26.533;
-    const Displ = 1238;
-    const ABT = (618811/1000000)*2;
-    const hB = 986.3795/1000;
-    const CB = 0.662;
+    const LCB = 55.078;
+    const Displ = 11034.4;
+    const ABT = (7725837/1000000)*2;
+    const hB = 3507.5201/1000;
+    const CB = 0.7736;
     const C7 = bwl / lwl;
     const C15 = -1.69385;
     const TB = tops / bwl;
     const viskositas = 0.94252 * 10 ** -6;
-    const CM = 0.976;
-    const CW = 0.808;
+    const CM = 0.987;
+    const CW = 0.8551;
     const midship = lpp/2;
     const fromMidship = LCB - midship;
     const LR = lwl * (1-cp+(0.06*cp*(fromMidship / (4*cp)-1)));
@@ -110,7 +115,7 @@ const Ship = () => {
     const BL = bwl/lwl;
     const Vdispl  = Math.round(Displ / p);
     const iE = 1 + 89 * Math.exp(-((lwl/bwl) ** 0.80856) * ((1-CW) ** 0.30484) * ((1 - cp - 0.0225 * fromMidship) ** 0.6367) * LRB ** 0.34574) * ((100 * Vdispl / (lwl ** 3)) ** 0.16302);
-    const AT = 0;
+    const AT = (2237963*2)/1000000;
     const C1 =  222.3105 * (C7 ** 3.78613) * (TB ** 1.07961) * ((90 - iE ) ** 1.07961);
     const C3 = (0.56 * (ABT ** 1.5)) / (bwl * tops * (0.31 * (ABT ** 0.5) + tops - hB));
     const C2 = Math.exp(-1.89 * (C3 ** 0.5));
@@ -153,55 +158,55 @@ const Ship = () => {
     const listKnot = [
         0,
         3.8,
-        3.7,
-        4.2,
-        4.8,
-        4.9,
-        5.3,
-        5.7,
+        4.3,
+        4.7,
         5.8,
-        6.1,
-        6.1,
-        6.1,
-        6.1,
-        6.2,
-        6.3,
-        6.2,
-        6.3,
-        6.3,
-        6.3,
-        6.3,
-        6.4,
+        7.4,
+        7.9,
+        8.7,
+        9.8,
+        10.9,
+        11.2,
+        11.2,
+        11.8,
+        11.8,
+        11.7,
+        11.3,
+        10.1,
+        9.7,
+        9.6,
+        9.7,
+        9.7,
+        9.6,
+        9.8,
+        9.7,
+        9.7,
+        9.8,
+        9.8,
+        9.6,
+        9.8,
+        9.8,
+        9.8,
+        9.7,
+        9.9,
+        9.3,
+        9.2,
+        9.2,
+        9.3,
+        9.3,
+        9.3,
+        9.1,
+        9,
+        8.6,
+        8.8,
+        8.7,
+        7.6,
+        7.7,
+        7.6,
         7.5,
-        7.6,
-        7.6,
-        7.7,
-        7.7,
-        7.7,
-        7.6,
-        7.7,
-        7.6,
-        7.7,
-        7.8,
-        7.7,
-        7.8,
-        7.8,
-        7.7,
-        7.7,
-        7.8,
-        7.7,
-        7.8,
-        7.7,
-        7.8,
-        7.7,
-        7.7,
-        7.7,
-        7.8,
-        7.8,
-        7.8,
-        7.8,
-        7.8,
-    ];
+        6.7,
+        5.4
+      ];
 
     const toFixNumber = (value: number, length: number) => {
         return Number(value.toFixed(length));
@@ -214,7 +219,7 @@ const Ship = () => {
         const Vms = v * 0.514444;
         const fn = Vms / Math.pow(g*lwl, 0.5);
         const LB = lwl / b;
-        const BT = b/tops;
+        const BT = b/t;
 
         const statusFN = fn < 1 ? txtQualify : txtNotQualify;
         const statusLB = LB > 3.90 && LB < 14.90 ? txtQualify : txtNotQualify;
@@ -263,13 +268,13 @@ const Ship = () => {
     const tambahanTahanan = (ms:number, cf:number) => {
         const K2Skeg = 2;
         const K2TwinScrewBalanceRudder = 2.8;
-        const sigmaK2 = K2Skeg + K2TwinScrewBalanceRudder;
+        //const sigmaK2 = K2Skeg + K2TwinScrewBalanceRudder;
         const c1 = 1;
         const c2 = 1;
         const c3 = 1;
         const c4 = 1.5;
-        const Saap = c1 * c2 * c3 * c4 * ((1.75*lwl*tops)/100);
-        const K2eq = sigmaK2 * Saap / Saap;
+        const Saap = c1 * c2 * c3 * c4 * ((1.75*lwl*t)/100);
+        const K2eq = (K2TwinScrewBalanceRudder * Saap) / Saap;//(sigmaK2 * Saap) / Saap;
         const rapp = 0.5 * p * (ms ** 2) * Saap * K2eq * cf;
 
         return rapp;
@@ -291,6 +296,13 @@ const Ship = () => {
         return {fni: fni, RB:RB}
     }
 
+    const immersedTransform = (ms: number) => {
+        const Fnt = ms / (((2 * g * AT) / (b + b * CW)) ** 0.5);
+        const C6 = 0.2*(1-0.2*Fnt);
+        const Rtr = 0.5 * p * ms ** 2 * AT * C6;
+        return {Fnt: Fnt, Rtr: Rtr, C6: C6};
+    }
+
 
     const tahananKorelasiKapal = (ms: number) => {
         const ra = 0.5 * CA * p * S * ms ** 2;
@@ -302,6 +314,9 @@ const Ship = () => {
     }
 
     const onCalculate = () => {
+        console.log("C2", C2);
+        console.log("C3", C3);
+        console.log("C5", C5);
         paramterHoltrop()
         const result: ResultCalculate[] = [];
         listKnot.map((knot) => {
@@ -313,7 +328,8 @@ const Ship = () => {
             const bulbousBow = tahananBulbousBow(ms);
             const ra = tahananKorelasiKapal(ms);
             const RAf = hullRoughness(ms);
-            const rt = k1 + rapp + gelombang.Rw + bulbousBow.RB + ra + RAf;
+            const immersed = immersedTransform(ms);
+            const rt = k1 + rapp + gelombang.Rw + bulbousBow.RB + ra + RAf + immersed.Rtr;
             const seaMargin = rt + (0.15 * rt);
             result.push({
                 knot: knot,
@@ -328,6 +344,9 @@ const Ship = () => {
                 rw: gelombang.Rw,
                 fni: bulbousBow.fni,
                 rb: bulbousBow.RB,
+                fnt: immersed.Fnt,
+                c6: immersed.C6,
+                rtr: immersed.Rtr,
                 ra: ra,
                 rt: rt,
                 RAf: RAf,
@@ -480,7 +499,7 @@ const Ship = () => {
                                 <TahananBulbousBow data={dataResultCalculate} toFixNumber={toFixNumber} />
                             </RenderIf>
                             <RenderIf condition={selectedMenu == 7}>
-                                0
+                                <ImmersedTransform data={dataResultCalculate} toFixNumber={toFixNumber} />
                             </RenderIf>
                             <RenderIf condition={selectedMenu == 8}>
                                 <TahananKorelasiModelKapal data={dataResultCalculate} toFixNumber={toFixNumber} />

@@ -30,7 +30,7 @@ const ShipTrackerPosition = () => {
       const Ships = JSON.parse(decodedMessage);
       if(Ships.mmsi == 525401266){
         console.log("KM. DHARMA FERRY V", Ships);
-        setCoordinates({ lon: Ships.lon, lat: Ships.lat });
+        //setCoordinates({ lon: Ships.lon, lat: Ships.lat });
       }
     });
    
@@ -43,7 +43,8 @@ const ShipTrackerPosition = () => {
       txtList.map((item: string) => {
         if(item){
           var actualAIS = item.replace('\r','');
-          aisDecoder.write(actualAIS);
+          //console.log("AIS ->", item);
+          aisDecoder.write("!AIVDM,1,1,,B,17ldTr00007Ug:qtTup=m8QP2618,0*02");
         }
       })
    });

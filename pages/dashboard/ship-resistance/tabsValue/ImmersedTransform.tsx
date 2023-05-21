@@ -40,7 +40,7 @@ export default function(props: MyComponentProps){
       }
       
     return (
-        <DashboardCard title="Tahanan Total">
+        <DashboardCard title="Tahanan akibat adanya bulbous bow">
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
@@ -48,18 +48,12 @@ export default function(props: MyComponentProps){
                             <TableCell align="center">No</TableCell>
                             <TableCell align="center">Knot</TableCell>
                             <TableCell align="center">m/s</TableCell>
-                            <TableCell align="center">Rf(1 + K1)(KN)</TableCell>
-                            <TableCell align="center">Rapp (kN)</TableCell>
-                            <TableCell align="center">Rw (kN)</TableCell>
-                            <TableCell align="center">RB (kN)</TableCell>
-                            <TableCell align="center">Rtr (kN)</TableCell>
-                            <TableCell align="center">RA (kN)</TableCell>
-                            <TableCell align="center">RΔf (kN)</TableCell>
-                            <TableCell align="center">RT (kN)</TableCell>
-                            <TableCell align="center">RT + sea margin (kN)</TableCell>
+                            <TableCell align="center">FnT</TableCell>
+                            <TableCell align="center">C6</TableCell>
+                            <TableCell align="center">Rtr</TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody>                   
+                    <TableBody>                    
                         {data.map((row: any, index) => (
                             <TableRow
                                 key={row.knot}
@@ -75,31 +69,13 @@ export default function(props: MyComponentProps){
                                     {props.toFixNumber(row.ms, 2)}
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {props.toFixNumber(row.k1, 2)}
+                                    {props.toFixNumber(row.fnt, 2)}
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {props.toFixNumber(row.rapp, 2)}
-                                </TableCell>
-                                <TableCell align='center'>
-                                    {props.toFixNumber(row.rw, 2)}
-                                </TableCell>
-                                <TableCell align='center'>
-                                    {props.toFixNumber(row.rb, 2)}
+                                    {props.toFixNumber(row.c6, 2)}
                                 </TableCell>
                                 <TableCell align='center'>
                                     {props.toFixNumber(row.rtr, 2)}
-                                </TableCell>
-                                <TableCell align='center'>
-                                    {props.toFixNumber(row.ra, 2)}
-                                </TableCell>
-                                <TableCell align='center'>
-                                    {props.toFixNumber(row.RAf, 2)}
-                                </TableCell>
-                                <TableCell align='center'>
-                                    {props.toFixNumber(row.rt,2)}
-                                </TableCell>
-                                <TableCell align='center'>
-                                    {props.toFixNumber(row.seaMargin, 2)}
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -109,4 +85,3 @@ export default function(props: MyComponentProps){
         </DashboardCard>
     )
 }
-

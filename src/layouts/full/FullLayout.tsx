@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { styled, Container, Box } from "@mui/material";
 
 import Header from "./header/Header";
@@ -21,9 +21,10 @@ const PageWrapper = styled("div")(() => ({
 
 interface Props {
   children: React.ReactNode;
+  type?: string;
 }
 
-const FullLayout: React.FC<Props> = ({ children }) => {
+const FullLayout: React.FC<Props> = ({ children, type }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [isMobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   // const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));
@@ -37,6 +38,7 @@ const FullLayout: React.FC<Props> = ({ children }) => {
         isSidebarOpen={isSidebarOpen}
         isMobileSidebarOpen={isMobileSidebarOpen}
         onSidebarClose={() => setMobileSidebarOpen(false)}
+        type={type}
       />
       {/* ------------------------------------------- */}
       {/* Main Wrapper */}
