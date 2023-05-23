@@ -87,7 +87,7 @@ import {
       id: uniqueId(),
       title: 'Tahanan Kapal',
       icon: IconCircleDot,
-      href: '/dashboard/ship-resistance/holtrop/TahananKepal',
+      href: '/dashboard/ship-resistance/holtrop/TahananKapal',
     },
     {
       navlabel: true,
