@@ -1,3 +1,4 @@
+import {useContext, ReactElement} from 'react'
 import DashboardCard from '../../../../src/components/shared/DashboardCard';
 import {
     Table,
@@ -8,34 +9,15 @@ import {
     Paper,
     TableHead
 } from '@mui/material';
+import { MyContext } from '../../../contexts/MyContext';
+import toFixNumber from '../../../../src/components/function/toFixNumber';
+import FullLayout from '../../../../src/layouts/full/FullLayout';
 
-interface ResultCalculate {
-    knot: number,
-    ms: number,
-    rn: number,
-    cf: number,
-    rf: number
-    k1: number,
-    rapp: number,
-    fn: number,
-    m2: number,
-    rw: number,
-    fni: number,
-    rb: number,
-    ra: number,
-    rt: number,
-    seaMargin: number
-}
+export default function Ship(){
+    const contex = useContext(MyContext);
+    const data = contex?.dataResultCalculate;
 
-interface MyComponentProps {
-    toFixNumber(value: number, lenth: number): import("react").ReactNode;
-    data: ResultCalculate[];
-}
-
-export default function(props: MyComponentProps){
-    const data = props.data;
-
-    if (!props.data) {
+    if (!data) {
         return <div>Loading...</div>;
       }
       
@@ -66,16 +48,16 @@ export default function(props: MyComponentProps){
                                     {row.knot}
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {props.toFixNumber(row.ms, 3)}
+                                    {toFixNumber(row.ms, 3)}
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {props.toFixNumber(row.fn, 4)}
+                                    {toFixNumber(row.fn, 4)}
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {props.toFixNumber(row.m2, 5)}
+                                    {toFixNumber(row.m2, 5)}
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {props.toFixNumber(row.rw, 4)}
+                                    {toFixNumber(row.rw, 4)}
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -85,3 +67,7 @@ export default function(props: MyComponentProps){
         </DashboardCard>
     )
 }
+
+Ship.getLayout = function getLayout(page: ReactElement) {
+    return <FullLayout type='ShipResistance'>{page}</FullLayout>;
+};

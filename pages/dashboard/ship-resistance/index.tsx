@@ -1,51 +1,29 @@
 import { ReactElement, useState } from 'react';
+import { useContext } from 'react';
+import { MyContext } from '../../contexts/MyContext';
+import toFixNumber from '../../../src/components/function/toFixNumber';
 import { 
     TextField,
     Box,
-    Typography,
     Button,
-    Drawer,
-    Toolbar,
-    Divider,
-    List,
-    ListItem,
-    ListItemButton
 } from '@mui/material';
 import PageContainer from '../../../src/components/container/PageContainer';
 import DashboardCard from '../../../src/components/shared/DashboardCard';
 import FullLayout from '../../../src/layouts/full/FullLayout';
-import RenderIf from '../../../src/components/container/RenderIf';
-import ParameterMetodeHoltrop from './tabsValue/ParameterMetodeHoltrop';
-import PerhitunganTahan from './tabsValue/PerhitunganTahanan';
-import FormFactor from './tabsValue/FormFactor';
-import TambahanTahanan from './tabsValue/TambahanTahanan';
-import TahananGelombang from './tabsValue/TahananGelombang';
-import TahananBulbousBow from './tabsValue/TahananBulbousBow';
-import TahananKorelasiModelKapal from './tabsValue/TahananKorelasiModelKapal';
-import TahananTotal from './tabsValue/TahananTotal';
-import TahananKapal from './tabsValue/TahananKapal';
-import ListItemText from '@mui/material/ListItemText';
-import HullRoughness from './tabsValue/HullRoughness';
-import ImmersedTransform from './tabsValue/ImmersedTransform';
-import { IconClockHour6 } from '@tabler/icons';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Ship = () => {
 
-    const drawerWidth = 200;
-
-    interface TabPanelProps {
-        children?: React.ReactNode;
-        index: number;
-        value: number;
-    }
+    const context = useContext(MyContext);
 
     interface ParameterHoltrop {
         name: string,
         value: number,
         status: string
-    }
+      }
 
-    interface ResultCalculate {
+      interface ResultCalculate {
         knot: number,
         ms: number,
         rn: number,
@@ -65,10 +43,9 @@ const Ship = () => {
         rt: number,
         RAf: number,
         seaMargin: number
-    }
+      }
 
     const baseURl = process.env.NEXT_PUBLIC_URL;
-    const [selectedMenu, setSelectedMenu] = useState(0);
     const [owner, setOwner] = useState('PT Meratus');
     const [tipe, setTipe] = useState('General cargo, container');
     const [loa, setLoa] = useState(117);
@@ -137,24 +114,6 @@ const Ship = () => {
     const Ks = mikrometer * 10 ** -6;
     const Acf = (105 * ((Ks/lwl) ** (1/3)) - 0.64) / 10 ** 3;
 
-    const [dataParameterHoltrop, setDataParameterHoltrop] = useState<ParameterHoltrop[]>([]);
-    const [dataResultCalculate, setDataResultCalculate] = useState<ResultCalculate[]>([]);
-
-    const ListItemNav = [
-        "Form",
-        "Parameter Metode Holtrop",
-        "Tahanan Gesek",
-        "Form Factor",
-        "Tahanan Tambahan",
-        "Tahanan Gelombang",
-        "Tahanan akibat adanya bulbous bow",
-        "Tahanan immersed transom",
-        "Tahanan Korelasi Model Kapal",
-        "Hull Roughness",
-        "Tahanan Total",
-        "Tahanan Kapal"
-    ];
-
     const listKnot = [
         0,
         3.8,
@@ -208,10 +167,6 @@ const Ship = () => {
         5.4
       ];
 
-    const toFixNumber = (value: number, length: number) => {
-        return Number(value.toFixed(length));
-    }
-
     const paramterHoltrop = () => {
         const txtQualify = "Memenuhi parameter Holtrop";
         const txtNotQualify = "Tidak memenuhi parameter Holtrop";
@@ -249,7 +204,7 @@ const Ship = () => {
             }
         ]
 
-        setDataParameterHoltrop(Rows)
+        context?.setDataParameterHoltrop(Rows);
 
     }
 
@@ -314,9 +269,6 @@ const Ship = () => {
     }
 
     const onCalculate = () => {
-        console.log("C2", C2);
-        console.log("C3", C3);
-        console.log("C5", C5);
         paramterHoltrop()
         const result: ResultCalculate[] = [];
         listKnot.map((knot) => {
@@ -353,19 +305,40 @@ const Ship = () => {
                 seaMargin: seaMargin
             })
         })
-        setDataResultCalculate(result);
+        context?.setDataResultCalculate(result);
+        toast.success('Perhitungan selesai!', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+        });
     }
 
 
   return (
     <Box>
+        <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"
+        />
                 <Box
                     component="main"
                     sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
                 >
                     <PageContainer title="Ship Resistance">
                         <Box sx={{ width: '90%' }}>
-                            <RenderIf condition={selectedMenu == 0}>
                                 <DashboardCard title="Form">
                                     <div>
                                         <Box
@@ -479,76 +452,14 @@ const Ship = () => {
                                         </Box>
                                     </div>
                                 </DashboardCard>
-                            </RenderIf>
-                            <RenderIf condition={selectedMenu == 1}>
-                                <ParameterMetodeHoltrop data={dataParameterHoltrop} />
-                            </RenderIf>
-                            <RenderIf condition={selectedMenu == 2}>
-                                <PerhitunganTahan data={dataResultCalculate} toFixNumber={toFixNumber} />
-                            </RenderIf>
-                            <RenderIf condition={selectedMenu == 3}>
-                                <FormFactor data={dataResultCalculate} toFixNumber={toFixNumber} />
-                            </RenderIf>
-                            <RenderIf condition={selectedMenu == 4}>
-                                <TambahanTahanan data={dataResultCalculate} toFixNumber={toFixNumber} />
-                            </RenderIf>
-                            <RenderIf condition={selectedMenu == 5}>
-                                 <TahananGelombang data={dataResultCalculate} toFixNumber={toFixNumber} />
-                            </RenderIf>
-                            <RenderIf condition={selectedMenu == 6}>
-                                <TahananBulbousBow data={dataResultCalculate} toFixNumber={toFixNumber} />
-                            </RenderIf>
-                            <RenderIf condition={selectedMenu == 7}>
-                                <ImmersedTransform data={dataResultCalculate} toFixNumber={toFixNumber} />
-                            </RenderIf>
-                            <RenderIf condition={selectedMenu == 8}>
-                                <TahananKorelasiModelKapal data={dataResultCalculate} toFixNumber={toFixNumber} />
-                            </RenderIf>
-                            <RenderIf condition={selectedMenu == 9}>
-                                <HullRoughness data={dataResultCalculate} toFixNumber={toFixNumber} />
-                            </RenderIf>
-                            <RenderIf condition={selectedMenu == 10}>
-                                <TahananTotal data={dataResultCalculate} toFixNumber={toFixNumber} />
-                            </RenderIf>
-                            <RenderIf condition={selectedMenu == 11}>
-                                <TahananKapal data={dataResultCalculate} />
-                            </RenderIf>
                         </Box>
                     </PageContainer>
                 </Box>
-                <Drawer
-                    sx={{
-                    width: drawerWidth,
-                    flexShrink: 0,
-                    '& .MuiDrawer-paper': {
-                        width: drawerWidth,
-                        boxSizing: 'border-box',
-                    },
-                    }}
-                    variant="permanent"
-                    anchor="right"
-                >
-                    <Toolbar>
-                        <Typography variant="h5" component="h2">
-                        Ship Resistance
-                        </Typography>
-                    </Toolbar>
-                    <Divider />
-                    <List>
-                    {ListItemNav.map((text, index) => (
-                        <ListItem key={text} disablePadding selected={selectedMenu === index}>
-                            <ListItemButton onClick={() => setSelectedMenu(index)}>
-                                <ListItemText primary={text} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
-                    </List>
-                </Drawer>
-                </Box>
+            </Box>
   );
 };
 
 export default Ship;
 Ship.getLayout = function getLayout(page: ReactElement) {
-  return <FullLayout>{page}</FullLayout>;
+  return <FullLayout type='ShipResistance'>{page}</FullLayout>;
 };

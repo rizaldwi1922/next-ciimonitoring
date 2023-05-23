@@ -1,4 +1,6 @@
+import { ReactElement, useContext} from 'react';
 import DashboardCard from '../../../../src/components/shared/DashboardCard';
+import { MyContext } from '../../../contexts/MyContext';
 import {
     Box,
     Table,
@@ -10,23 +12,16 @@ import {
     Typography,
 } from '@mui/material';
 import RenderIf from '../../../../src/components/container/RenderIf';
+import FullLayout from '../../../../src/layouts/full/FullLayout';
 
-interface ParameterHoltrop {
-    name: string,
-    value: number,
-    status: string
-}
+const Ship = () =>{
+    const context = useContext(MyContext);
 
-interface MyComponentProps {
-    data: ParameterHoltrop[];
-}
-
-export default function(props: MyComponentProps){
-    const data = props.data;
-
-    if (!props.data) {
+    const data = context?.dataParameterHoltrop;
+    
+    if (!data) {
         return <div>Loading...</div>;
-      }
+    }
 
     return (
         <DashboardCard title="Parameter metode Holtrop">
@@ -56,3 +51,9 @@ export default function(props: MyComponentProps){
         </DashboardCard>
     )
 }
+
+export default Ship;
+
+Ship.getLayout = function getLayout(page: ReactElement) {
+    return <FullLayout type='ShipResistance'>{page}</FullLayout>;
+};
