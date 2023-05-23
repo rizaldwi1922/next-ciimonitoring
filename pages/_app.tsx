@@ -1,5 +1,5 @@
 import type { ReactElement, ReactNode } from "react";
-import { MyContextProvider } from "./contexts/MyContext";
+import MyContextProvider from "./contexts/MyContext";
 
 import type { NextPage } from "next";
 import Head from "next/head";

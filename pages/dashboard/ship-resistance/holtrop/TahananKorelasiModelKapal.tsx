@@ -14,7 +14,7 @@ import { MyContext } from '../../../contexts/MyContext';
 import FullLayout from '../../../../src/layouts/full/FullLayout';
 
 
-export default function Ship(){
+const Ship = () => {
     const context = useContext(MyContext);
     const data = context?.dataResultCalculate;
 
@@ -60,7 +60,7 @@ export default function Ship(){
         </DashboardCard>
     )
 }
-
+export default Ship;
 
 Ship.getLayout = function getLayout(page: ReactElement) {
     return <FullLayout type='ShipResistance'>{page}</FullLayout>;

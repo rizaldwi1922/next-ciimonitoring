@@ -43,7 +43,7 @@ interface MyContextProviderProps {
 }
 
 // Buat provider untuk konteks
-export const MyContextProvider: React.FC<MyContextProviderProps> = ({ children }) => {
+const MyContextProvider: React.FC<MyContextProviderProps> = ({ children }) => {
   const [dataResultCalculate, setDataResultCalculate] = useState<ResultCalculate[]>([]);
   const [dataParameterHoltrop, setDataParameterHoltrop] = useState<ParameterHoltrop[]>([]);
   
@@ -59,3 +59,5 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({ children }
     </MyContext.Provider>
   );
 };
+
+export default MyContextProvider;

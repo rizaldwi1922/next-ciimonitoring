@@ -41,7 +41,7 @@ import {
     },
   };
 
-export default function Ship(){
+  const Ship = () => {
   const context = useContext(MyContext);
   const data = context?.dataResultCalculate;
   if (!data) {
@@ -74,6 +74,7 @@ export default function Ship(){
         </DashboardCard>
     )
 }
+export default Ship;
 
 Ship.getLayout = function getLayout(page: ReactElement) {
   return <FullLayout type='ShipResistance'>{page}</FullLayout>;

@@ -13,7 +13,7 @@ import {
 import FullLayout from '../../../../src/layouts/full/FullLayout';
 import toFixNumber from '../../../../src/components/function/toFixNumber';
 
-export default function Ship(){
+const Ship = () => {
     const contex = useContext(MyContext);
     const data = contex?.dataResultCalculate;
 
@@ -70,7 +70,7 @@ export default function Ship(){
         </DashboardCard>
     )
 }
-
+export default Ship;
 Ship.getLayout = function getLayout(page: ReactElement) {
     return <FullLayout type='ShipResistance'>{page}</FullLayout>;
 };
