@@ -14,14 +14,17 @@ import {
     },
     {
       navlabel: true,
-      subheader: 'Holtrop',
+      subheader: 'Input',
     },
-  
     {
       id: uniqueId(),
       title: 'Form',
       icon: IconCircleDot,
       href: '/dashboard/ship-resistance',
+    },
+    {
+      navlabel: true,
+      subheader: 'Holtrop',
     },
     {
       id: uniqueId(),
@@ -93,6 +96,48 @@ import {
       navlabel: true,
       subheader: 'Stawave',
     },
+    {
+      id: uniqueId(),
+      title: 'Efek Draft',
+      icon: IconCircleDot,
+      href: '/dashboard/ship-resistance/stawave/efek-draft',
+    },
+    {
+      id: uniqueId(),
+      title: 'Efek Angin',
+      icon: IconCircleDot,
+      href: '/dashboard/ship-resistance/stawave/efek-angin',
+    },
+    // {
+    //   id: uniqueId(),
+    //   title: 'Efek Air dan Garam',
+    //   icon: IconCircleDot,
+    //   href: '/dashboard/ship-resistance/holtrop/TahananKapal',
+    // },
+    // {
+    //   id: uniqueId(),
+    //   title: 'Efek Gelombang',
+    //   icon: IconCircleDot,
+    //   href: '/dashboard/ship-resistance/holtrop/TahananKapal',
+    // },
+    // {
+    //   id: uniqueId(),
+    //   title: 'Stawave Method',
+    //   icon: IconCircleDot,
+    //   href: '/dashboard/ship-resistance/holtrop/TahananKapal',
+    // },
+    // {
+    //   id: uniqueId(),
+    //   title: 'Corrective Resistance',
+    //   icon: IconCircleDot,
+    //   href: '/dashboard/ship-resistance/holtrop/TahananKapal',
+    // },
+    // {
+    //   id: uniqueId(),
+    //   title: 'Daya Corrective',
+    //   icon: IconCircleDot,
+    //   href: '/dashboard/ship-resistance/holtrop/TahananKapal',
+    // },
     {
       navlabel: true,
       subheader: 'Power and Fuel',

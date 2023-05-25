@@ -1,32 +1,6 @@
 import React, { createContext, useState } from 'react';
-
-interface ParameterHoltrop {
-  name: string,
-  value: number,
-  status: string
-}
-
-interface ResultCalculate {
-  knot: number,
-  ms: number,
-  rn: number,
-  cf: number,
-  rf: number
-  k1: number,
-  rapp: number,
-  fn: number,
-  m2: number,
-  rw: number,
-  fni: number,
-  rb: number,
-  fnt:number,
-  c6: number,
-  rtr: number,
-  ra: number,
-  rt: number,
-  RAf: number,
-  seaMargin: number
-}
+import { ParameterHoltrop } from '../../src/interface/ParameterHoltrop';
+import { ResultCalculate } from '../../src/interface/ResultCalculate';
 
 // Buat konteks
 interface MyContextProps {

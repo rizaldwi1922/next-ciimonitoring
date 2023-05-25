@@ -1,6 +1,8 @@
 import { ReactElement, useState } from 'react';
 import { useContext } from 'react';
 import { MyContext } from '../../contexts/MyContext';
+import { ParameterHoltrop } from '../../../src/interface/ParameterHoltrop';
+import { ResultCalculate } from '../../../src/interface/ResultCalculate';
 import toFixNumber from '../../../src/components/function/toFixNumber';
 import { 
     TextField,
@@ -16,34 +18,6 @@ import 'react-toastify/dist/ReactToastify.css';
 const Ship = () => {
 
     const context = useContext(MyContext);
-
-    interface ParameterHoltrop {
-        name: string,
-        value: number,
-        status: string
-      }
-
-      interface ResultCalculate {
-        knot: number,
-        ms: number,
-        rn: number,
-        cf: number,
-        rf: number
-        k1: number,
-        rapp: number,
-        fn: number,
-        m2: number,
-        rw: number,
-        fni: number,
-        rb: number,
-        fnt:number,
-        c6: number,
-        rtr: number,
-        ra: number,
-        rt: number,
-        RAf: number,
-        seaMargin: number
-      }
 
     const baseURl = process.env.NEXT_PUBLIC_URL;
     const [owner, setOwner] = useState('PT Meratus');
@@ -70,7 +44,8 @@ const Ship = () => {
     // const [lwl, setLwl] = useState(0);
     // const [bwl, setBwl] = useState(0);
     // const [cp, setCp] = useState(0);
-    const tops = t;
+    const tops = 5.75;
+    const aops = 9804.4;
     const g = 9.81;
     const p = 1.0234;
     const LCB = 55.078;
@@ -80,7 +55,7 @@ const Ship = () => {
     const CB = 0.7736;
     const C7 = bwl / lwl;
     const C15 = -1.69385;
-    const TB = tops / bwl;
+    const TB = t / bwl;
     const viskositas = 0.94252 * 10 ** -6;
     const CM = 0.987;
     const CW = 0.8551;
@@ -88,83 +63,83 @@ const Ship = () => {
     const fromMidship = LCB - midship;
     const LR = lwl * (1-cp+(0.06*cp*(fromMidship / (4*cp)-1)));
     const LRB = LR / bwl;
-    const LT = lwl/tops;
+    const LT = lwl/t;
     const BL = bwl/lwl;
     const Vdispl  = Math.round(Displ / p);
     const iE = 1 + 89 * Math.exp(-((lwl/bwl) ** 0.80856) * ((1-CW) ** 0.30484) * ((1 - cp - 0.0225 * fromMidship) ** 0.6367) * LRB ** 0.34574) * ((100 * Vdispl / (lwl ** 3)) ** 0.16302);
     const AT = (2237963*2)/1000000;
     const C1 =  222.3105 * (C7 ** 3.78613) * (TB ** 1.07961) * ((90 - iE ) ** 1.07961);
-    const C3 = (0.56 * (ABT ** 1.5)) / (bwl * tops * (0.31 * (ABT ** 0.5) + tops - hB));
+    const C3 = (0.56 * (ABT ** 1.5)) / (bwl * t * (0.31 * (ABT ** 0.5) + t - hB));
     const C2 = Math.exp(-1.89 * (C3 ** 0.5));
-    const C5 = 1-((0.8 * AT)/(bwl * tops * CM));
+    const C5 = 1-((0.8 * AT)/(bwl * t * CM));
     const C4 = 0.04;
     const CA = 0.00546 * ((lwl + 100) ** -0.16) - 0.002 + 0.003 * ((lwl / 7.5) ** 0.5) * (CB ** 4) * C2 * (0.04 - C4);
-    const TFLWL = tops / lwl;
+    const TFLWL = t / lwl;
     const Cstern = -22;
     const C14 = 1+0.001*Cstern;
-    const K1 = 0.93 + 0.487118 * C14 * ((bwl/lwl) ** 1.06806) * ((tops/lwl) ** 0.46106) * ((lwl/LR) ** 0.121563) * ((lwl ** 3 / Vdispl) ** 0.36486) * ((1-cp) ** -0.604247);
+    const K1 = 0.93 + 0.487118 * C14 * ((bwl/lwl) ** 1.06806) * ((t/lwl) ** 0.46106) * ((lwl/LR) ** 0.121563) * ((lwl ** 3 / Vdispl) ** 0.36486) * ((1-cp) ** -0.604247);
     const lamda = (1.446 * cp) * (0.03 * (lwl/bwl));
     const C16 = 8.07981 * cp - 13.8673 * (cp ** 2) + 6.984388 * (cp ** 3);
     const m1 = 0.0140407 * LT - 1.75254 * ((Vdispl ** (1/3))/lwl) - 4.79323 * BL - C16;
     const m4 = 0.4 * C15 * Math.exp(-0.034 * (0.4 ** -3.29));
     const d = -0.9;
-    const PB = 0.56 * ABT ** 0.5 / (tops - 1.5 * hB);
-    const S = lwl * (2*tops+bwl) * CM ** 0.5 * (0.453 + 0.4425 * CB - 0.2862 * CM - 0.003467 * (bwl/tops) + 0.3696 * CW) + 2.38 * ABT/CB;
+    const PB = 0.56 * ABT ** 0.5 / (t - 1.5 * hB);
+    const S = lwl * (2*t+bwl) * CM ** 0.5 * (0.453 + 0.4425 * CB - 0.2862 * CM - 0.003467 * (bwl/t) + 0.3696 * CW) + 2.38 * ABT/CB;
     const mikrometer = 150;
     const Ks = mikrometer * 10 ** -6;
     const Acf = (105 * ((Ks/lwl) ** (1/3)) - 0.64) / 10 ** 3;
 
     const listKnot = [
-        0,
-        3.8,
-        4.3,
-        4.7,
-        5.8,
-        7.4,
-        7.9,
-        8.7,
-        9.8,
-        10.9,
-        11.2,
-        11.2,
-        11.8,
-        11.8,
-        11.7,
-        11.3,
-        10.1,
-        9.7,
-        9.6,
-        9.7,
-        9.7,
-        9.6,
-        9.8,
-        9.7,
-        9.7,
-        9.8,
-        9.8,
-        9.6,
-        9.8,
-        9.8,
-        9.8,
-        9.7,
-        9.9,
-        9.3,
-        9.2,
-        9.2,
-        9.3,
-        9.3,
-        9.3,
-        9.1,
-        9,
-        8.6,
-        8.8,
-        8.7,
-        7.6,
-        7.7,
-        7.6,
-        7.5,
-        6.7,
-        5.4
+        { Knot: 0, Temp: 27, YWR: 0, actualKnot: 0 },
+        { Knot: 3.8, Temp: 27, YWR: 335, actualKnot: 6 },
+        { Knot: 4.3, Temp: 27, YWR: 276, actualKnot: 6 },
+        { Knot: 4.7, Temp: 27, YWR: 310, actualKnot: 6 },
+        { Knot: 5.8, Temp: 27, YWR: 306, actualKnot: 6 },
+        { Knot: 7.4, Temp: 27, YWR: 334, actualKnot: 6 },
+        { Knot: 7.9, Temp: 27, YWR: 357, actualKnot: 6 },
+        { Knot: 8.7, Temp: 27, YWR: 10, actualKnot: 6 },
+        { Knot: 9.8, Temp: 27, YWR: 25, actualKnot: 6 },
+        { Knot: 10.9, Temp: 27, YWR: 35, actualKnot: 6 },
+        { Knot: 11.2, Temp: 27, YWR: 20, actualKnot: 6 },
+        { Knot: 11.2, Temp: 27, YWR: 36, actualKnot: 6 },
+        { Knot: 11.8, Temp: 27, YWR: 35, actualKnot: 11 },
+        { Knot: 11.8, Temp: 27, YWR: 34, actualKnot: 11 },
+        { Knot: 11.7, Temp: 27, YWR: 32, actualKnot: 11 },
+        { Knot: 11.3, Temp: 27, YWR: 32, actualKnot: 11 },
+        { Knot: 10.1, Temp: 27, YWR: 33, actualKnot: 11 },
+        { Knot: 9.7, Temp: 27, YWR: 31, actualKnot: 11 },
+        { Knot: 9.6, Temp: 27, YWR: 34, actualKnot: 11 },
+        { Knot: 9.7, Temp: 27, YWR: 34, actualKnot: 11 },
+        { Knot: 9.7, Temp: 27, YWR: 30, actualKnot: 11 },
+        { Knot: 9.6, Temp: 27, YWR: 34, actualKnot: 11 },
+        { Knot: 9.8, Temp: 27, YWR: 31, actualKnot: 11 },
+        { Knot: 9.7, Temp: 27, YWR: 30, actualKnot: 11 },
+        { Knot: 9.7, Temp: 27, YWR: 33, actualKnot: 11 },
+        { Knot: 9.8, Temp: 23, YWR: 30, actualKnot: 11 },
+        { Knot: 9.8, Temp: 23, YWR: 30, actualKnot: 11 },
+        { Knot: 9.6, Temp: 23, YWR: 24, actualKnot: 11 },
+        { Knot: 9.8, Temp: 23, YWR: 25, actualKnot: 11 },
+        { Knot: 9.8, Temp: 23, YWR: 25, actualKnot: 11 },
+        { Knot: 9.8, Temp: 23, YWR: 26, actualKnot: 11 },
+        { Knot: 9.7, Temp: 23, YWR: 25, actualKnot: 11 },
+        { Knot: 9.9, Temp: 23, YWR: 26, actualKnot: 11 },
+        { Knot: 9.3, Temp: 23, YWR: 25, actualKnot: 11 },
+        { Knot: 9.2, Temp: 23, YWR: 25, actualKnot: 11 },
+        { Knot: 9.2, Temp: 23, YWR: 25, actualKnot: 11 },
+        { Knot: 9.3, Temp: 23, YWR: 25, actualKnot: 11 },
+        { Knot: 9.3, Temp: 23, YWR: 25, actualKnot: 11 },
+        { Knot: 9.3, Temp: 23, YWR: 2, actualKnot: 11 },
+        { Knot: 9.1, Temp: 23, YWR: 10, actualKnot: 11 },
+        { Knot: 9, Temp: 23, YWR: 6, actualKnot: 11 },
+        { Knot: 8.6, Temp: 23, YWR: 4, actualKnot: 11 },
+        { Knot: 8.8, Temp: 23, YWR: 11, actualKnot: 11 },
+        { Knot: 8.7, Temp: 23, YWR: 4, actualKnot: 11 },
+        { Knot: 7.6, Temp: 23, YWR: 333, actualKnot: 11 },
+        { Knot: 7.7, Temp: 23, YWR: 349, actualKnot: 11 },
+        { Knot: 7.6, Temp: 23, YWR: 7, actualKnot: 11 },
+        { Knot: 7.5, Temp: 23, YWR: 16, actualKnot: 11 },
+        { Knot: 6.7, Temp: 23, YWR: 44, actualKnot: 11 },
+        { Knot: 5.4, Temp: 23, YWR: 45, actualKnot: 11 }
       ];
 
     const paramterHoltrop = () => {
@@ -245,7 +220,7 @@ const Ship = () => {
 
 
     const tahananBulbousBow = (ms:number) => {
-        const fni = ms / (g * (tops - hB - 0.25 * ABT ** 0.5 ) + 0.15 * ms ** 2) ** 0.5;
+        const fni = ms / (g * (t - hB - 0.25 * ABT ** 0.5 ) + 0.15 * ms ** 2) ** 0.5;
         const RB = 0.11 * Math.exp(-3 * PB ** -2) * fni ** 3 * ABT ** 1.5 * p * g / (1 + fni ** 2);
 
         return {fni: fni, RB:RB}
@@ -268,11 +243,30 @@ const Ship = () => {
         return 0.5 * Acf * p * S * ms ** 2;
     }
 
+    const efekDraft = () => {
+        const eRT = 186274.2795;
+        const N = 0.65 * eRT * ((Displ / aops) - 1);
+        const kN = N/1000;
+        return {N: N, kN: kN}
+    }
+
+    const efekAngin = (actualKnot: number, ywr: number) => {
+        const pA = 1.184/1000;
+        const CxDefault = 0.8;
+        const Af = 3*10+(2.7*13)*5+2.7*b+(h-t)*b;
+        const angleInDegrees = ywr;
+        const angleInRadians = angleInDegrees * (Math.PI / 180);
+        const knotVair = Math.cos(angleInRadians) * actualKnot;
+        const msVair = knotVair * 0.514444;
+        const raa = 0.5 * pA * msVair ** 2 * CxDefault * Af;
+        return {knotVair: knotVair, msVair: msVair, raa: raa}
+    }
+
     const onCalculate = () => {
         paramterHoltrop()
         const result: ResultCalculate[] = [];
-        listKnot.map((knot) => {
-            const ms = knot * 0.514444;
+        listKnot.map((item) => {
+            const ms = item.Knot * 0.514444;
             const hitunganTahanan = perhitunganTahanan(ms);
             const k1 = formFactor(hitunganTahanan.rf);
             const rapp = tambahanTahanan(ms, hitunganTahanan.cf);
@@ -283,8 +277,10 @@ const Ship = () => {
             const immersed = immersedTransform(ms);
             const rt = k1 + rapp + gelombang.Rw + bulbousBow.RB + ra + RAf + immersed.Rtr;
             const seaMargin = rt + (0.15 * rt);
+            const draft = efekDraft();
+            const angin = efekAngin(item.actualKnot, item.YWR);
             result.push({
-                knot: knot,
+                knot: item.Knot,
                 ms: ms,
                 rn: hitunganTahanan.rn,
                 cf: hitunganTahanan.cf,
@@ -302,7 +298,16 @@ const Ship = () => {
                 ra: ra,
                 rt: rt,
                 RAf: RAf,
-                seaMargin: seaMargin
+                seaMargin: seaMargin,
+                tops: tops,
+                aops: aops,
+                drafN: draft.N,
+                drafKn: draft.kN,
+                knotVair: angin.knotVair, 
+                msVair: angin.msVair, 
+                raa: angin.raa,
+                ywr: item.YWR,
+                actualKnot: item.actualKnot
             })
         })
         context?.setDataResultCalculate(result);
@@ -440,12 +445,12 @@ const Ship = () => {
                                                     value={cp}
                                                     onChange={e => setCp(parseFloat(e.target.value))}
                                                 />
-                                                <TextField
+                                                {/* <TextField
                                                     required
                                                     label="TOPS"
                                                     type="number"
                                                     value={tops}
-                                                />
+                                                /> */}
                                         </Box>
                                         <Box sx={{ p: 2, textAlign: 'right'}}>
                                             <Button variant="contained" onClick={onCalculate}>Kalkulasi</Button>
