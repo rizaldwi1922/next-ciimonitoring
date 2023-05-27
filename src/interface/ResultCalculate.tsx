@@ -26,5 +26,7 @@ export interface ResultCalculate {
     msVair: number, 
     raa: number,
     ywr: number,
-    actualKnot: number
+    actualKnot: number,
+    temp: number,
+    efekSuhuGaram: string
   }

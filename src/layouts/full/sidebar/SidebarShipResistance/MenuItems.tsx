@@ -108,13 +108,13 @@ import {
       icon: IconCircleDot,
       href: '/dashboard/ship-resistance/stawave/efek-angin',
     },
-    // {
-    //   id: uniqueId(),
-    //   title: 'Efek Air dan Garam',
-    //   icon: IconCircleDot,
-    //   href: '/dashboard/ship-resistance/holtrop/TahananKapal',
-    // },
-    // {
+    {
+      id: uniqueId(),
+      title: 'Efek Suhu dan Garam',
+      icon: IconCircleDot,
+      href: '/dashboard/ship-resistance/stawave/efek-suhu-dan-garam',
+    },
+    //{
     //   id: uniqueId(),
     //   title: 'Efek Gelombang',
     //   icon: IconCircleDot,

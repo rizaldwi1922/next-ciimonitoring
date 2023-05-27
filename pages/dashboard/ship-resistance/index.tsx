@@ -47,7 +47,7 @@ const Ship = () => {
     const tops = 5.75;
     const aops = 9804.4;
     const g = 9.81;
-    const p = 1.0234;
+    const p = 1023.3873/1000;
     const LCB = 55.078;
     const Displ = 11034.4;
     const ABT = (7725837/1000000)*2;
@@ -262,6 +262,20 @@ const Ship = () => {
         return {knotVair: knotVair, msVair: msVair, raa: raa}
     }
 
+
+    const efekSuhuDanGaram = (ms: number, cf: number) => {
+        const RT = 186.3121507474313 * 1000;;
+        const Rf = 106.69444852934791 * 1000;
+        const PsuhuGaram = toFixNumber(1022.7626/1000, 6);
+        const nu = 0.90331*(10 ** -6);
+        const RNSuhuGaram = (lwl * ms) / nu;
+        const CFSuhuGaram = 0.075 / (Math.log10(RNSuhuGaram)-2) ** 2;
+        const RAS = Math.abs(RT * (1 - (PsuhuGaram / p)) - Rf * (1 - (CFSuhuGaram / cf)));
+        const obj = {PsuhuGaram: PsuhuGaram, nu: nu, RNSuhuGaram: RNSuhuGaram, CFSuhuGaram: CFSuhuGaram, RAS:RAS};
+        
+        return JSON.stringify(obj);
+    }
+
     const onCalculate = () => {
         paramterHoltrop()
         const result: ResultCalculate[] = [];
@@ -307,10 +321,13 @@ const Ship = () => {
                 msVair: angin.msVair, 
                 raa: angin.raa,
                 ywr: item.YWR,
-                actualKnot: item.actualKnot
+                actualKnot: item.actualKnot,
+                temp: item.Temp,
+                efekSuhuGaram: efekSuhuDanGaram(ms, hitunganTahanan.cf)
             })
         })
         context?.setDataResultCalculate(result);
+       // console.log("Result", JSON.parse(result[0].efekSuhuGaram));
         toast.success('Perhitungan selesai!', {
             position: "top-right",
             autoClose: 5000,
