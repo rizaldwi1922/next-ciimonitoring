@@ -263,20 +263,18 @@ const Ship = () => {
     }
 
 
-    const efekSuhuDanGaram = (ms: number, cf: number) => {
-        const RT = 186.3121507474313 * 1000;;
-        const Rf = 106.69444852934791 * 1000;
-        const PsuhuGaram = toFixNumber(1022.7626/1000, 6);
-        const nu = 0.90331*(10 ** -6);
+    const efekSuhuDanGaram = (ms: number, cf: number, vs:number, PsuhuGaram: number) => {
+        const RT = 186274.2795;
+        const Rf = 106661;
+        const nu = vs*(10 ** -6);
         const RNSuhuGaram = (lwl * ms) / nu;
         const CFSuhuGaram = 0.075 / (Math.log10(RNSuhuGaram)-2) ** 2;
         const RAS = Math.abs(RT * (1 - (PsuhuGaram / p)) - Rf * (1 - (CFSuhuGaram / cf)));
         const obj = {PsuhuGaram: PsuhuGaram, nu: nu, RNSuhuGaram: RNSuhuGaram, CFSuhuGaram: CFSuhuGaram, RAS:RAS};
-        
+        //console.log("Rt", toFixNumber(RT, 4));
         return JSON.stringify(obj);
     }
-    const efekGelombang = (h: number, ms: number, fita: number) => {
-        const PsuhuGaram = 1022.7626/1000;
+    const efekGelombang = (h: number, ms: number, fita: number, PsuhuGaram: number) => {
         const amplitudo = 0.5 * h;
         const fn = ms / (g * lwl);
         const LE = 26.185;
@@ -313,7 +311,7 @@ const Ship = () => {
     const onCalculate = () => {
         paramterHoltrop()
         const result: ResultCalculate[] = [];
-        listKnot.map((item) => {
+        listKnot.map((item, index) => {
             const ms = item.Knot * 0.514444;
             const hitunganTahanan = perhitunganTahanan(ms);
             const k1 = formFactor(hitunganTahanan.rf);
@@ -327,6 +325,8 @@ const Ship = () => {
             const seaMargin = rt + (0.15 * rt);
             const draft = efekDraft();
             const angin = efekAngin(item.actualKnot, item.YWR);
+            const vs = index < 25 ? 0.90331 : 0.98457;
+            const PsuhuGaram = index < 25 ? 1022.7626/1000 : 1023.9808/1000;
             result.push({
                 knot: item.Knot,
                 h: item.H,
@@ -359,8 +359,8 @@ const Ship = () => {
                 ywr: item.YWR,
                 actualKnot: item.actualKnot,
                 temp: item.Temp,
-                efekSuhuGaram: efekSuhuDanGaram(ms, hitunganTahanan.cf),
-                efekGelombang: efekGelombang(item.H, ms, item.Fita)
+                efekSuhuGaram: efekSuhuDanGaram(ms, hitunganTahanan.cf, vs, PsuhuGaram),
+                efekGelombang: efekGelombang(item.H, ms, item.Fita, PsuhuGaram)
             })
         })
         context?.setDataResultCalculate(result);

@@ -120,12 +120,12 @@ import {
       icon: IconCircleDot,
       href: '/dashboard/ship-resistance/stawave/efek-gelombang',
     },
-    // {
-    //   id: uniqueId(),
-    //   title: 'Stawave Method',
-    //   icon: IconCircleDot,
-    //   href: '/dashboard/ship-resistance/holtrop/TahananKapal',
-    // },
+    {
+      id: uniqueId(),
+      title: 'Stawave Method',
+      icon: IconCircleDot,
+      href: '/dashboard/ship-resistance/stawave/stawave-method',
+    },
     // {
     //   id: uniqueId(),
     //   title: 'Corrective Resistance',

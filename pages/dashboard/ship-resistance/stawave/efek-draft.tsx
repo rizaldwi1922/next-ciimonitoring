@@ -47,16 +47,16 @@ const Ship = () => {
                                     {row.knot}
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {toFixNumber(row.tops, 2)}
+                                    {row.tops ? toFixNumber(row.tops, 2) : 0}
                                 </TableCell>
                                 <TableCell align='center'>
                                     {row.aops}
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {toFixNumber(row.drafN, 2)}
+                                    {row.radis? toFixNumber(row.radis, 2) : 0}
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {toFixNumber(row.drafKn, 4)}
+                                    {row.drafKn? toFixNumber(row.drafKn, 4) : 0}
                                 </TableCell>
                             </TableRow>
                         ))}
