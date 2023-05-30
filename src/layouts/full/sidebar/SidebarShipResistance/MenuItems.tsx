@@ -114,12 +114,12 @@ import {
       icon: IconCircleDot,
       href: '/dashboard/ship-resistance/stawave/efek-suhu-dan-garam',
     },
-    //{
-    //   id: uniqueId(),
-    //   title: 'Efek Gelombang',
-    //   icon: IconCircleDot,
-    //   href: '/dashboard/ship-resistance/holtrop/TahananKapal',
-    // },
+    {
+      id: uniqueId(),
+      title: 'Efek Gelombang',
+      icon: IconCircleDot,
+      href: '/dashboard/ship-resistance/stawave/efek-gelombang',
+    },
     // {
     //   id: uniqueId(),
     //   title: 'Stawave Method',

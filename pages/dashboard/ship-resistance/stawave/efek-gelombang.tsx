@@ -25,21 +25,20 @@ const Ship = () => {
         return <div>Loading...</div>;
       }
     return (
-        <DashboardCard title="Resistance increase due to water temperature and salt content">
+        <DashboardCard title="Resistance increase due to the effects of 
+        waves">
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
                             <TableCell align="center">No.</TableCell>
                             <TableCell align="center">Vs (Knot)</TableCell>
-                            <TableCell align="center">Temp ( °C )</TableCell>
-                            <TableCell align="center">⍴ (ton/m^3)</TableCell>
-                            <TableCell align="center">ʋ (m^2/s)</TableCell>
-                            <TableCell align="center">(m/s)</TableCell>
-                            <TableCell align="center">RN</TableCell>
-                            <TableCell align="center">Cf</TableCell>
-                            <TableCell align="center">Cfo</TableCell>
-                            <TableCell align="center">RAS</TableCell>
+                            <TableCell align="center">H (m)</TableCell>
+                            <TableCell align="center">ꙍ (rad/s)</TableCell>
+                            <TableCell align="center">S</TableCell>
+                            <TableCell align="center">RWave (N)</TableCell>
+                            <TableCell align="center">ζa</TableCell>
+                            <TableCell align="center">Rawl (N)</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>                    
@@ -55,28 +54,22 @@ const Ship = () => {
                                     {row.knot}
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {row.temp}
+                                    {row.h}
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {ParseJson(row.efekSuhuGaram).PsuhuGaram}
+                                    {row.fita}
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {ParseJson(row.efekSuhuGaram).nu}
+                                    {ParseJson(row.efekGelombang).sn ? toFixNumber(ParseJson(row.efekGelombang).sn, 9) : 0}
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {toFixNumber(row.ms, 3)}
+                                    {ParseJson(row.efekGelombang).rwave ? toFixNumber(ParseJson(row.efekGelombang).rwave, 5) : 0}
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {toFixNumber(ParseJson(row.efekSuhuGaram).RNSuhuGaram, 3)}
+                                    {ParseJson(row.efekGelombang).amp}
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {toFixNumber(ParseJson(row.efekSuhuGaram).CFSuhuGaram, 5)}
-                                </TableCell>
-                                <TableCell align='center'>
-                                    {toFixNumber(row.cf, 5)}
-                                </TableCell>
-                                <TableCell align='center'>
-                                    {ParseJson(row.efekSuhuGaram).RAS? toFixNumber(ParseJson(row.efekSuhuGaram).RAS, 7) : 0}
+                                    {ParseJson(row.efekGelombang).rawl ? toFixNumber(ParseJson(row.efekGelombang).rawl, 5) : 0}
                                 </TableCell>
                             </TableRow>
                         ))}

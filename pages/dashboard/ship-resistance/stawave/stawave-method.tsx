@@ -17,29 +17,22 @@ const Ship = () => {
     const contex = useContext(MyContext);
     const data = contex?.dataResultCalculate;
 
-    const ParseJson = (jsonText: string) => {
-        return JSON.parse(jsonText);
-    }
-
     if (!data) {
         return <div>Loading...</div>;
       }
     return (
-        <DashboardCard title="Resistance increase due to water temperature and salt content">
+        <DashboardCard title="Total Resistance Stawave Method">
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
                             <TableCell align="center">No.</TableCell>
-                            <TableCell align="center">Vs (Knot)</TableCell>
-                            <TableCell align="center">Temp ( °C )</TableCell>
-                            <TableCell align="center">⍴ (ton/m^3)</TableCell>
-                            <TableCell align="center">ʋ (m^2/s)</TableCell>
-                            <TableCell align="center">(m/s)</TableCell>
-                            <TableCell align="center">RN</TableCell>
-                            <TableCell align="center">Cf</TableCell>
-                            <TableCell align="center">Cfo</TableCell>
-                            <TableCell align="center">RAS</TableCell>
+                            <TableCell align="center">Knot</TableCell>
+                            <TableCell align="center">ms</TableCell>
+                            <TableCell align="center">RADIS (N)</TableCell>
+                            <TableCell align="center">RAA (N)</TableCell>
+                            <TableCell align="center">RAS (N)</TableCell>
+                            <TableCell align="center">RAWL (N)</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>                    
@@ -55,28 +48,19 @@ const Ship = () => {
                                     {row.knot}
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {row.temp}
+                                    {row.ywr}
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {ParseJson(row.efekSuhuGaram).PsuhuGaram}
+                                    {row.actualKnot}
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {ParseJson(row.efekSuhuGaram).nu}
+                                    {toFixNumber(row.knotVair, 3)}
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {toFixNumber(row.ms, 3)}
+                                    {toFixNumber(row.msVair, 3)}
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {toFixNumber(ParseJson(row.efekSuhuGaram).RNSuhuGaram, 3)}
-                                </TableCell>
-                                <TableCell align='center'>
-                                    {toFixNumber(ParseJson(row.efekSuhuGaram).CFSuhuGaram, 5)}
-                                </TableCell>
-                                <TableCell align='center'>
-                                    {toFixNumber(row.cf, 5)}
-                                </TableCell>
-                                <TableCell align='center'>
-                                    {ParseJson(row.efekSuhuGaram).RAS? toFixNumber(ParseJson(row.efekSuhuGaram).RAS, 7) : 0}
+                                    {toFixNumber(row.raa, 2)}
                                 </TableCell>
                             </TableRow>
                         ))}

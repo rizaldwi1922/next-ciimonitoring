@@ -1,5 +1,7 @@
 export interface ResultCalculate {
     knot: number,
+    h: number,
+    fita: number,
     ms: number,
     rn: number,
     cf: number,
@@ -20,7 +22,7 @@ export interface ResultCalculate {
     seaMargin: number,
     tops:number,
     aops:number,
-    drafN:number,
+    radis:number,
     drafKn:number,
     knotVair: number, 
     msVair: number, 
@@ -28,5 +30,6 @@ export interface ResultCalculate {
     ywr: number,
     actualKnot: number,
     temp: number,
-    efekSuhuGaram: string
+    efekSuhuGaram: string, 
+    efekGelombang: string
   }
