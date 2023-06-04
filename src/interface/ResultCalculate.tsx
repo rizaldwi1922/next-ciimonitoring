@@ -31,5 +31,6 @@ export interface ResultCalculate {
     actualKnot: number,
     temp: number,
     efekSuhuGaram: string, 
-    efekGelombang: string
+    efekGelombang: string,
+    stawaveMethod: string,
   }

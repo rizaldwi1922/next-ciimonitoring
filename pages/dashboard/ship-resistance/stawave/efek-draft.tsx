@@ -1,4 +1,4 @@
-import {useContext, ReactElement} from 'react';
+import {useContext, ReactElement, useState} from 'react';
 import { MyContext } from '../../../contexts/MyContext';
 import DashboardCard from '../../../../src/components/shared/DashboardCard';
 import {
@@ -8,63 +8,96 @@ import {
     TableContainer,
     TableRow,
     Paper,
-    TableHead
+    TableHead,
+    Box,
+    Tab
 } from '@mui/material';
 import FullLayout from '../../../../src/layouts/full/FullLayout';
 import toFixNumber from '../../../../src/components/function/toFixNumber';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
 
 const Ship = () => {
     const contex = useContext(MyContext);
     const data = contex?.dataResultCalculate;
+    const data2 = contex?.dataResultCalculate2;
+    const [value, setValue] = useState("1");
 
-    if (!data) {
+    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+        setValue(newValue);
+    };
+
+    if (!data || !data2) {
         return <div>Loading...</div>;
       }
     return (
         <DashboardCard title="Resistance increase due to the effects of draft change">
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell align="center">No.</TableCell>
-                            <TableCell align="center">Knot</TableCell>
-                            <TableCell align="center">Tops</TableCell>
-                            <TableCell align="center">Δops</TableCell>
-                            <TableCell align="center">N</TableCell>
-                            <TableCell align="center">KN</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>                    
-                        {data.map((row: any, index) => (
-                            <TableRow
-                                key={row.knot}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
-                                <TableCell align='center'>
-                                    {index + 1}
-                                </TableCell>
-                                <TableCell align='center'>
-                                    {row.knot}
-                                </TableCell>
-                                <TableCell align='center'>
-                                    {row.tops ? toFixNumber(row.tops, 2) : 0}
-                                </TableCell>
-                                <TableCell align='center'>
-                                    {row.aops}
-                                </TableCell>
-                                <TableCell align='center'>
-                                    {row.radis? toFixNumber(row.radis, 2) : 0}
-                                </TableCell>
-                                <TableCell align='center'>
-                                    {row.drafKn? toFixNumber(row.drafKn, 4) : 0}
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+            <div>
+                <TabContext value={value}>
+                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                        <TabList onChange={handleChange} aria-label="lab API tabs example">
+                            <Tab label="SUB-BAJ" value="1" />
+                            <Tab label="BAJ-SUB" value="2" />
+                        </TabList>
+                    </Box>
+                    <TabPanel value="1">
+                        <ContentStawave data={data} />
+                    </TabPanel>
+                    <TabPanel value="2">
+                        <ContentStawave data={data2} />
+                    </TabPanel>
+                </TabContext>
+                
+            </div>
         </DashboardCard>
     )
+}
+
+const ContentStawave = (props: any) => {
+    return (
+            <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell align="center">No.</TableCell>
+                                <TableCell align="center">Knot</TableCell>
+                                <TableCell align="center">Tops</TableCell>
+                                <TableCell align="center">Δops</TableCell>
+                                <TableCell align="center">N</TableCell>
+                                <TableCell align="center">KN</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>                    
+                            {props.data.map((row: any, index: any) => (
+                                <TableRow
+                                    key={row.knot}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                    <TableCell align='center'>
+                                        {index + 1}
+                                    </TableCell>
+                                    <TableCell align='center'>
+                                        {row.knot}
+                                    </TableCell>
+                                    <TableCell align='center'>
+                                        {row.tops ? toFixNumber(row.tops, 2) : 0}
+                                    </TableCell>
+                                    <TableCell align='center'>
+                                        {row.aops}
+                                    </TableCell>
+                                    <TableCell align='center'>
+                                        {row.radis? toFixNumber(row.radis, 2) : 0}
+                                    </TableCell>
+                                    <TableCell align='center'>
+                                        {row.drafKn? toFixNumber(row.drafKn, 4) : 0}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+    );
 }
 export default Ship;
 Ship.getLayout = function getLayout(page: ReactElement) {

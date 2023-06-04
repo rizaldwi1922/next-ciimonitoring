@@ -44,8 +44,9 @@ const Ship = () => {
     // const [lwl, setLwl] = useState(0);
     // const [bwl, setBwl] = useState(0);
     // const [cp, setCp] = useState(0);
+   // const fita = 0.1;
     const tops = 5.75;
-    const aops = 9804.4;
+    //const aops = 9804.4;
     const g = 9.81;
     const p = 1023.3873/1000;
     const LCB = 55.078;
@@ -141,6 +142,116 @@ const Ship = () => {
         { Knot: 6.7, Temp: 23, YWR: 44, actualKnot: 11, H: 1.0, Fita: 39.46 },
         { Knot: 5.4, Temp: 23, YWR: 45, actualKnot: 11, H: 1.0, Fita: 39.46 }
       ];
+
+      const listKnot2 = [
+        { Knot: 0, Temp: 27, YWR: 0, actualKnot: 0, H: 0, Fita: 0 },
+        { Knot: 5.5, Temp: 27, YWR: 225, actualKnot: 9, H: 0.87, Fita: 39.46 },
+        { Knot: 6.5, Temp: 27, YWR: 224, actualKnot: 9, H: 0.87, Fita: 39.46 },
+        { Knot: 7.6, Temp: 27, YWR: 196, actualKnot: 9, H: 0.87, Fita: 39.46 },
+        { Knot: 7.7, Temp: 27, YWR: 187, actualKnot: 9, H: 0.87, Fita: 39.46 },
+        { Knot: 8.7, Temp: 27, YWR: 169, actualKnot: 9, H: 0.87, Fita: 39.46 },
+        { Knot: 8.7, Temp: 27, YWR: 153, actualKnot: 9, H: 0.87, Fita: 39.46 },
+        { Knot: 8.7, Temp: 27, YWR: 184, actualKnot: 9, H: 0.87, Fita: 39.46 },
+        { Knot: 8.5, Temp: 27, YWR: 191, actualKnot: 9, H: 0.87, Fita: 39.46 },
+        { Knot: 8.6, Temp: 27, YWR: 194, actualKnot: 9, H: 0.87, Fita: 39.46 },
+        { Knot: 8.7, Temp: 27, YWR: 186, actualKnot: 9, H: 0.87, Fita: 39.46 },
+        { Knot: 9.3, Temp: 27, YWR: 190, actualKnot: 9, H: 0.87, Fita: 39.46 },
+        { Knot: 9.3, Temp: 27, YWR: 182, actualKnot: 9, H: 0.87, Fita: 39.46 },
+        { Knot: 11.8, Temp: 27, YWR: 195, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 11.8, Temp: 27, YWR: 205, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 12.1, Temp: 27, YWR: 206, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 10.2, Temp: 27, YWR: 205, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.9, Temp: 27, YWR: 206, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.8, Temp: 27, YWR: 205, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.7, Temp: 27, YWR: 205, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.7, Temp: 27, YWR: 204, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.6, Temp: 27, YWR: 210, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.7, Temp: 27, YWR: 210, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.7, Temp: 27, YWR: 213, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.8, Temp: 27, YWR: 210, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.7, Temp: 23, YWR: 211, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.7, Temp: 23, YWR: 214, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.8, Temp: 23, YWR: 210, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.8, Temp: 23, YWR: 214, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.7, Temp: 23, YWR: 214, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.7, Temp: 23, YWR: 211, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.7, Temp: 23, YWR: 213, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.7, Temp: 23, YWR: 212, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.6, Temp: 23, YWR: 212, actualKnot: 8, H: 0.7, Fita: 7.89 },
+        { Knot: 9.6, Temp: 23, YWR: 214, actualKnot: 8, H: 0.7, Fita: 7.89 },
+        { Knot: 9.2, Temp: 23, YWR: 215, actualKnot: 8, H: 0.7, Fita: 7.89 },
+        { Knot: 9.1, Temp: 23, YWR: 212, actualKnot: 8, H: 0.7, Fita: 3.59 },
+        { Knot: 9.1, Temp: 23, YWR: 212, actualKnot: 5, H: 0.18, Fita: 3.59 },
+        { Knot: 8.5, Temp: 23, YWR: 200, actualKnot: 5, H: 0.18, Fita: 3.59 },
+        { Knot: 8.3, Temp: 23, YWR: 215, actualKnot: 5, H: 0.18, Fita: 3.59 },
+        { Knot: 7.6, Temp: 23, YWR: 203, actualKnot: 5, H: 0.18, Fita: 3.59 },
+        { Knot: 7.5, Temp: 23, YWR: 190, actualKnot: 5, H: 0.18, Fita: 3.59 },
+        { Knot: 6.8, Temp: 23, YWR: 178, actualKnot: 5, H: 0.18, Fita: 3.59 },
+        { Knot: 6.7, Temp: 23, YWR: 175, actualKnot: 5, H: 0.18, Fita: 3.59 },
+        { Knot: 6.5, Temp: 23, YWR: 58, actualKnot: 5, H: 0.18, Fita: 3.59 },
+        { Knot: 5.3, Temp: 23, YWR: 58, actualKnot: 5, H: 0.18, Fita: 3.59 }
+      ];
+
+      const Nm = [
+        0.00,
+        0.60,
+        0.73,
+        1.03,
+        1.05,
+        3.32,
+        2.53,
+        3.10,
+        1.31,
+        3.24,
+        5.11,
+        1.34,
+        6.90,
+        6.50,
+        6.20,
+        7.00,
+        8.50,
+        8.30,
+        7.00,
+        6.60,
+        7.00,
+        10.10,
+        8.00,
+        7.50,
+        8.70,
+        9.50,
+        8.50,
+        7.00,
+        7.00,
+        6.90,
+        10.20,
+        11.30,
+        7.60,
+        9.80,
+        16.70,
+        8.00,
+        8.10,
+        10.70,
+        0.51,
+        8.17,
+        0.67,
+        3.07,
+        1.02,
+        0.62,
+        0.55,
+        0.66,
+        0.80,
+        1.23,
+        2.33,
+        1.96,
+]
+
+    const [Mtot, setMtot] = useState(0);
+    const [radisTot, setRadisTot] = useState(0);
+    const [raaTot, setRaaTot] = useState(0);
+    const [rasTot, setRasTot] = useState(0);
+    const [rawlTot, setRawlTot] = useState(0);
+    type EHPInterface = number[];
+    const [EHP, setEHP] = useState<EHPInterface>([]);
 
     const paramterHoltrop = () => {
         const txtQualify = "Memenuhi parameter Holtrop";
@@ -243,7 +354,7 @@ const Ship = () => {
         return 0.5 * Acf * p * S * ms ** 2;
     }
 
-    const efekDraft = () => {
+    const efekDraft = (aops: number) => {
         const eRT = 186274.2795;
         const N = 0.65 * eRT * ((Displ / aops) - 1);
         const kN = N/1000;
@@ -274,7 +385,7 @@ const Ship = () => {
         //console.log("Rt", toFixNumber(RT, 4));
         return JSON.stringify(obj);
     }
-    const efekGelombang = (h: number, ms: number, fita: number, PsuhuGaram: number) => {
+    const efekGelombang = (h: number, ms: number, PsuhuGaram: number, fita: number) => {
         const amplitudo = 0.5 * h;
         const fn = ms / (g * lwl);
         const LE = 26.185;
@@ -304,14 +415,43 @@ const Ship = () => {
         return JSON.stringify(obj);
     }
 
-    const stawaveMethod = () => {
-        
+
+    const stawaveMethod = (rds: number, raa: number, rt: number, objSuhuGaram: string, objStw: string) => {
+        const Stawave = JSON.parse(objStw);
+        const SuhuGaram = JSON.parse(objSuhuGaram);
+        const Rstawave = rds + raa + SuhuGaram.RAS + Stawave.rawl;
+        const Rholtrop = rt * 1000;
+        const RTotal = Rstawave + Rholtrop;
+        const jsonObj =  {Rstawave: Rstawave, Rholtrop: Rholtrop, RTotal: RTotal};
+        return JSON.stringify(jsonObj);
     }
 
-    const onCalculate = () => {
-        paramterHoltrop()
+    const correctiveResistance = (Nm: number, radis: number, raa: number, objSuhuGaram: string, objStw: string, objMethod: string) => {
+        const m = 1852 * Nm;
+        const radisXd = radis * m;
+        const raaXd = raa * m;
+        const Stawave = JSON.parse(objStw);
+        const SuhuGaram = JSON.parse(objSuhuGaram);
+        const stwvMthod = JSON.parse(objMethod);
+        const RASxD = SuhuGaram.RAS * m;
+        const RawlxD = Stawave.rawl * m;
+        const ehp = stwvMthod.RTotal * m;
+
+        setMtot(Mtot + m);
+        setRadisTot(radisTot + radisXd);
+        setRaaTot(raaTot + raaXd);
+        setRasTot(rasTot + RASxD);
+        setRawlTot(rawlTot + RawlxD);
+        setEHP([...EHP, ehp]);
+
+        const obj = {m: m, radisXd:radisXd, raaXd: raaXd, RASxD: RASxD, RawlxD: RawlxD, ehp: ehp};
+        return JSON.stringify(obj);
+
+    }
+
+    const calculateData = (arrayData: any, aops: number) => {
         const result: ResultCalculate[] = [];
-        listKnot.map((item, index) => {
+        arrayData.map((item: any, index: number) => {
             const ms = item.Knot * 0.514444;
             const hitunganTahanan = perhitunganTahanan(ms);
             const k1 = formFactor(hitunganTahanan.rf);
@@ -323,10 +463,13 @@ const Ship = () => {
             const immersed = immersedTransform(ms);
             const rt = k1 + rapp + gelombang.Rw + bulbousBow.RB + ra + RAf + immersed.Rtr;
             const seaMargin = rt + (0.15 * rt);
-            const draft = efekDraft();
+            const draft = efekDraft(aops);
             const angin = efekAngin(item.actualKnot, item.YWR);
             const vs = index < 25 ? 0.90331 : 0.98457;
             const PsuhuGaram = index < 25 ? 1022.7626/1000 : 1023.9808/1000;
+            const efekSuhuGaram = efekSuhuDanGaram(ms, hitunganTahanan.cf, vs, PsuhuGaram);
+            const waveResistance = efekGelombang(item.H, ms, PsuhuGaram, item.Fita);
+            const waveMethod = stawaveMethod(draft.N, angin.raa, rt, efekSuhuGaram, waveResistance);
             result.push({
                 knot: item.Knot,
                 h: item.H,
@@ -359,11 +502,20 @@ const Ship = () => {
                 ywr: item.YWR,
                 actualKnot: item.actualKnot,
                 temp: item.Temp,
-                efekSuhuGaram: efekSuhuDanGaram(ms, hitunganTahanan.cf, vs, PsuhuGaram),
-                efekGelombang: efekGelombang(item.H, ms, item.Fita, PsuhuGaram)
+                efekSuhuGaram: efekSuhuGaram,
+                efekGelombang: waveResistance,
+                stawaveMethod: waveMethod,
             })
         })
-        context?.setDataResultCalculate(result);
+        return result;
+    }
+
+    const onCalculate = () => {
+        paramterHoltrop()
+
+        context?.setDataResultCalculate(calculateData(listKnot, 9804.4));
+        context?.setDataResultCalculate2(calculateData(listKnot2, 9710.4));
+        //context?.setRCorrect(arrayCorrect);
        // console.log("Result", JSON.parse(result[0].efekSuhuGaram));
         toast.success('Perhitungan selesai!', {
             position: "top-right",

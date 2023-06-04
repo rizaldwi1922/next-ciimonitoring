@@ -63,6 +63,12 @@ import {
             borderColor: 'rgb(53, 162, 235)',
             backgroundColor: 'rgba(53, 162, 235, 0.5)',
           },
+          {
+            label: 'Knot',
+            data: data.map((item) => item.knot),
+            borderColor: '#F79327',
+            backgroundColor: '#FFE569',
+          },
         ],
       };
 

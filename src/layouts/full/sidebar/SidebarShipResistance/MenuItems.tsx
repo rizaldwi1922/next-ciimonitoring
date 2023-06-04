@@ -130,7 +130,7 @@ import {
     //   id: uniqueId(),
     //   title: 'Corrective Resistance',
     //   icon: IconCircleDot,
-    //   href: '/dashboard/ship-resistance/holtrop/TahananKapal',
+    //   href: '/dashboard/ship-resistance/stawave/corrective-resistance',
     // },
     // {
     //   id: uniqueId(),
