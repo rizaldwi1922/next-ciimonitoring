@@ -28,8 +28,9 @@ const ShipTrackerPosition = () => {
    // aisDecoder.on('error', err => console.error("Malah Error", err));
     aisDecoder.on('data', decodedMessage => {
       const Ships = JSON.parse(decodedMessage);
-      if(Ships.mmsi == 525401266){
-        console.log("KM. DHARMA FERRY V", Ships);
+     // console.log("KM. DHARMA FERRY V", Ships);
+      if(Ships.mmsi == 525125017){
+        console.log("Meratus Padang", Ships);
         //setCoordinates({ lon: Ships.lon, lat: Ships.lat });
       }
     });
@@ -44,7 +45,7 @@ const ShipTrackerPosition = () => {
         if(item){
           var actualAIS = item.replace('\r','');
           //console.log("AIS ->", item);
-          aisDecoder.write("!AIVDM,1,1,,B,17ldTr00007Ug:qtTup=m8QP2618,0*02");
+          aisDecoder.write(actualAIS);
         }
       })
    });

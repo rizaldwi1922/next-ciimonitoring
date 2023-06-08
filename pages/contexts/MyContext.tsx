@@ -10,6 +10,8 @@ interface MyContextProps {
   setDataResultCalculate2: React.Dispatch<React.SetStateAction<ResultCalculate[]>>;
   dataParameterHoltrop: ParameterHoltrop[] | undefined;
   setDataParameterHoltrop: React.Dispatch<React.SetStateAction<ParameterHoltrop[]>>;
+  dataParameterHoltrop2: ParameterHoltrop[] | undefined;
+  setDataParameterHoltrop2: React.Dispatch<React.SetStateAction<ParameterHoltrop[]>>;
   RCorrect: interfaceRcorrect | undefined;
   setRCorrect:  React.Dispatch<React.SetStateAction<interfaceRcorrect>>;
 }
@@ -27,6 +29,7 @@ const MyContextProvider: React.FC<MyContextProviderProps> = ({ children }) => {
   const [dataResultCalculate, setDataResultCalculate] = useState<ResultCalculate[]>([]);
   const [dataResultCalculate2, setDataResultCalculate2] = useState<ResultCalculate[]>([]);
   const [dataParameterHoltrop, setDataParameterHoltrop] = useState<ParameterHoltrop[]>([]);
+  const [dataParameterHoltrop2, setDataParameterHoltrop2] = useState<ParameterHoltrop[]>([]);
   const [RCorrect, setRCorrect] = useState<interfaceRcorrect>([]);
   
 
@@ -38,6 +41,8 @@ const MyContextProvider: React.FC<MyContextProviderProps> = ({ children }) => {
       setDataResultCalculate2,
       dataParameterHoltrop,
       setDataParameterHoltrop,
+      dataParameterHoltrop2,
+      setDataParameterHoltrop2,
       RCorrect,
       setRCorrect
     }}>

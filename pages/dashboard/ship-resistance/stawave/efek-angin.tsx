@@ -49,7 +49,6 @@ const Ship = () => {
                         <ContentStawave data={data2} />
                     </TabPanel>
                 </TabContext>
-                
             </div>
         </DashboardCard>
     )
