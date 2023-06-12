@@ -89,6 +89,7 @@ const Ship = () => {
     const mikrometer = 150;
     const Ks = mikrometer * 10 ** -6;
     const Acf = (105 * ((Ks/lwl) ** (1/3)) - 0.64) / 10 ** 3;
+    const sudutAngin = 270+45+22.5;
 
     const listKnot = [
         { Knot: 0, Temp: 27, YWR: 0, actualKnot: 0, H: 0, Fita: 0 },
@@ -367,20 +368,18 @@ const Ship = () => {
         const Af = 3*10+(2.7*13)*5+2.7*b+(h-t)*b;
         const angleInDegrees = ywr;
         const angleInRadians = angleInDegrees * (Math.PI / 180);
-        const knotVair = Math.cos(angleInRadians) * actualKnot;
+        const knotVair = ywr > 90 ? 0 : Math.cos(angleInRadians) * actualKnot;
         const msVair = knotVair * 0.514444;
         const raa = 0.5 * pA * msVair ** 2 * CxDefault * Af;
         return {knotVair: knotVair, msVair: msVair, raa: raa}
     }
 
 
-    const efekSuhuDanGaram = (ms: number, cf: number, vs:number, PsuhuGaram: number) => {
-        const RT = 186274.2795;
-        const Rf = 106661;
+    const efekSuhuDanGaram = (ms: number, cf: number, vs:number, PsuhuGaram: number, rt: number, rf: number) => {
         const nu = vs*(10 ** -6);
         const RNSuhuGaram = (lwl * ms) / nu;
         const CFSuhuGaram = 0.075 / (Math.log10(RNSuhuGaram)-2) ** 2;
-        const RAS = Math.abs(RT * (1 - (PsuhuGaram / p)) - Rf * (1 - (CFSuhuGaram / cf)));
+        const RAS = rt * (1 - (PsuhuGaram / p)) - rf * (1 - (CFSuhuGaram / cf));
         const obj = {PsuhuGaram: PsuhuGaram, nu: nu, RNSuhuGaram: RNSuhuGaram, CFSuhuGaram: CFSuhuGaram, RAS:RAS};
         //console.log("Rt", toFixNumber(RT, 4));
         return JSON.stringify(obj);
@@ -419,8 +418,8 @@ const Ship = () => {
     const stawaveMethod = (rds: number, raa: number, rt: number, objSuhuGaram: string, objStw: string) => {
         const Stawave = JSON.parse(objStw);
         const SuhuGaram = JSON.parse(objSuhuGaram);
-        const Rstawave = rds + raa + SuhuGaram.RAS + Stawave.rawl;
-        const Rholtrop = rt * 1000;
+        const Rstawave = (rds + raa + SuhuGaram.RAS + Stawave.rawl) / 1000;
+        const Rholtrop = rt;
         const RTotal = Rstawave + Rholtrop;
         const jsonObj =  {Rstawave: Rstawave, Rholtrop: Rholtrop, RTotal: RTotal};
         return JSON.stringify(jsonObj);
@@ -464,10 +463,11 @@ const Ship = () => {
             const rt = k1 + rapp + gelombang.Rw + bulbousBow.RB + ra + RAf + immersed.Rtr;
             const seaMargin = rt + (0.15 * rt);
             const draft = efekDraft(aops);
-            const angin = efekAngin(item.actualKnot, item.YWR);
+            const ywr = item.YWR > 90 ? sudutAngin - item.YWR : (360 - sudutAngin) + item.YWR;
+            const angin = efekAngin(item.actualKnot, ywr);
             const vs = index < 25 ? 0.90331 : 0.98457;
             const PsuhuGaram = index < 25 ? 1022.7626/1000 : 1023.9808/1000;
-            const efekSuhuGaram = efekSuhuDanGaram(ms, hitunganTahanan.cf, vs, PsuhuGaram);
+            const efekSuhuGaram = efekSuhuDanGaram(ms, hitunganTahanan.cf, vs, PsuhuGaram, rt * 1000, k1 * 1000);
             const waveResistance = efekGelombang(item.H, ms, PsuhuGaram, item.Fita);
             const waveMethod = stawaveMethod(draft.N, angin.raa, rt, efekSuhuGaram, waveResistance);
             result.push({
@@ -499,7 +499,7 @@ const Ship = () => {
                 knotVair: angin.knotVair, 
                 msVair: angin.msVair, 
                 raa: angin.raa,
-                ywr: item.YWR,
+                ywr: ywr,
                 actualKnot: item.actualKnot,
                 temp: item.Temp,
                 efekSuhuGaram: efekSuhuGaram,

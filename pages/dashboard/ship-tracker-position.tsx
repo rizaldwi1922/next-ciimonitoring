@@ -29,10 +29,10 @@ const ShipTrackerPosition = () => {
     aisDecoder.on('data', decodedMessage => {
       const Ships = JSON.parse(decodedMessage);
      // console.log("KM. DHARMA FERRY V", Ships);
-      if(Ships.mmsi == 525125017){
-        console.log("Meratus Padang", Ships);
+      //if(Ships.mmsi == 525125017){
+        console.log("Data Kapal", Ships);
         //setCoordinates({ lon: Ships.lon, lat: Ships.lat });
-      }
+      //}
     });
    
     const socket:Socket = io(AIS, {

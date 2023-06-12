@@ -94,7 +94,7 @@ import {
     },
     {
       navlabel: true,
-      subheader: 'Stawave',
+      subheader: 'TOTAL RESISTANCE',
     },
     {
       id: uniqueId(),

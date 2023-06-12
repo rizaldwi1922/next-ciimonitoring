@@ -106,10 +106,10 @@ const ContentStawave = (props: any) => {
                                     {ParseJson(row.efekGelombang).rawl ? toFixNumber(ParseJson(row.efekGelombang).rawl, 5) : 0}
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {Math.floor(ParseJson(row.stawaveMethod).Rstawave)}
+                                    {toFixNumber(ParseJson(row.stawaveMethod).Rstawave, 2)}
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {ParseJson(row.stawaveMethod).Rholtrop ? ParseJson(row.stawaveMethod).Rholtrop : 0}
+                                    {ParseJson(row.stawaveMethod).Rholtrop ? toFixNumber(ParseJson(row.stawaveMethod).Rholtrop,2) : 0}
                                 </TableCell>
                                 <TableCell align='center'>
                                     {ParseJson(row.stawaveMethod).RTotal ? ParseJson(row.stawaveMethod).RTotal : 0}

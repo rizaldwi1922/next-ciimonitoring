@@ -73,19 +73,13 @@ import {
                     <Line 
                       options={options} 
                       data={{ 
-                        labels: data.map((item) => item.knot),
+                        labels: data.map((item, index) => index + 1),
                         datasets: [
                           {
                             label: 'Tahanan',
                             data: data.map((item) => item.rt),
                             borderColor: 'rgb(255, 99, 132)',
                             backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                          },
-                          {
-                            label: 'Tahahan + Sea Margin',
-                            data: data.map((item) => item.seaMargin),
-                            borderColor: 'rgb(53, 162, 235)',
-                            backgroundColor: 'rgba(53, 162, 235, 0.5)',
                           },
                           {
                             label: 'Knot',
@@ -101,19 +95,13 @@ import {
                     <Line 
                       options={options} 
                       data={{ 
-                        labels: data2.map((item) => item.knot),
+                        labels: data2.map((item, index) => index + 1),
                         datasets: [
                           {
                             label: 'Tahanan',
                             data: data2.map((item) => item.rt),
                             borderColor: 'rgb(255, 99, 132)',
                             backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                          },
-                          {
-                            label: 'Tahahan + Sea Margin',
-                            data: data2.map((item) => item.seaMargin),
-                            borderColor: 'rgb(53, 162, 235)',
-                            backgroundColor: 'rgba(53, 162, 235, 0.5)',
                           },
                           {
                             label: 'Knot',

@@ -71,7 +71,7 @@ const ContentStawave = (props: any) => {
                             <TableCell align="center">RA (kN)</TableCell>
                             <TableCell align="center">RΔf (kN)</TableCell>
                             <TableCell align="center">RT (kN)</TableCell>
-                            <TableCell align="center">RT + sea margin (kN)</TableCell>
+                           
                         </TableRow>
                     </TableHead>
                     <TableBody>                   
@@ -113,9 +113,7 @@ const ContentStawave = (props: any) => {
                                 <TableCell align='center'>
                                     {toFixNumber(row.rt,2)}
                                 </TableCell>
-                                <TableCell align='center'>
-                                    {toFixNumber(row.seaMargin, 2)}
-                                </TableCell>
+                              
                             </TableRow>
                         ))}
                     </TableBody>
