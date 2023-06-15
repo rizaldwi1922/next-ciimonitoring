@@ -1,6 +1,7 @@
 import React, { createContext, useState } from 'react';
 import { ParameterHoltrop } from '../../src/interface/ParameterHoltrop';
 import { ResultCalculate } from '../../src/interface/ResultCalculate';
+import { ResultPower } from '../../src/interface/ResultPower';
 
 // Buat konteks
 interface MyContextProps {
@@ -12,16 +13,18 @@ interface MyContextProps {
   setDataParameterHoltrop: React.Dispatch<React.SetStateAction<ParameterHoltrop[]>>;
   dataParameterHoltrop2: ParameterHoltrop[] | undefined;
   setDataParameterHoltrop2: React.Dispatch<React.SetStateAction<ParameterHoltrop[]>>;
-  RCorrect: interfaceRcorrect | undefined;
-  setRCorrect:  React.Dispatch<React.SetStateAction<interfaceRcorrect>>;
+  power: ResultPower[] | undefined;
+  setPower: React.Dispatch<React.SetStateAction<ResultPower[]>>;
+  power2: ResultPower[] | undefined;
+  setPower2: React.Dispatch<React.SetStateAction<ResultPower[]>>;
 }
+
 
 export const MyContext = createContext<MyContextProps | undefined>(undefined);
 
 interface MyContextProviderProps {
   children: React.ReactNode;
 }
-type interfaceRcorrect = number[];
 
 
 // Buat provider untuk konteks
@@ -30,7 +33,8 @@ const MyContextProvider: React.FC<MyContextProviderProps> = ({ children }) => {
   const [dataResultCalculate2, setDataResultCalculate2] = useState<ResultCalculate[]>([]);
   const [dataParameterHoltrop, setDataParameterHoltrop] = useState<ParameterHoltrop[]>([]);
   const [dataParameterHoltrop2, setDataParameterHoltrop2] = useState<ParameterHoltrop[]>([]);
-  const [RCorrect, setRCorrect] = useState<interfaceRcorrect>([]);
+  const [power, setPower] = useState<ResultPower[]>([]);
+  const [power2, setPower2] = useState<ResultPower[]>([]);
   
 
   return (
@@ -43,8 +47,10 @@ const MyContextProvider: React.FC<MyContextProviderProps> = ({ children }) => {
       setDataParameterHoltrop,
       dataParameterHoltrop2,
       setDataParameterHoltrop2,
-      RCorrect,
-      setRCorrect
+      power,
+      setPower,
+      power2,
+      setPower2
     }}>
       {children}
     </MyContext.Provider>

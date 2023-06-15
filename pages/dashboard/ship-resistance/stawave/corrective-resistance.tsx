@@ -16,9 +16,8 @@ import toFixNumber from '../../../../src/components/function/toFixNumber';
 const Ship = () => {
     const contex = useContext(MyContext);
     const data = contex?.dataResultCalculate;
-    const RCorrect = contex?.RCorrect;
 
-    if (!data || !RCorrect) {
+    if (!data) {
         return <div>Loading...</div>;
       }
 
@@ -78,7 +77,7 @@ const Ship = () => {
                                     {ParseJson(row.correctiveResistance).ehp? toFixNumber(ParseJson(row.correctiveResistance).ehp, 2) : 0}
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {RCorrect[index]}
+                                  
                                 </TableCell>
                             </TableRow>
                         ))}

@@ -47,15 +47,15 @@ import {
       },
       title: {
         display: true,
-        text: 'Tahanan kapal MV MERATUS PADANGPADA PELAYARAN SURABAYA - BANJARMASIN',
+        text: 'BHP Main Engine Kapal',
       },
     },
   };
 
 const Ship = () => {
     const contex = useContext(MyContext);
-    const data = contex?.dataResultCalculate;
-    const data2 = contex?.dataResultCalculate2;
+    const data = contex?.power;
+    const data2 = contex?.power2;
     const [value, setValue] = useState("1");
 
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -67,7 +67,7 @@ const Ship = () => {
     }
 
     return (
-        <DashboardCard title="Total Resistance Stawave Method">
+        <DashboardCard title="Power">
             <div>
                 <TabContext value={value}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -91,10 +91,6 @@ const Ship = () => {
 
 const ContentStawave = (props: any) => {
     
-    const ParseJson = (jsonText: string) => {
-        return JSON.parse(jsonText);
-    }
-    
     return (
         <Box>
             <Box>
@@ -105,19 +101,21 @@ const ContentStawave = (props: any) => {
                                 <TableCell align="center">No.</TableCell>
                                 <TableCell align="center">Knot</TableCell>
                                 <TableCell align="center">ms</TableCell>
-                                <TableCell align="center">RADIS (N)</TableCell>
-                                <TableCell align="center">RAA (N)</TableCell>
-                                <TableCell align="center">RAS (N)</TableCell>
-                                <TableCell align="center">RAWL (N)</TableCell>
-                                <TableCell align="center">Rstawave (N)</TableCell>
                                 <TableCell align="center">Rholtrop (N)</TableCell>
+                                <TableCell align="center">Stawave (N)</TableCell>
+                                <TableCell align="center">RCorrect (N)</TableCell>
                                 <TableCell align="center">Rtotal (N)</TableCell>
+                                <TableCell align="center">EHP (kW)</TableCell>
+                                <TableCell align="center">THP (kW)</TableCell>
+                                <TableCell align="center">DHP (kW)</TableCell>
+                                <TableCell align="center">SHP (kW)</TableCell>
+                                <TableCell align="center">BHP (kW)</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>                    
                             {props.data.map((row: any, index: any) => (
                                 <TableRow
-                                    key={row.knot}
+                                    key={row.index}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
                                     <TableCell align='center'>
@@ -127,28 +125,34 @@ const ContentStawave = (props: any) => {
                                         {row.knot}
                                     </TableCell>
                                     <TableCell align='center'>
-                                        {row.ms}
+                                        {toFixNumber(row.ms, 3)}
                                     </TableCell>
                                     <TableCell align='center'>
-                                        {row.radis? toFixNumber(row.radis, 2) : 0}
+                                        {row.Rholtrop ? toFixNumber(row.Rholtrop, 2) : 0}
                                     </TableCell>
                                     <TableCell align='center'>
-                                        {toFixNumber(row.raa, 2)}
+                                        {toFixNumber(row.Stawave, 2)}
                                     </TableCell>
                                     <TableCell align='center'>
-                                        {ParseJson(row.efekSuhuGaram).RAS? toFixNumber(ParseJson(row.efekSuhuGaram).RAS, 7) : 0}
+                                        {toFixNumber(row.Rcorrect, 2)}
                                     </TableCell>
                                     <TableCell align='center'>
-                                        {ParseJson(row.efekGelombang).rawl ? toFixNumber(ParseJson(row.efekGelombang).rawl, 5) : 0}
+                                        {row.Rtotal ? toFixNumber(row.Rtotal, 2) : 0}
                                     </TableCell>
                                     <TableCell align='center'>
-                                        {toFixNumber(ParseJson(row.stawaveMethod).Rstawave, 2)}
+                                        {row.EHP ? Math.round(row.EHP) : 0}
                                     </TableCell>
                                     <TableCell align='center'>
-                                        {ParseJson(row.stawaveMethod).Rholtrop ? toFixNumber(ParseJson(row.stawaveMethod).Rholtrop,2) : 0}
+                                        {row.THP ? Math.round(row.THP) : 0}
                                     </TableCell>
                                     <TableCell align='center'>
-                                        {ParseJson(row.stawaveMethod).RTotal ? ParseJson(row.stawaveMethod).RTotal : 0}
+                                        {row.DHP ? Math.round(row.DHP) : 0}
+                                    </TableCell>
+                                    <TableCell align='center'>
+                                        {row.SHP ? Math.round(row.SHP) : 0}
+                                    </TableCell>
+                                    <TableCell align='center'>
+                                        {row.BHP ? Math.round(row.BHP) : 0}
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -163,29 +167,11 @@ const ContentStawave = (props: any) => {
                         labels: props.data.map((item: any, index: number) => index + 1),
                         datasets: [
                             {
-                                label: 'Kecepatan',
-                                data: props.data.map((item: any) => item.knot),
+                                label: 'BHP Engine Kapal',
+                                data: props.data.map((item: any) => item.BHP),
                                 borderColor: '#0079FF',
                                 backgroundColor: '#00C4FF',
-                            },
-                            {
-                                label: 'Holtrop',
-                                data: props.data.map((item: any) => ParseJson(item.stawaveMethod).Rholtrop ? toFixNumber(ParseJson(item.stawaveMethod).Rholtrop,2) : 0),
-                                borderColor: '#F29727',
-                                backgroundColor: '#F24C3D',
-                            },
-                            {
-                                label: 'Stawave',
-                                data: props.data.map((item: any) => toFixNumber(ParseJson(item.stawaveMethod).Rstawave, 2)),
-                                borderColor: '#9BCDD2',
-                                backgroundColor: '#FAF0E4',
-                            },
-                            {
-                                label: 'Tahanan Total',
-                                data: props.data.map((item: any) => ParseJson(item.stawaveMethod).RTotal ? ParseJson(item.stawaveMethod).RTotal : 0),
-                                borderColor: '#F2BE22',
-                                backgroundColor: '#F6FA70',
-                            },
+                            }
                         ],
                       }}  
                 />

@@ -142,6 +142,18 @@ import {
       navlabel: true,
       subheader: 'Power and Fuel',
     },
+    {
+      id: uniqueId(),
+      title: 'Power',
+      icon: IconCircleDot,
+      href: '/dashboard/ship-resistance/power-and-fuel/power',
+    },
+    {
+      id: uniqueId(),
+      title: 'Fuel',
+      icon: IconCircleDot,
+      href: '/dashboard/ship-resistance/power-and-fuel/fuel',
+    },
   
   ];
   

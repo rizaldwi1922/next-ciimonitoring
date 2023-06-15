@@ -32,5 +32,5 @@ export interface ResultCalculate {
     temp: number,
     efekSuhuGaram: string, 
     efekGelombang: string,
-    stawaveMethod: string,
+    stawaveMethod: string
   }

@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import { MyContext } from '../../contexts/MyContext';
 import { ParameterHoltrop } from '../../../src/interface/ParameterHoltrop';
 import { ResultCalculate } from '../../../src/interface/ResultCalculate';
+import { ResultPower } from '../../../src/interface/ResultPower';
 import toFixNumber from '../../../src/components/function/toFixNumber';
 import { 
     TextField,
@@ -246,13 +247,54 @@ const Ship = () => {
         1.96,
 ]
 
-    const [Mtot, setMtot] = useState(0);
-    const [radisTot, setRadisTot] = useState(0);
-    const [raaTot, setRaaTot] = useState(0);
-    const [rasTot, setRasTot] = useState(0);
-    const [rawlTot, setRawlTot] = useState(0);
-    type EHPInterface = number[];
-    const [EHP, setEHP] = useState<EHPInterface>([]);
+const Nm2 = [
+    0.00,
+    1.96,
+    2.33,
+    1.23,
+    0.80,
+    0.66,
+    0.55,
+    0.62,
+    1.02,
+    3.07,
+    0.67,
+    8.17,
+    0.51,
+    10.70,
+    16.10,
+    16.70,
+    9.80,
+    7.60,
+    11.00,
+    10.20,
+    6.90,
+    7.00,
+    7.00,
+    8.50,
+    9.50,
+    8.70,
+    7.50,
+    8.00,
+    10.10,
+    7.00,
+    6.60,
+    7.30,
+    8.30,
+    8.50,
+    7.00,
+    6.20,
+    6.50,
+    6.90,
+    5.00,
+    3.40,
+    1.50,
+    2.80,
+    2.70,
+    2.60,
+    1.40,
+    2.50
+  ];
 
     const paramterHoltrop = () => {
         const txtQualify = "Memenuhi parameter Holtrop";
@@ -436,20 +478,85 @@ const Ship = () => {
         const RawlxD = Stawave.rawl * m;
         const ehp = stwvMthod.RTotal * m;
 
-        setMtot(Mtot + m);
-        setRadisTot(radisTot + radisXd);
-        setRaaTot(raaTot + raaXd);
-        setRasTot(rasTot + RASxD);
-        setRawlTot(rawlTot + RawlxD);
-        setEHP([...EHP, ehp]);
+        // setMtot(Mtot + m);
+        // setRadisTot(radisTot + radisXd);
+        // setRaaTot(raaTot + raaXd);
+        // setRasTot(rasTot + RASxD);
+        // setRawlTot(rawlTot + RawlxD);
+        // setEHP([...EHP, ehp]);
 
         const obj = {m: m, radisXd:radisXd, raaXd: raaXd, RASxD: RASxD, RawlxD: RawlxD, ehp: ehp};
-        return JSON.stringify(obj);
+        return obj;
 
     }
 
-    const calculateData = (arrayData: any, aops: number) => {
+    const calculateRcorrect = (ehp: any, m: number, radisXd:number, raaXd: number, RASxD: number, RawlxD: number) => {
+        const result: number[] = [];
+        ehp.map((item: any) => {
+            const res = (item - radisXd - raaXd - RASxD - RawlxD) / m;
+            result.push(res)
+        })
+        return result;
+    }
+
+    const power = (Rcorrect: any, data: any) => {
+        const result: ResultPower[] = [];
+        data.map((item: any, index: number) => {
+            const Stawave = JSON.parse(item.stawaveMethod);
+            const CB1 =	0.7;	
+            const w1 = 0.091;
+            const CB2 =	0.75;
+            const w2 = 0.143;
+            const w = (((CB - CB1) * (w2-w1)) / (CB2-CB1) + w1);
+            const Tt = 0.7 * w + 0.06;
+            const nH = (1-Tt) / (1-w);
+            const nR = 0.95;
+            const nO = 0.45;
+            const nB = nR * nO;
+            const nS = 0.98;
+            const nG = 0.98;
+            const Rtotal = Stawave.Rholtrop + Stawave.Rstawave + (Rcorrect[index]/1000);
+
+            const EHP = Rtotal * item.ms;
+            const THP = EHP / nH;
+            const DHP = THP / nB;
+            const SHP = DHP / nS;
+            const BHP = SHP / nG;
+
+            result.push(
+                {
+                    knot: item.knot,
+                    ms: item.ms,
+                    Rtotal: Rtotal,
+                    Rcorrect: Rcorrect[index]/1000,
+                    Rholtrop: Stawave.Rholtrop,
+                    Stawave: Stawave.Rstawave,
+                    EHP: EHP,
+                    THP: THP,
+                    DHP: DHP,
+                    SHP: SHP,
+                    BHP: BHP
+                }
+            );
+        })
+
+        return result;
+    }
+
+    const fuel = (power: ResultPower, data: ResultCalculate) => {
+
+    }
+
+    const calculateData = (arrayData: any, aops: number, newton: any) => {
         const result: ResultCalculate[] = [];
+
+        let mtot = 0;
+        let RadisTot = 0;
+        let RaaTot = 0;
+        let RasTot = 0;
+        let RawlTot = 0;
+        const EHP: number[] = [];
+
         arrayData.map((item: any, index: number) => {
             const ms = item.Knot * 0.514444;
             const hitunganTahanan = perhitunganTahanan(ms);
@@ -470,6 +577,15 @@ const Ship = () => {
             const efekSuhuGaram = efekSuhuDanGaram(ms, hitunganTahanan.cf, vs, PsuhuGaram, rt * 1000, k1 * 1000);
             const waveResistance = efekGelombang(item.H, ms, PsuhuGaram, item.Fita);
             const waveMethod = stawaveMethod(draft.N, angin.raa, rt, efekSuhuGaram, waveResistance);
+            const corrRest = correctiveResistance(newton[index],draft.N, angin.raa, efekSuhuGaram, waveResistance, waveMethod);
+
+            EHP.push(corrRest.ehp);
+            mtot += corrRest.m;
+            RadisTot += corrRest.radisXd;
+            RaaTot += corrRest.raaXd;
+            RasTot += corrRest.RASxD;
+            RawlTot += corrRest.RawlxD;
+
             result.push({
                 knot: item.Knot,
                 h: item.H,
@@ -504,19 +620,25 @@ const Ship = () => {
                 temp: item.Temp,
                 efekSuhuGaram: efekSuhuGaram,
                 efekGelombang: waveResistance,
-                stawaveMethod: waveMethod,
+                stawaveMethod: waveMethod
             })
         })
-        return result;
+
+        const Rcorrect = calculateRcorrect(EHP, mtot, RadisTot, RaaTot, RasTot, RawlTot);
+        const resPower = power(Rcorrect, result);
+
+        return {result: result, resPower: resPower};
     }
 
     const onCalculate = () => {
         paramterHoltrop()
-
-        context?.setDataResultCalculate(calculateData(listKnot, 9804.4));
-        context?.setDataResultCalculate2(calculateData(listKnot2, 9710.4));
-        //context?.setRCorrect(arrayCorrect);
-       // console.log("Result", JSON.parse(result[0].efekSuhuGaram));
+        const resCal = calculateData(listKnot, 9804.4, Nm);
+        const resCal2 = calculateData(listKnot2, 9710.4, Nm2);
+        context?.setDataResultCalculate(resCal.result);
+        context?.setDataResultCalculate2(resCal2.result);
+        context?.setPower(resCal.resPower);
+        context?.setPower2(resCal2.resPower);
+        
         toast.success('Perhitungan selesai!', {
             position: "top-right",
             autoClose: 5000,
