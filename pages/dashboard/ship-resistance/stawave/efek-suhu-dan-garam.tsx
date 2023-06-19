@@ -103,7 +103,7 @@ const ContentStawave = (props: any) => {
                                     {toFixNumber(row.ms, 3)}
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {toFixNumber(ParseJson(row.efekSuhuGaram).RNSuhuGaram, 3)}
+                                    {Math.round(ParseJson(row.efekSuhuGaram).RNSuhuGaram)}
                                 </TableCell>
                                 <TableCell align='center'>
                                     {toFixNumber(ParseJson(row.efekSuhuGaram).CFSuhuGaram, 5)}

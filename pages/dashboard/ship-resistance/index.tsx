@@ -93,105 +93,103 @@ const Ship = () => {
     const sudutAngin = 270+45+22.5;
 
     const listKnot = [
-        { Knot: 0, Temp: 27, YWR: 0, actualKnot: 0, H: 0, Fita: 0 },
-        { Knot: 3.8, Temp: 27, YWR: 335, actualKnot: 6, H: 0.18, Fita: 3.59 },
-        { Knot: 4.3, Temp: 27, YWR: 276, actualKnot: 6, H: 0.18, Fita: 3.59 },
-        { Knot: 4.7, Temp: 27, YWR: 310, actualKnot: 6, H: 0.18, Fita: 3.59 },
-        { Knot: 5.8, Temp: 27, YWR: 306, actualKnot: 6, H: 0.18, Fita: 3.59 },
-        { Knot: 7.4, Temp: 27, YWR: 334, actualKnot: 6, H: 0.18, Fita: 3.59 },
-        { Knot: 7.9, Temp: 27, YWR: 357, actualKnot: 6, H: 0.18, Fita: 3.59 },
-        { Knot: 8.7, Temp: 27, YWR: 10, actualKnot: 6, H: 0.18, Fita: 3.59 },
-        { Knot: 9.8, Temp: 27, YWR: 25, actualKnot: 6, H: 0.18, Fita: 3.59 },
-        { Knot: 10.9, Temp: 27, YWR: 35, actualKnot: 6, H: 0.18, Fita: 3.59 },
-        { Knot: 11.2, Temp: 27, YWR: 20, actualKnot: 6, H: 0.18, Fita: 3.59 },
-        { Knot: 11.2, Temp: 27, YWR: 36, actualKnot: 6, H: 0.18, Fita: 3.59 },
-        { Knot: 11.8, Temp: 27, YWR: 35, actualKnot: 11, H: 1.0, Fita: 7.89 },
-        { Knot: 11.8, Temp: 27, YWR: 34, actualKnot: 11, H: 1.0, Fita: 7.89 },
-        { Knot: 11.7, Temp: 27, YWR: 32, actualKnot: 11, H: 1.0, Fita: 7.89 },
-        { Knot: 11.3, Temp: 27, YWR: 32, actualKnot: 11, H: 1.0, Fita: 7.89 },
-        { Knot: 10.1, Temp: 27, YWR: 33, actualKnot: 11, H: 1.0, Fita: 7.89 },
-        { Knot: 9.7, Temp: 27, YWR: 31, actualKnot: 11, H: 1.0, Fita: 7.89 },
-        { Knot: 9.6, Temp: 27, YWR: 34, actualKnot: 11, H: 1.0, Fita: 7.89 },
-        { Knot: 9.7, Temp: 27, YWR: 34, actualKnot: 11, H: 1.0, Fita: 7.89 },
-        { Knot: 9.7, Temp: 27, YWR: 30, actualKnot: 11, H: 1.0, Fita: 7.89 },
-        { Knot: 9.6, Temp: 27, YWR: 34, actualKnot: 11, H: 1.0, Fita: 7.89 },
-        { Knot: 9.8, Temp: 27, YWR: 31, actualKnot: 11, H: 1.0, Fita: 7.89 },
-        { Knot: 9.7, Temp: 27, YWR: 30, actualKnot: 11, H: 1.0, Fita: 7.89 },
-        { Knot: 9.7, Temp: 27, YWR: 33, actualKnot: 11, H: 1.0, Fita: 7.89 },
-        { Knot: 9.8, Temp: 23, YWR: 30, actualKnot: 11, H: 1.0, Fita: 7.89 },
-        { Knot: 9.8, Temp: 23, YWR: 30, actualKnot: 11, H: 1.0, Fita: 7.89 },
-        { Knot: 9.6, Temp: 23, YWR: 24, actualKnot: 11, H: 1.0, Fita: 7.89 },
-        { Knot: 9.8, Temp: 23, YWR: 25, actualKnot: 11, H: 1.0, Fita: 7.89 },
-        { Knot: 9.8, Temp: 23, YWR: 25, actualKnot: 11, H: 1.0, Fita: 7.89 },
-        { Knot: 9.8, Temp: 23, YWR: 26, actualKnot: 11, H: 1.0, Fita: 7.89 },
-        { Knot: 9.7, Temp: 23, YWR: 25, actualKnot: 11, H: 1.0, Fita: 7.89 },
-        { Knot: 9.9, Temp: 23, YWR: 26, actualKnot: 11, H: 1.0, Fita: 7.89 },
-        { Knot: 9.3, Temp: 23, YWR: 25, actualKnot: 11, H: 1.0, Fita: 7.89 },
-        { Knot: 9.2, Temp: 23, YWR: 25, actualKnot: 11, H: 1.0, Fita: 7.89 },
-        { Knot: 9.2, Temp: 23, YWR: 25, actualKnot: 11, H: 1.0, Fita: 39.46 },
-        { Knot: 9.3, Temp: 23, YWR: 25, actualKnot: 11, H: 1.0, Fita: 39.46 },
-        { Knot: 9.3, Temp: 23, YWR: 25, actualKnot: 11, H: 1.0, Fita: 39.46 },
-        { Knot: 9.3, Temp: 23, YWR: 2, actualKnot: 11, H: 1.0, Fita: 39.46 },
-        { Knot: 9.1, Temp: 23, YWR: 10, actualKnot: 11, H: 1.0, Fita: 39.46 },
-        { Knot: 9.0, Temp: 23, YWR: 6, actualKnot: 11, H: 1.0, Fita: 39.46 },
-        { Knot: 8.6, Temp: 23, YWR: 4, actualKnot: 11, H: 1.0, Fita: 39.46 },
-        { Knot: 8.8, Temp: 23, YWR: 11, actualKnot: 11, H: 1.0, Fita: 39.46 },
-        { Knot: 8.7, Temp: 23, YWR: 4, actualKnot: 11, H: 1.0, Fita: 39.46 },
-        { Knot: 7.6, Temp: 23, YWR: 333, actualKnot: 11, H: 1.0, Fita: 39.46 },
-        { Knot: 7.7, Temp: 23, YWR: 349, actualKnot: 11, H: 1.0, Fita: 39.46 },
-        { Knot: 7.6, Temp: 23, YWR: 7, actualKnot: 11, H: 1.0, Fita: 39.46 },
-        { Knot: 7.5, Temp: 23, YWR: 16, actualKnot: 11, H: 1.0, Fita: 39.46 },
-        { Knot: 6.7, Temp: 23, YWR: 44, actualKnot: 11, H: 1.0, Fita: 39.46 },
-        { Knot: 5.4, Temp: 23, YWR: 45, actualKnot: 11, H: 1.0, Fita: 39.46 }
+        { Knot: 0, Temp: 27, Heading: 0, actualKnot: 0, H: 0, Fita: 0 },
+        { Knot: 5.2, Temp: 27, Heading: 335, actualKnot: 6, H: 0.18, Fita: 3.59 },
+        { Knot: 6.3, Temp: 27, Heading: 276, actualKnot: 6, H: 0.18, Fita: 3.59 },
+        { Knot: 6.8, Temp: 27, Heading: 310, actualKnot: 6, H: 0.18, Fita: 3.59 },
+        { Knot: 8.1, Temp: 27, Heading: 306, actualKnot: 6, H: 0.18, Fita: 3.59 },
+        { Knot: 8.3, Temp: 27, Heading: 334, actualKnot: 6, H: 0.18, Fita: 3.59 },
+        { Knot: 8.6, Temp: 27, Heading: 357, actualKnot: 6, H: 0.18, Fita: 3.59 },
+        { Knot: 8.9, Temp: 27, Heading: 10, actualKnot: 6, H: 0.18, Fita: 3.59 },
+        { Knot: 9.2, Temp: 27, Heading: 25, actualKnot: 6, H: 0.18, Fita: 3.59 },
+        { Knot: 9.7, Temp: 27, Heading: 35, actualKnot: 6, H: 0.18, Fita: 3.59 },
+        { Knot: 10.3, Temp: 27, Heading: 20, actualKnot: 6, H: 0.18, Fita: 3.59 },
+        { Knot: 10.5, Temp: 27, Heading: 36, actualKnot: 6, H: 0.18, Fita: 3.59 },
+        { Knot: 11.7, Temp: 27, Heading: 27, actualKnot: 11, H: 1.0, Fita: 7.89 },
+        { Knot: 11.8, Temp: 27, Heading: 27, actualKnot: 11, H: 1.0, Fita: 7.89 },
+        { Knot: 11.7, Temp: 27, Heading: 29, actualKnot: 11, H: 1.0, Fita: 7.89 },
+        { Knot: 11.6, Temp: 27, Heading: 29, actualKnot: 11, H: 1.0, Fita: 7.89 },
+        { Knot: 11.7, Temp: 27, Heading: 29, actualKnot: 11, H: 1.0, Fita: 7.89 },
+        { Knot: 11.7, Temp: 27, Heading: 28, actualKnot: 11, H: 1.0, Fita: 7.89 },
+        { Knot: 11.8, Temp: 27, Heading: 28, actualKnot: 11, H: 1.0, Fita: 7.89 },
+        { Knot: 11.7, Temp: 27, Heading: 27, actualKnot: 11, H: 1.0, Fita: 7.89 },
+        { Knot: 11.6, Temp: 27, Heading: 28, actualKnot: 11, H: 1.0, Fita: 7.89 },
+        { Knot: 11.7, Temp: 27, Heading: 30, actualKnot: 11, H: 1.0, Fita: 7.89 },
+        { Knot: 11.6, Temp: 27, Heading: 29, actualKnot: 11, H: 1.0, Fita: 7.89 },
+        { Knot: 11.7, Temp: 27, Heading: 29, actualKnot: 11, H: 1.0, Fita: 7.89 },
+        { Knot: 11.7, Temp: 27, Heading: 28, actualKnot: 11, H: 1.0, Fita: 7.89 },
+        { Knot: 11.8, Temp: 27, Heading: 31, actualKnot: 11, H: 1.0, Fita: 7.89 },
+        { Knot: 11.8, Temp: 27, Heading: 28, actualKnot: 11, H: 1.0, Fita: 7.89 },
+        { Knot: 11.7, Temp: 27, Heading: 30, actualKnot: 11, H: 1.0, Fita: 7.89 },
+        { Knot: 11.7, Temp: 27, Heading: 28, actualKnot: 11, H: 1.0, Fita: 7.89 },
+        { Knot: 11.8, Temp: 27, Heading: 34, actualKnot: 11, H: 1.0, Fita: 7.89 },
+        { Knot: 11.6, Temp: 27, Heading: 31, actualKnot: 11, H: 1.0, Fita: 7.89 },
+        { Knot: 11.7, Temp: 27, Heading: 26, actualKnot: 11, H: 1.0, Fita: 7.89 },
+        { Knot: 11.7, Temp: 27, Heading: 30, actualKnot: 11, H: 1.0, Fita: 7.89 },
+        { Knot: 11.8, Temp: 27, Heading: 26, actualKnot: 11, H: 1.0, Fita: 7.89 },
+        { Knot: 11.6, Temp: 27, Heading: 23, actualKnot: 11, H: 1.0, Fita: 7.89 },
+        { Knot: 11.7, Temp: 27, Heading: 46, actualKnot: 11, H: 1.0, Fita: 39.46 },
+        { Knot: 10.3, Temp: 27, Heading: 2, actualKnot: 11, H: 1.0, Fita: 39.46 },
+        { Knot: 9.5, Temp: 27, Heading: 10, actualKnot: 11, H: 1.0, Fita: 39.46 },
+        { Knot: 9.1, Temp: 27, Heading: 6, actualKnot: 11, H: 1.0, Fita: 39.46 },
+        { Knot: 8.7, Temp: 27, Heading: 4, actualKnot: 11, H: 1.0, Fita: 39.46 },
+        { Knot: 8.3, Temp: 27, Heading: 11, actualKnot: 11, H: 1.0, Fita: 39.46 },
+        { Knot: 7.8, Temp: 27, Heading: 4, actualKnot: 11, H: 1.0, Fita: 39.46 },
+        { Knot: 7.6, Temp: 27, Heading: 333, actualKnot: 11, H: 1.0, Fita: 39.46 },
+        { Knot: 7.4, Temp: 27, Heading: 349, actualKnot: 11, H: 1.0, Fita: 39.46 },
+        { Knot: 6.8, Temp: 27, Heading: 7, actualKnot: 11, H: 1.0, Fita: 39.46 },
+        { Knot: 6.7, Temp: 27, Heading: 16, actualKnot: 11, H: 1.0, Fita: 39.46 },
+        { Knot: 6.1, Temp: 27, Heading: 44, actualKnot: 11, H: 1.0, Fita: 39.46 },
+        { Knot: 5.4, Temp: 27, Heading: 45, actualKnot: 11, H: 1.0, Fita: 39.46 }
       ];
 
       const listKnot2 = [
-        { Knot: 0, Temp: 27, YWR: 0, actualKnot: 0, H: 0, Fita: 0 },
-        { Knot: 5.5, Temp: 27, YWR: 225, actualKnot: 9, H: 0.87, Fita: 39.46 },
-        { Knot: 6.5, Temp: 27, YWR: 224, actualKnot: 9, H: 0.87, Fita: 39.46 },
-        { Knot: 7.6, Temp: 27, YWR: 196, actualKnot: 9, H: 0.87, Fita: 39.46 },
-        { Knot: 7.7, Temp: 27, YWR: 187, actualKnot: 9, H: 0.87, Fita: 39.46 },
-        { Knot: 8.7, Temp: 27, YWR: 169, actualKnot: 9, H: 0.87, Fita: 39.46 },
-        { Knot: 8.7, Temp: 27, YWR: 153, actualKnot: 9, H: 0.87, Fita: 39.46 },
-        { Knot: 8.7, Temp: 27, YWR: 184, actualKnot: 9, H: 0.87, Fita: 39.46 },
-        { Knot: 8.5, Temp: 27, YWR: 191, actualKnot: 9, H: 0.87, Fita: 39.46 },
-        { Knot: 8.6, Temp: 27, YWR: 194, actualKnot: 9, H: 0.87, Fita: 39.46 },
-        { Knot: 8.7, Temp: 27, YWR: 186, actualKnot: 9, H: 0.87, Fita: 39.46 },
-        { Knot: 9.3, Temp: 27, YWR: 190, actualKnot: 9, H: 0.87, Fita: 39.46 },
-        { Knot: 9.3, Temp: 27, YWR: 182, actualKnot: 9, H: 0.87, Fita: 39.46 },
-        { Knot: 11.8, Temp: 27, YWR: 195, actualKnot: 8, H: 0.87, Fita: 7.89 },
-        { Knot: 11.8, Temp: 27, YWR: 205, actualKnot: 8, H: 0.87, Fita: 7.89 },
-        { Knot: 12.1, Temp: 27, YWR: 206, actualKnot: 8, H: 0.87, Fita: 7.89 },
-        { Knot: 10.2, Temp: 27, YWR: 205, actualKnot: 8, H: 0.87, Fita: 7.89 },
-        { Knot: 9.9, Temp: 27, YWR: 206, actualKnot: 8, H: 0.87, Fita: 7.89 },
-        { Knot: 9.8, Temp: 27, YWR: 205, actualKnot: 8, H: 0.87, Fita: 7.89 },
-        { Knot: 9.7, Temp: 27, YWR: 205, actualKnot: 8, H: 0.87, Fita: 7.89 },
-        { Knot: 9.7, Temp: 27, YWR: 204, actualKnot: 8, H: 0.87, Fita: 7.89 },
-        { Knot: 9.6, Temp: 27, YWR: 210, actualKnot: 8, H: 0.87, Fita: 7.89 },
-        { Knot: 9.7, Temp: 27, YWR: 210, actualKnot: 8, H: 0.87, Fita: 7.89 },
-        { Knot: 9.7, Temp: 27, YWR: 213, actualKnot: 8, H: 0.87, Fita: 7.89 },
-        { Knot: 9.8, Temp: 27, YWR: 210, actualKnot: 8, H: 0.87, Fita: 7.89 },
-        { Knot: 9.7, Temp: 23, YWR: 211, actualKnot: 8, H: 0.87, Fita: 7.89 },
-        { Knot: 9.7, Temp: 23, YWR: 214, actualKnot: 8, H: 0.87, Fita: 7.89 },
-        { Knot: 9.8, Temp: 23, YWR: 210, actualKnot: 8, H: 0.87, Fita: 7.89 },
-        { Knot: 9.8, Temp: 23, YWR: 214, actualKnot: 8, H: 0.87, Fita: 7.89 },
-        { Knot: 9.7, Temp: 23, YWR: 214, actualKnot: 8, H: 0.87, Fita: 7.89 },
-        { Knot: 9.7, Temp: 23, YWR: 211, actualKnot: 8, H: 0.87, Fita: 7.89 },
-        { Knot: 9.7, Temp: 23, YWR: 213, actualKnot: 8, H: 0.87, Fita: 7.89 },
-        { Knot: 9.7, Temp: 23, YWR: 212, actualKnot: 8, H: 0.87, Fita: 7.89 },
-        { Knot: 9.6, Temp: 23, YWR: 212, actualKnot: 8, H: 0.7, Fita: 7.89 },
-        { Knot: 9.6, Temp: 23, YWR: 214, actualKnot: 8, H: 0.7, Fita: 7.89 },
-        { Knot: 9.2, Temp: 23, YWR: 215, actualKnot: 8, H: 0.7, Fita: 7.89 },
-        { Knot: 9.1, Temp: 23, YWR: 212, actualKnot: 8, H: 0.7, Fita: 3.59 },
-        { Knot: 9.1, Temp: 23, YWR: 212, actualKnot: 5, H: 0.18, Fita: 3.59 },
-        { Knot: 8.5, Temp: 23, YWR: 200, actualKnot: 5, H: 0.18, Fita: 3.59 },
-        { Knot: 8.3, Temp: 23, YWR: 215, actualKnot: 5, H: 0.18, Fita: 3.59 },
-        { Knot: 7.6, Temp: 23, YWR: 203, actualKnot: 5, H: 0.18, Fita: 3.59 },
-        { Knot: 7.5, Temp: 23, YWR: 190, actualKnot: 5, H: 0.18, Fita: 3.59 },
-        { Knot: 6.8, Temp: 23, YWR: 178, actualKnot: 5, H: 0.18, Fita: 3.59 },
-        { Knot: 6.7, Temp: 23, YWR: 175, actualKnot: 5, H: 0.18, Fita: 3.59 },
-        { Knot: 6.5, Temp: 23, YWR: 58, actualKnot: 5, H: 0.18, Fita: 3.59 },
-        { Knot: 5.3, Temp: 23, YWR: 58, actualKnot: 5, H: 0.18, Fita: 3.59 }
+        { Knot: 0, Temp: 27, Heading: 0, actualKnot: 0, H: 0, Fita: 0 },
+        { Knot: 5.5, Temp: 27, Heading: 225, actualKnot: 9, H: 0.87, Fita: 39.46 },
+        { Knot: 6.5, Temp: 27, Heading: 224, actualKnot: 9, H: 0.87, Fita: 39.46 },
+        { Knot: 7.6, Temp: 27, Heading: 196, actualKnot: 9, H: 0.87, Fita: 39.46 },
+        { Knot: 7.7, Temp: 27, Heading: 187, actualKnot: 9, H: 0.87, Fita: 39.46 },
+        { Knot: 8.7, Temp: 27, Heading: 169, actualKnot: 9, H: 0.87, Fita: 39.46 },
+        { Knot: 8.7, Temp: 27, Heading: 153, actualKnot: 9, H: 0.87, Fita: 39.46 },
+        { Knot: 8.7, Temp: 27, Heading: 184, actualKnot: 9, H: 0.87, Fita: 39.46 },
+        { Knot: 8.5, Temp: 27, Heading: 191, actualKnot: 9, H: 0.87, Fita: 39.46 },
+        { Knot: 8.6, Temp: 27, Heading: 194, actualKnot: 9, H: 0.87, Fita: 39.46 },
+        { Knot: 8.7, Temp: 27, Heading: 186, actualKnot: 9, H: 0.87, Fita: 39.46 },
+        { Knot: 9.3, Temp: 27, Heading: 190, actualKnot: 9, H: 0.87, Fita: 39.46 },
+        { Knot: 9.3, Temp: 27, Heading: 182, actualKnot: 9, H: 0.87, Fita: 39.46 },
+        { Knot: 11.8, Temp: 27, Heading: 195, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 11.8, Temp: 27, Heading: 205, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 12.1, Temp: 27, Heading: 206, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 10.2, Temp: 27, Heading: 205, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.9, Temp: 27, Heading: 206, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.8, Temp: 27, Heading: 205, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.7, Temp: 27, Heading: 205, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.7, Temp: 27, Heading: 204, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.6, Temp: 27, Heading: 210, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.7, Temp: 27, Heading: 210, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.7, Temp: 27, Heading: 213, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.8, Temp: 27, Heading: 210, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.7, Temp: 23, Heading: 211, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.7, Temp: 23, Heading: 214, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.8, Temp: 23, Heading: 210, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.8, Temp: 23, Heading: 214, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.7, Temp: 23, Heading: 214, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.7, Temp: 23, Heading: 211, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.7, Temp: 23, Heading: 213, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.7, Temp: 23, Heading: 212, actualKnot: 8, H: 0.87, Fita: 7.89 },
+        { Knot: 9.6, Temp: 23, Heading: 212, actualKnot: 8, H: 0.7, Fita: 7.89 },
+        { Knot: 9.6, Temp: 23, Heading: 214, actualKnot: 8, H: 0.7, Fita: 7.89 },
+        { Knot: 9.2, Temp: 23, Heading: 215, actualKnot: 8, H: 0.7, Fita: 7.89 },
+        { Knot: 9.1, Temp: 23, Heading: 212, actualKnot: 8, H: 0.7, Fita: 3.59 },
+        { Knot: 9.1, Temp: 23, Heading: 212, actualKnot: 5, H: 0.18, Fita: 3.59 },
+        { Knot: 8.5, Temp: 23, Heading: 200, actualKnot: 5, H: 0.18, Fita: 3.59 },
+        { Knot: 8.3, Temp: 23, Heading: 215, actualKnot: 5, H: 0.18, Fita: 3.59 },
+        { Knot: 7.6, Temp: 23, Heading: 203, actualKnot: 5, H: 0.18, Fita: 3.59 },
+        { Knot: 7.5, Temp: 23, Heading: 190, actualKnot: 5, H: 0.18, Fita: 3.59 },
+        { Knot: 6.8, Temp: 23, Heading: 178, actualKnot: 5, H: 0.18, Fita: 3.59 },
+        { Knot: 6.7, Temp: 23, Heading: 175, actualKnot: 5, H: 0.18, Fita: 3.59 },
+        { Knot: 6.5, Temp: 23, Heading: 58, actualKnot: 5, H: 0.18, Fita: 3.59 },
+        { Knot: 5.3, Temp: 23, Heading: 58, actualKnot: 5, H: 0.18, Fita: 3.59 }
       ];
 
       const Nm = [
@@ -398,7 +396,7 @@ const Nm2 = [
     }
 
     const efekDraft = (aops: number) => {
-        const eRT = 186274.2795;
+        const eRT = 163135.9611;
         const N = 0.65 * eRT * ((Displ / aops) - 1);
         const kN = N/1000;
         return {N: N, kN: kN}
@@ -543,9 +541,9 @@ const Nm2 = [
         return result;
     }
 
-    const fuel = (power: ResultPower, data: ResultCalculate) => {
-
-    }
+    // const fuel = (power: ResultPower, data: ResultCalculate) => {
+    //     const load = 
+    // }
 
     const calculateData = (arrayData: any, aops: number, newton: any) => {
         const result: ResultCalculate[] = [];
@@ -570,10 +568,10 @@ const Nm2 = [
             const rt = k1 + rapp + gelombang.Rw + bulbousBow.RB + ra + RAf + immersed.Rtr;
             const seaMargin = rt + (0.15 * rt);
             const draft = efekDraft(aops);
-            const ywr = item.YWR > 90 ? sudutAngin - item.YWR : (360 - sudutAngin) + item.YWR;
+            const ywr = item.Heading > 90 ? sudutAngin - item.Heading : (360 - sudutAngin) + item.Heading;
             const angin = efekAngin(item.actualKnot, ywr);
-            const vs = index < 25 ? 0.90331 : 0.98457;
-            const PsuhuGaram = index < 25 ? 1022.7626/1000 : 1023.9808/1000;
+            const vs = 0.90331;
+            const PsuhuGaram = 1022.7626/1000;
             const efekSuhuGaram = efekSuhuDanGaram(ms, hitunganTahanan.cf, vs, PsuhuGaram, rt * 1000, k1 * 1000);
             const waveResistance = efekGelombang(item.H, ms, PsuhuGaram, item.Fita);
             const waveMethod = stawaveMethod(draft.N, angin.raa, rt, efekSuhuGaram, waveResistance);

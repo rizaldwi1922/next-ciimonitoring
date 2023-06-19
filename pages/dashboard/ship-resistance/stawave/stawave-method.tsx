@@ -127,7 +127,7 @@ const ContentStawave = (props: any) => {
                                         {row.knot}
                                     </TableCell>
                                     <TableCell align='center'>
-                                        {row.ms}
+                                        {toFixNumber(row.ms, 1)}
                                     </TableCell>
                                     <TableCell align='center'>
                                         {row.radis? toFixNumber(row.radis, 2) : 0}
