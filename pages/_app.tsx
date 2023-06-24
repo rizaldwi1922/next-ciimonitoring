@@ -13,7 +13,6 @@ import 'bootstrap/dist/css/bootstrap.css'
 
 //import './../public/css/leaflet-style.css'
 import 'leaflet/dist/leaflet.css';
-import 'leaflet/dist/images/marker-icon.png'
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
