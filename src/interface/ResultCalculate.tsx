@@ -1,4 +1,5 @@
 export interface ResultCalculate {
+    time: number,
     knot: number,
     h: number,
     fita: number,
@@ -32,5 +33,8 @@ export interface ResultCalculate {
     temp: number,
     efekSuhuGaram: string, 
     efekGelombang: string,
-    stawaveMethod: string
+    stawaveMethod: string,
+    power: string,
+    focME: string,
+    focGE: string,
   }

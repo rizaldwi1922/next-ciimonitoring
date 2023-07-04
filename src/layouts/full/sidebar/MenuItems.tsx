@@ -13,17 +13,7 @@ import Co2Icon from '@mui/icons-material/Co2';
 import { uniqueId } from 'lodash';
 
 const Menuitems = [
-  {
-    navlabel: true,
-    subheader: 'Home',
-  },
-
-  {
-    id: uniqueId(),
-    title: 'Dashboard',
-    icon: IconLayoutDashboard,
-    href: '/dashboard',
-  },
+  
   {
     navlabel: true,
     subheader: 'Ship Management',
@@ -35,65 +25,32 @@ const Menuitems = [
     href: '/dashboard/ship-voyage',
   },
   {
+    navlabel: true,
+    subheader: 'Validation',
+  },
+  {
+    id: uniqueId(),
+    title: 'FOC & CII Validation',
+    icon: IconSpeedboat,
+    href: '/dashboard/ship-resistance'
+  },
+  {
+    navlabel: true,
+    subheader: 'Realtime Monitoring',
+  },
+  {
     id: uniqueId(),
     title: 'Ship Tracker Position',
     icon: IconLocation,
     href: '/dashboard/ship-tracker-position'
   },
-  {
-    navlabel: true,
-    subheader: 'CII Monitoring',
-  },
-  {
-    id: uniqueId(),
-    title: 'Weather Condition',
-    icon: IconSunWind,
-    href: '/dashboard/weather-condition'
-  },
-  {
-    id: uniqueId(),
-    title: 'Ship Resistance',
-    icon: IconSpeedboat,
-    href: '/dashboard/ship-resistance'
-  },
-  {
-    id: uniqueId(),
-    title: 'Fuel Oil Consumption',
-    icon: LocalGasStationOutlinedIcon,
-    href: ''
-  },
-  {
-    id: uniqueId(),
-    title: 'CO2 Emision',
-    icon: Co2Icon,
-    href: ''
-  },
-  {
-    id: uniqueId(),
-    title: 'CII Result',
-    icon: IconReport,
-    href: ''
-  },
-  {
-    navlabel: true,
-    subheader: 'Master Data',
-  },
-  {
-    id: uniqueId(),
-    title: 'Ship',
-    icon: IconShip,
-    href: '/dashboard/master-ship'
-  },
-  {
-    navlabel: true,
-    subheader: 'Report',
-  },
-  {
-    id: uniqueId(),
-    title: 'Report',
-    icon: IconReport,
-    href: ''
-  },
+  // {
+  //   id: uniqueId(),
+  //   title: 'Ship',
+  //   icon: IconShip,
+  //   href: '/dashboard/master-ship'
+  // },
+ 
 
 ];
 

@@ -150,9 +150,9 @@ import {
     },
     {
       id: uniqueId(),
-      title: 'Fuel',
+      title: 'FOC',
       icon: IconCircleDot,
-      href: '/dashboard/ship-resistance/power-and-fuel/fuel',
+      href: '/dashboard/ship-resistance/power-and-fuel/foc',
     },
   
   ];

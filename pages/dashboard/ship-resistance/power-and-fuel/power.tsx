@@ -54,8 +54,8 @@ import {
 
 const Ship = () => {
     const contex = useContext(MyContext);
-    const data = contex?.power;
-    const data2 = contex?.power2;
+    const data = contex?.dataResultCalculate;
+    const data2 = contex?.dataResultCalculate2;
     const [value, setValue] = useState("1");
 
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -72,8 +72,8 @@ const Ship = () => {
                 <TabContext value={value}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <TabList onChange={handleChange} aria-label="lab API tabs example">
-                            <Tab label="SUB-BAJ" value="1" />
-                            <Tab label="BAJ-SUB" value="2" />
+                            <Tab label="Surabaya - Banjarmasin" value="1" />
+                            <Tab label="Banjarmasin - Surabaya" value="2" />
                         </TabList>
                     </Box>
                     <TabPanel value="1">
@@ -90,6 +90,10 @@ const Ship = () => {
 }
 
 const ContentStawave = (props: any) => {
+
+    const ParseJson = (jsonText: string) => {
+        return JSON.parse(jsonText);
+    }
     
     return (
         <Box>
@@ -103,7 +107,6 @@ const ContentStawave = (props: any) => {
                                 <TableCell align="center">ms</TableCell>
                                 <TableCell align="center">Rholtrop (N)</TableCell>
                                 <TableCell align="center">Stawave (N)</TableCell>
-                                <TableCell align="center">RCorrect (N)</TableCell>
                                 <TableCell align="center">Rtotal (N)</TableCell>
                                 <TableCell align="center">EHP (kW)</TableCell>
                                 <TableCell align="center">THP (kW)</TableCell>
@@ -128,31 +131,28 @@ const ContentStawave = (props: any) => {
                                         {toFixNumber(row.ms, 3)}
                                     </TableCell>
                                     <TableCell align='center'>
-                                        {row.Rholtrop ? toFixNumber(row.Rholtrop, 2) : 0}
+                                        {ParseJson(row.stawaveMethod).Rholtrop? toFixNumber(ParseJson(row.stawaveMethod).Rholtrop, 2) : 0}
                                     </TableCell>
                                     <TableCell align='center'>
-                                        {toFixNumber(row.Stawave, 2)}
+                                        {ParseJson(row.stawaveMethod).Rstawave? toFixNumber(ParseJson(row.stawaveMethod).Rstawave, 2) : 0}
                                     </TableCell>
                                     <TableCell align='center'>
-                                        {toFixNumber(row.Rcorrect, 2)}
+                                        {ParseJson(row.stawaveMethod).RTotal? toFixNumber(ParseJson(row.stawaveMethod).RTotal, 2) : 0}
                                     </TableCell>
                                     <TableCell align='center'>
-                                        {row.Rtotal ? toFixNumber(row.Rtotal, 2) : 0}
+                                        {ParseJson(row.power).EHP? Math.round(ParseJson(row.power).EHP) : 0}
                                     </TableCell>
                                     <TableCell align='center'>
-                                        {row.EHP ? Math.round(row.EHP) : 0}
+                                        {ParseJson(row.power).THP? Math.round(ParseJson(row.power).THP) : 0}
                                     </TableCell>
                                     <TableCell align='center'>
-                                        {row.THP ? Math.round(row.THP) : 0}
+                                        {ParseJson(row.power).DHP? Math.round(ParseJson(row.power).DHP) : 0}
                                     </TableCell>
                                     <TableCell align='center'>
-                                        {row.DHP ? Math.round(row.DHP) : 0}
+                                        {ParseJson(row.power).SHP? Math.round(ParseJson(row.power).SHP) : 0}
                                     </TableCell>
                                     <TableCell align='center'>
-                                        {row.SHP ? Math.round(row.SHP) : 0}
-                                    </TableCell>
-                                    <TableCell align='center'>
-                                        {row.BHP ? Math.round(row.BHP) : 0}
+                                        {ParseJson(row.power).BHP? Math.round(ParseJson(row.power).BHP) : 0}
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -168,7 +168,7 @@ const ContentStawave = (props: any) => {
                         datasets: [
                             {
                                 label: 'BHP Engine Kapal',
-                                data: props.data.map((item: any) => item.BHP),
+                                data: props.data.map((row: any) => ParseJson(row.power).EHP? Math.round(ParseJson(row.power).EHP) : 0),
                                 borderColor: '#0079FF',
                                 backgroundColor: '#00C4FF',
                             }

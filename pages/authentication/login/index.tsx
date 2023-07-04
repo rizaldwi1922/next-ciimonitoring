@@ -25,7 +25,7 @@ const Login2 = () => {
       .then(response => {
         localStorage.setItem("token", response.data.token)
         Cookie.set("session", JSON.stringify(response.data.user))
-        route.push("/dashboard")
+        route.push("/dashboard/ship-voyage")
     })
     .catch(error => {
       console.error(error);
