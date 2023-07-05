@@ -2,6 +2,7 @@ import React, { createContext, useState } from 'react';
 import { ParameterHoltrop } from '../../src/interface/ParameterHoltrop';
 import { ResultCalculate } from '../../src/interface/ResultCalculate';
 import { ResultPower } from '../../src/interface/ResultPower';
+import { CIIEntry } from '../../src/interface/CIIEntry';
 
 // Buat konteks
 interface MyContextProps {
@@ -17,6 +18,8 @@ interface MyContextProps {
   setPower: React.Dispatch<React.SetStateAction<ResultPower[]>>;
   power2: ResultPower[] | undefined;
   setPower2: React.Dispatch<React.SetStateAction<ResultPower[]>>;
+  CII: CIIEntry[] | undefined;
+  setCII: React.Dispatch<React.SetStateAction<CIIEntry[]>>;
 }
 
 
@@ -33,6 +36,7 @@ const MyContextProvider: React.FC<MyContextProviderProps> = ({ children }) => {
   const [dataResultCalculate2, setDataResultCalculate2] = useState<ResultCalculate[]>([]);
   const [dataParameterHoltrop, setDataParameterHoltrop] = useState<ParameterHoltrop[]>([]);
   const [dataParameterHoltrop2, setDataParameterHoltrop2] = useState<ParameterHoltrop[]>([]);
+  const [CII, setCII] = useState<CIIEntry[]>([]);
   const [power, setPower] = useState<ResultPower[]>([]);
   const [power2, setPower2] = useState<ResultPower[]>([]);
   
@@ -50,7 +54,9 @@ const MyContextProvider: React.FC<MyContextProviderProps> = ({ children }) => {
       power,
       setPower,
       power2,
-      setPower2
+      setPower2,
+      CII,
+      setCII
     }}>
       {children}
     </MyContext.Provider>

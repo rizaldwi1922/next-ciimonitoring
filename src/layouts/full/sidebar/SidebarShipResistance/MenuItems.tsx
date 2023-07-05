@@ -154,6 +154,12 @@ import {
       icon: IconCircleDot,
       href: '/dashboard/ship-resistance/power-and-fuel/foc',
     },
+    {
+      id: uniqueId(),
+      title: 'CII',
+      icon: IconCircleDot,
+      href: '/dashboard/ship-resistance/power-and-fuel/CII',
+    },
   
   ];
   

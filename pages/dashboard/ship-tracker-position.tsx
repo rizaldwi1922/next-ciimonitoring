@@ -15,6 +15,8 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import { TextField } from '@mui/material';
+import L from 'leaflet';
+import axios from 'axios';
 
 interface Coordinates {
   lon: number;
@@ -145,6 +147,11 @@ const ShipTrackerPosition = () => {
   const Polyline = dynamic(() => import("react-leaflet").then((mod) => mod.Polyline), {
     ssr: false,
   });
+
+  // const customIcon = L.icon({
+  //   iconUrl: "/dashboard/record.png",
+  //   iconSize: [32, 32], // Atur ukuran ikon sesuai kebutuhan
+  // });
 
   const mapMemo = useMemo(() => (
         <MapContainer center={[-7.1150785020007925, 112.6635587850215]} zoom={13} scrollWheelZoom={true} style={{ height: 700 }}>
