@@ -10,7 +10,7 @@ import {
       id: uniqueId(),
       title: 'Kembali',
       icon: IconArrowLeft,
-      href: '/dashboard',
+      href: '/dashboard/ship-voyage',
     },
     {
       navlabel: true,

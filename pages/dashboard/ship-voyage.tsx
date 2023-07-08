@@ -52,12 +52,12 @@ const ShipVoyage = () => {
                     />
                     <TextField
                         required
-                        label="Muatan Kapal"
+                        label="MMSI"
                         type="text"
                     />
                     <TextField
                         required
-                        label="Draft Kapal"
+                        label="Owner"
                         type="text"
                     />
                 </div>

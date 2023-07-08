@@ -854,7 +854,7 @@ const dataTimeSubBaj: DataTime[] = [
       ];
 
       const Nm = [
-        0.00,
+        0,
         0.60,
         0.73,
         1.03,
@@ -866,33 +866,31 @@ const dataTimeSubBaj: DataTime[] = [
         3.24,
         5.11,
         1.34,
-        6.90,
+        1.90,
+        8.20,
+        12.60,
+        9.30,
         6.50,
-        6.20,
-        7.00,
-        8.50,
-        8.30,
-        7.00,
-        6.60,
-        7.00,
-        10.10,
-        8.00,
-        7.50,
-        8.70,
-        9.50,
-        8.50,
-        7.00,
-        7.00,
-        6.90,
-        10.20,
+        8.90,
+        9.20,
+        9.60,
+        10.90,
+        7.20,
+        6.00,
+        7.30,
+        7.40,
         11.30,
-        7.60,
-        9.80,
-        16.70,
-        8.00,
+        10.40,
+        10.80,
+        14.20,
+        7.00,
+        9.60,
         8.10,
-        10.70,
-        0.51,
+        5.60,
+        10.00,
+        15.20,
+        11.40,
+        0.80,
         8.17,
         0.67,
         3.07,
@@ -904,55 +902,55 @@ const dataTimeSubBaj: DataTime[] = [
         1.23,
         2.33,
         1.96,
-]
+      ]
 
 const Nm2 = [
-    0.00,
-    1.96,
-    2.33,
-    1.23,
-    0.80,
-    0.66,
-    0.55,
-    0.62,
-    1.02,
-    3.07,
-    0.67,
-    8.17,
-    0.51,
-    10.70,
-    16.10,
-    16.70,
-    9.80,
-    7.60,
-    11.00,
-    10.20,
-    6.90,
-    7.00,
-    7.00,
-    8.50,
-    9.50,
-    8.70,
-    7.50,
-    8.00,
-    10.10,
-    7.00,
-    6.60,
-    7.30,
-    8.30,
-    8.50,
-    7.00,
-    6.20,
-    6.50,
-    6.90,
-    5.00,
-    3.40,
-    1.50,
-    2.80,
-    2.70,
-    2.60,
-    1.40,
-    2.50
+      0,
+      1.96,
+      2.33,
+      1.23,
+      0.80,
+      0.66,
+      0.55,
+      0.62,
+      1.02,
+      3.07,
+      0.67,
+      8.17,
+      0.51,
+      1.70,
+      4.00,
+      6.30,
+      6.20,
+      8.70,
+      10.00,
+      6.30,
+      6.50,
+      6.50,
+      8.80,
+      8.10,
+      13.70,
+      9.20,
+      13.80,
+      10.30,
+      13.40,
+      11.80,
+      12.30,
+      11.90,
+      12.20,
+      6.80,
+      7.70,
+      8.20,
+      9.30,
+      5.20,
+      5.00,
+      3.40,
+      1.50,
+      2.80,
+      2.70,
+      2.60,
+      1.40,
+      2.50,
   ];
 
   const sfocDataME: { load: number; sfoc: number }[] = [
@@ -1156,18 +1154,18 @@ const Nm2 = [
 
   const timeList2: number[] = [
     0,
-    21,
-    22,
-    10,
-    6,
-    5,
-    4,
-    4,
-    7,
-    21,
-    5,
-    53,
-    3,
+    21.38181818,
+    21.50769231,
+    9.710526316,
+    6.233766234,
+    4.551724138,
+    3.793103448,
+    4.275862069,
+    7.2,
+    21.41860465,
+    4.620689655,
+    52.70967742,
+    3.290322581,
     9,
     20,
     32,
@@ -1302,6 +1300,18 @@ const Nm2 = [
     250,
     250,
   ]
+
+  const sbyFocPort: number[] = [
+    0.07332358,
+    0.1073028,
+    0.111573,
+    0.111573,
+    0.111573,
+    0.1161072,
+    0.111573,
+    0.111573,
+    0.0798237,
+  ];
 
 
 
@@ -1554,7 +1564,7 @@ const Nm2 = [
         const ton = gram / 1000000;
         const densityDO = (1000/859.1)*1000;
         const liter = ton * densityDO;
-        const obj = {gr: gram, ton: ton, liter: liter, load: engineLoad, sfoc: sfoc, hour: hour}
+        const obj = {gr: gram, ton: ton, liter: liter, load: engineLoad, sfoc: sfoc, hour: hour, power: bhp}
         return JSON.stringify(obj);
         
     }
@@ -1651,10 +1661,10 @@ const Nm2 = [
           }
     }
 
-    const calculateCII = (dataTIme: DataTime[], dataResistance: ResultCalculate[], nmS: any) => {
-        let lastNm = 0;
-        let lastFocMEton = 0;
-        let lastFocGEton = 0;
+    const calculateCII = (dataTIme: DataTime[], dataResistance: ResultCalculate[], nmS: any, lastSKom: number, lastFocME: number, lastFocGE: number) => {
+        let lastNm = lastSKom;
+        let lastFocMEton = lastFocME;
+        let lastFocGEton = lastFocGE;
         const dataCII: CIIEntry[] = [];
         dataTIme.map((item, index) => {
             const focME = JSON.parse(dataResistance[index].focME);
@@ -1702,10 +1712,10 @@ const Nm2 = [
         return dataCII;
     }
 
-    const calculateCIIPort = (dataTIme: DataTime[], lastSKom: number) => {
+    const calculateCIIPort = (dataTIme: DataTime[], lastSKom: number, lastFocME: number, lastFocGE: number, location: string) => {
         let lastNm = lastSKom;
-        let lastFocMEton = 0;
-        let lastFocGEton = 0;
+        let lastFocMEton = lastFocME;
+        let lastFocGEton = lastFocGE;
         const dataCII: CIIEntry[] = [];
         dataTIme.map((item, index) => {
             const knot = 0;
@@ -1717,7 +1727,7 @@ const Nm2 = [
             const focMEtonKomulatif = focMEton + lastFocMEton;
             lastFocMEton = focMEtonKomulatif;
             const attainedME = (focMEtonKomulatif * mulkom)/(dwt * Skomulatif) * 10 ** 6;
-            const focGEton = 0;
+            const focGEton = location == "SBY" ? sbyFocPort[index] : 0;
             const focGEtonKomulatif = focGEton + lastFocGEton;
             lastFocGEton = focGEtonKomulatif;
             const attainedGE = (focGEtonKomulatif * mulkom) / (dwt * Skomulatif) * 10 ** 6;
@@ -1757,10 +1767,10 @@ const Nm2 = [
         const resCal2 = calculateData(listKnot2, 9710.4, false);
         context?.setDataResultCalculate(resCal);
         context?.setDataResultCalculate2(resCal2);
-        const CIISubBaj = calculateCII(dataTimeSubBaj, resCal, Nm);
-        const BajPort = calculateCIIPort(dataTimeBajPort, CIISubBaj[CIISubBaj.length - 1].skom);
-        const CIIBajSub = calculateCII(dataTimeBajSub, resCal2, Nm2);
-        const SubPort = calculateCIIPort(dataTimeSubPort, CIIBajSub[CIIBajSub.length - 1].skom);
+        const CIISubBaj = calculateCII(dataTimeSubBaj, resCal, Nm, 0, 0, 0);
+        const BajPort = calculateCIIPort(dataTimeBajPort, CIISubBaj[CIISubBaj.length - 1].skom, CIISubBaj[CIISubBaj.length - 1].focMEKom, CIISubBaj[CIISubBaj.length - 1].focGEKom, "BAJ");
+        const CIIBajSub = calculateCII(dataTimeBajSub, resCal2, Nm2, BajPort[BajPort.length - 1].skom, BajPort[BajPort.length - 1].focMEKom, BajPort[BajPort.length - 1].focGEKom);
+        const SubPort = calculateCIIPort(dataTimeSubPort, CIIBajSub[CIIBajSub.length - 1].skom, CIIBajSub[CIIBajSub.length - 1].focMEKom, CIIBajSub[CIIBajSub.length - 1].focGEKom, "SBY");
 
         const combinedArray = CIISubBaj.concat(BajPort, CIIBajSub, SubPort);
 

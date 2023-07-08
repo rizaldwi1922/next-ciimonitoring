@@ -48,7 +48,7 @@ const Ship = () => {
                         <ContentStawave data={data} type="ME"/>
                     </TabPanel>
                     <TabPanel value="2">
-                        <ContentStawave data={data2} type="ME"/>
+                        <ContentStawave data={data2} type="ME" halo="true"/>
                     </TabPanel>
                     <TabPanel value="3">
                         <ContentStawave data={data} type="GE"/>

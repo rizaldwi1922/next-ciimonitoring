@@ -15,8 +15,8 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import { TextField } from '@mui/material';
-import L from 'leaflet';
 import axios from 'axios';
+import RenderIf from '../../src/components/container/RenderIf';
 
 interface Coordinates {
   lon: number;
@@ -59,72 +59,86 @@ const ShipTrackerPosition = () => {
   const [cp, setCp] = useState(0.784);
   const [tops, setTops] = useState( 5.75);
 
+  const [dataAis, setDataAis] = useState<any[]>([]);
+
   const AIS = "http://172.105.112.202:3333";
 
+
+
   useEffect(() => {
-    console.log("win", window);
-  
-    aisDecoder.on('error', err => console.error("Error", err));
-    aisDecoder.on('data', decodedMessage => {
-      const Ships = JSON.parse(decodedMessage);
-      if (Ships.mmsi == 525021189) {
-        if(Ships.lon){
-          console.log("Data Kapal", Ships);
-          const result = calculateData(
-            Ships.speedOverGround, 
-            aops, 
-            Ships.heading, 
-            actualKnot, 
-            H, 
-            fita,
-            loa, 
-            lpp, 
-            b,
-            h,
-            t,
-            gt,
-            dwt,
-            v,
-            lwl,
-            bwl,
-            cp,
-            minute
-          );
-          setSpeed(Ships.speedOverGround);
-          setRt(result.rt);
-          setRtotal(result.Rtotal);
-          setCoordinates({ lon: Ships.lon, lat: Ships.lat });
-          setFoc(result.foc);
-          
-          const newCoordinate: Coordinates = {
-            lon: Ships.lon,
-            lat: Ships.lat
-          };
-          
-          setLines(prevLines => [...prevLines, newCoordinate]);
-        }
-      }
-    });
-
-    const socket: Socket = io(AIS, {
-      withCredentials: true
-    });
-
-    socket.on('ais_mesg', (data) => {
-      var txtList = data.ais_mesg.split("\n");
-      txtList.map((item: string) => {
-        if (item) {
-          var actualAIS = item.replace('\r', '');
-         // console.log(actualAIS)
-          aisDecoder.write(actualAIS);
-        }
+     axios.get('http://api.focnciimonitoring.com/api/getAis?mmsi=525125017')
+      .then(function (response) {
+        setDataAis(response.data);
       })
-    });
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+  }, [])
 
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+
+  // useEffect(() => {
+  //   aisDecoder.on('error', err => console.error("Error", err));
+  //   aisDecoder.on('data', decodedMessage => {
+  //     const Ships = JSON.parse(decodedMessage);
+  //     if (Ships.mmsi == 525021189) {
+  //       if(Ships.lon){
+  //         console.log("Data Kapal", Ships);
+  //         const result = calculateData(
+  //           Ships.speedOverGround, 
+  //           aops, 
+  //           Ships.heading, 
+  //           actualKnot, 
+  //           H, 
+  //           fita,
+  //           loa, 
+  //           lpp, 
+  //           b,
+  //           h,
+  //           t,
+  //           gt,
+  //           dwt,
+  //           v,
+  //           lwl,
+  //           bwl,
+  //           cp,
+  //           minute
+  //         );
+  //         setSpeed(Ships.speedOverGround);
+  //         setRt(result.rt);
+  //         setRtotal(result.Rtotal);
+  //         setCoordinates({ lon: Ships.lon, lat: Ships.lat });
+  //         setFoc(result.foc);
+          
+  //         const newCoordinate: Coordinates = {
+  //           lon: Ships.lon,
+  //           lat: Ships.lat
+  //         };
+          
+  //         setLines(prevLines => [...prevLines, newCoordinate]);
+  //       }
+  //     }
+  //   });
+
+  //   const socket: Socket = io(AIS, {
+  //     withCredentials: true
+  //   });
+
+  //   socket.on('ais_mesg', (data) => {
+  //     var txtList = data.ais_mesg.split("\n");
+  //     txtList.map((item: string) => {
+  //       if (item) {
+  //         var actualAIS = item.replace('\r', '');
+  //        // console.log(actualAIS)
+  //         aisDecoder.write(actualAIS);
+  //       }
+  //     })
+  //   });
+
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, []);
 
   if (typeof window === "undefined") return null;
 
@@ -148,35 +162,26 @@ const ShipTrackerPosition = () => {
     ssr: false,
   });
 
-  // const customIcon = L.icon({
-  //   iconUrl: "/dashboard/record.png",
-  //   iconSize: [32, 32], // Atur ukuran ikon sesuai kebutuhan
-  // });
+  const Circle = dynamic(() => import("react-leaflet").then((mod) => mod.Circle), {
+    ssr: false,
+  });
 
-  const mapMemo = useMemo(() => (
-        <MapContainer center={[-7.1150785020007925, 112.6635587850215]} zoom={13} scrollWheelZoom={true} style={{ height: 700 }}>
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          <Marker position={[coordinates.lat, coordinates.lon]}>
-            <Popup>
-              KM. Meratus Padang <br/>
-              RT: {toFixNumber(rt, 2)} <br />
-              Speed: {speed} <br />
-              RTotal: {toFixNumber(Rtotal, 2)} <br />
-              FOC: {foc}
-            </Popup>
-          </Marker>
-          <Polyline positions={lines.map(coord => [coord.lat, coord.lon])} color="red" />
-        </MapContainer>
-  ), [coordinates]);
+  const circleOptions = {
+    center: [-7.1150785020007925, 112.6635587850215],
+    radius: 1, // radius dalam meter
+    color: 'blue',
+    fillColor: 'blue',
+  };
+
+  // const mapMemo = useMemo(() => (
+        
+  // ), [coordinates]);
 
   return (
     <Box>
         <PageContainer title="Ship Tracker Position">
           <DashboardCard title="Form">
-            <div>
+            <Box>
                 <Box
                 component="form"
                 sx={{
@@ -270,10 +275,37 @@ const ShipTrackerPosition = () => {
                     onChange={e => setTops(parseFloat(e.target.value))}
                 />
             </Box>
-          </div>
+          </Box>
       </DashboardCard>
       <DashboardCard title="Ship Tracker Position">
-        {mapMemo}
+        <MapContainer center={[-7.1150785020007925, 112.6635587850215]} zoom={13} scrollWheelZoom={true} style={{ height: 700 }}>
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+            <Marker position={[dataAis.length > 0 ? dataAis[dataAis.length -1].lat : 0 , dataAis.length > 0 ?  dataAis[dataAis.length -1].lon : 0]}>
+              <Popup>
+                KM. Meratus Padang <br/>
+                RT: {toFixNumber(rt, 2)} <br />
+                Speed: {speed} <br />
+                RTotal: {toFixNumber(Rtotal, 2)} <br />
+                FOC: {foc}
+              </Popup>
+            
+            </Marker>
+          <Polyline positions={dataAis.map(coord => [coord.lat, coord.lon])} color="red" />
+          {dataAis.map((item, index) => 
+             <Circle
+                key={index}
+                center={[item.lat, item.lon]}
+                radius={circleOptions.radius}
+                pathOptions={{
+                  color: circleOptions.color,
+                  fillColor: circleOptions.fillColor,
+                }}
+              />
+          )}
+        </MapContainer>
       </DashboardCard>
       <Box>
         <Drawer
