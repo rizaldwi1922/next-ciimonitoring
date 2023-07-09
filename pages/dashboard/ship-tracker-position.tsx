@@ -14,9 +14,25 @@ import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
+import CircularProgress from '@mui/material/CircularProgress';
 import { TextField } from '@mui/material';
 import axios from 'axios';
 import RenderIf from '../../src/components/container/RenderIf';
+import { calculateCII } from '../../src/components/function/calculateCII';
+
+const Marker = dynamic(() => import("react-leaflet").then((mod) => mod.Marker), {
+  ssr: false,
+});
+const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), {
+  ssr: false,
+});
+const Polyline = dynamic(() => import("react-leaflet").then((mod) => mod.Polyline), {
+  ssr: false,
+});
+
+const Circle = dynamic(() => import("react-leaflet").then((mod) => mod.Circle), {
+  ssr: false,
+});
 
 interface Coordinates {
   lon: number;
@@ -58,8 +74,11 @@ const ShipTrackerPosition = () => {
   const [bwl, setBwl] = useState(19.7);
   const [cp, setCp] = useState(0.784);
   const [tops, setTops] = useState( 5.75);
+  const [power, setPower] = useState(250);
 
   const [dataAis, setDataAis] = useState<any[]>([]);
+  
+  const [isLoading, setIsLoading] = useState(true);
 
   const AIS = "http://172.105.112.202:3333";
 
@@ -68,7 +87,56 @@ const ShipTrackerPosition = () => {
   useEffect(() => {
      axios.get('http://api.focnciimonitoring.com/api/getAis?mmsi=525125017')
       .then(function (response) {
-        setDataAis(response.data);
+        let paramCII = {
+          lastSKom: 0, 
+          lastFocMEKom: 0, 
+          lastFocGEKom: 0,
+          lastLat: 0,
+          lastLon: 0
+        };
+        const dataResult: any[] = [];
+        response.data.map((item: any) => {
+          const result = calculateData(
+            item.speedOverGround, 
+            aops, 
+            item.courseOverGround, 
+            actualKnot, 
+            H, 
+            fita,
+            loa, 
+            lpp, 
+            b,
+            h,
+            t,
+            gt,
+            dwt,
+            v,
+            lwl,
+            bwl,
+            cp,
+            minute,
+            power
+          );
+          const CII = calculateCII(dwt, paramCII, item.lat, item.lon, result.focMe.ton, result.focGE.ton);
+          paramCII['lastSKom'] = CII.lastSKom;
+          paramCII['lastFocMEKom'] = CII.lastFocMEKom;
+          paramCII['lastFocGEKom'] = CII.lastFocGEKom;
+          paramCII['lastLat'] = item.lat;
+          paramCII['lastLon'] = item.lon;
+          dataResult.push(
+            {
+              lat: item.lat,
+              lon: item.lon,
+              rt: result.rt,
+              foc: result.focMe.liter,
+              cii: CII.rating,
+              s: CII.s,
+              speed: item.speedOverGround
+            }
+          )
+        })
+        setDataAis(dataResult);
+        setIsLoading(false);
       })
       .catch(function (error) {
         // handle error
@@ -84,26 +152,26 @@ const ShipTrackerPosition = () => {
   //     if (Ships.mmsi == 525021189) {
   //       if(Ships.lon){
   //         console.log("Data Kapal", Ships);
-  //         const result = calculateData(
-  //           Ships.speedOverGround, 
-  //           aops, 
-  //           Ships.heading, 
-  //           actualKnot, 
-  //           H, 
-  //           fita,
-  //           loa, 
-  //           lpp, 
-  //           b,
-  //           h,
-  //           t,
-  //           gt,
-  //           dwt,
-  //           v,
-  //           lwl,
-  //           bwl,
-  //           cp,
-  //           minute
-  //         );
+          // const result = calculateData(
+          //   Ships.speedOverGround, 
+          //   aops, 
+          //   Ships.heading, 
+          //   actualKnot, 
+          //   H, 
+          //   fita,
+          //   loa, 
+          //   lpp, 
+          //   b,
+          //   h,
+          //   t,
+          //   gt,
+          //   dwt,
+          //   v,
+          //   lwl,
+          //   bwl,
+          //   cp,
+          //   minute
+          // );
   //         setSpeed(Ships.speedOverGround);
   //         setRt(result.rt);
   //         setRtotal(result.Rtotal);
@@ -151,31 +219,67 @@ const ShipTrackerPosition = () => {
     () => dynamic(() => import("react-leaflet").then((mod) => mod.TileLayer), { ssr: false }),
     []
   );
-  
-  const Marker = dynamic(() => import("react-leaflet").then((mod) => mod.Marker), {
-    ssr: false,
-  });
-  const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), {
-    ssr: false,
-  });
-  const Polyline = dynamic(() => import("react-leaflet").then((mod) => mod.Polyline), {
-    ssr: false,
-  });
 
-  const Circle = dynamic(() => import("react-leaflet").then((mod) => mod.Circle), {
-    ssr: false,
-  });
 
-  const circleOptions = {
-    center: [-7.1150785020007925, 112.6635587850215],
-    radius: 1, // radius dalam meter
-    color: 'blue',
-    fillColor: 'blue',
-  };
+  const CircleMarker = (props: any) => {
+    const circleOptions = {
+      radius: 20, // radius dalam meter
+      color: 'blue',
+      fillColor: 'blue',
+    };
 
-  // const mapMemo = useMemo(() => (
-        
-  // ), [coordinates]);
+    if(props.indexData == dataAis.length -1){
+     
+      return (
+        <Marker position={[props.data.lat, props.data.lon]}>
+            <Popup>
+              KM. Meratus Padang <br />
+              Speed: {props.data.speed} Knot <br />
+              RT: {toFixNumber(props.data.rt, 2)} <br />
+              FOC: {toFixNumber(props.data.foc, 2)} <br />
+              CII Rating: {props.data.cii} <br />
+            </Popup>
+        </Marker>
+      )
+    } else {
+      return (
+        <Circle
+            key={props.key}
+            center={[props.data.lat, props.data.lon]}
+            radius={circleOptions.radius}
+            pathOptions={{
+              color: circleOptions.color,
+              fillColor: circleOptions.fillColor,
+              fillOpacity: 1
+            }}
+        >
+            <Popup>
+              KM. Meratus Padang <br />
+              Speed: {props.data.speed} Knot <br />
+              RT: {toFixNumber(props.data.rt, 2)} <br />
+              FOC: {toFixNumber(props.data.foc, 2)} <br />
+              CII Rating: {props.data.cii} <br />
+            </Popup>
+        </Circle>
+      )
+    }
+  }
+
+
+  const mapMemo = useMemo(() => (
+    <MapContainer center={[-7.1150785020007925, 112.6635587850215]} zoom={13} scrollWheelZoom={true} style={{ height: 700 }}>
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      <Polyline positions={dataAis.map(coord => [coord.lat, coord.lon])} color="red" />
+      {dataAis.map((item, index) => 
+        <Box>
+            <CircleMarker data={item} key={index} indexData={index} />
+        </Box>
+      )}
+  </MapContainer>
+  ), [dataAis]);
 
   return (
     <Box>
@@ -278,34 +382,16 @@ const ShipTrackerPosition = () => {
           </Box>
       </DashboardCard>
       <DashboardCard title="Ship Tracker Position">
-        <MapContainer center={[-7.1150785020007925, 112.6635587850215]} zoom={13} scrollWheelZoom={true} style={{ height: 700 }}>
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-            <Marker position={[dataAis.length > 0 ? dataAis[dataAis.length -1].lat : 0 , dataAis.length > 0 ?  dataAis[dataAis.length -1].lon : 0]}>
-              <Popup>
-                KM. Meratus Padang <br/>
-                RT: {toFixNumber(rt, 2)} <br />
-                Speed: {speed} <br />
-                RTotal: {toFixNumber(Rtotal, 2)} <br />
-                FOC: {foc}
-              </Popup>
-            
-            </Marker>
-          <Polyline positions={dataAis.map(coord => [coord.lat, coord.lon])} color="red" />
-          {dataAis.map((item, index) => 
-             <Circle
-                key={index}
-                center={[item.lat, item.lon]}
-                radius={circleOptions.radius}
-                pathOptions={{
-                  color: circleOptions.color,
-                  fillColor: circleOptions.fillColor,
-                }}
-              />
-          )}
-        </MapContainer>
+        <Box>
+          <RenderIf condition={isLoading}>
+            <Box sx={{ display: 'flex', height: 700, justifyContent: 'center', alignItems: 'center' }}>
+              <CircularProgress />
+            </Box>
+          </RenderIf>
+          <RenderIf condition={!isLoading}>
+              {mapMemo}
+          </RenderIf>
+        </Box>
       </DashboardCard>
       <Box>
         <Drawer
@@ -409,6 +495,14 @@ const ShipTrackerPosition = () => {
                   type="number"
                   value={minute}
                   onChange={e => setMinute(parseFloat(e.target.value))}
+              />
+            </ListItem>
+            <ListItem>
+              <TextField
+                  label="Power"
+                  type="number"
+                  value={power}
+                  onChange={e => setPower(parseFloat(e.target.value))}
               />
             </ListItem>
           </List>

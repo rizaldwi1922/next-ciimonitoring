@@ -30,13 +30,6 @@ const ShipVoyage = () => {
                 <div>
                     <TextField
                         required
-                        label="Tanggal Monitoring"
-                        value={date}
-                        onChange={e => setDate(e.target.value)}
-                        type={"date"}
-                    />
-                    <TextField
-                        required
                         label="Voyage Number"
                         type={"number"}
                     />

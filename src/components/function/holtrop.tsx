@@ -17,7 +17,8 @@
         lwl: number,
         bwl: number,
         cp: number,
-        time: number
+        time: number,
+        powerGE: number
     ) => {
         // const [loa, setLoa] = useState(0);
         // const [lpp, setLpp] = useState(0);
@@ -77,7 +78,7 @@
         const Acf = (105 * ((Ks/lwl) ** (1/3)) - 0.64) / 10 ** 3;
         const sudutAngin = 270+45+22.5;
 
-        const sfocData: { load: number; sfoc: number }[] = [
+        const sfocDataME: { load: number; sfoc: number }[] = [
             { load: 30, sfoc: 201.4 },
             { load: 31, sfoc: 200.7 },
             { load: 32, sfoc: 200.0 },
@@ -149,6 +150,80 @@
             { load: 98, sfoc: 186.4 },
             { load: 99, sfoc: 186.6 },
             { load: 100, sfoc: 186.9 }
+          ];
+        
+          const sfocDataGE: { load: number; sfoc: number }[] = [
+            { load: 30, sfoc: 228.6 },
+            { load: 31, sfoc: 227.8 },
+            { load: 32, sfoc: 227.1 },
+            { load: 33, sfoc: 226.3 },
+            { load: 34, sfoc: 225.6 },
+            { load: 35, sfoc: 224.9 },
+            { load: 36, sfoc: 224.2 },
+            { load: 37, sfoc: 223.6 },
+            { load: 38, sfoc: 222.9 },
+            { load: 39, sfoc: 222.3 },
+            { load: 40, sfoc: 221.7 },
+            { load: 41, sfoc: 221.1 },
+            { load: 42, sfoc: 220.5 },
+            { load: 43, sfoc: 219.9 },
+            { load: 44, sfoc: 219.3 },
+            { load: 45, sfoc: 218.8 },
+            { load: 46, sfoc: 218.3 },
+            { load: 47, sfoc: 217.8 },
+            { load: 48, sfoc: 217.3 },
+            { load: 49, sfoc: 216.8 },
+            { load: 50, sfoc: 216.3 },
+            { load: 51, sfoc: 215.8 },
+            { load: 52, sfoc: 215.4 },
+            { load: 53, sfoc: 215.0 },
+            { load: 54, sfoc: 214.6 },
+            { load: 55, sfoc: 214.2 },
+            { load: 56, sfoc: 213.8 },
+            { load: 57, sfoc: 213.4 },
+            { load: 58, sfoc: 213.1 },
+            { load: 59, sfoc: 212.8 },
+            { load: 60, sfoc: 212.4 },
+            { load: 61, sfoc: 212.1 },
+            { load: 62, sfoc: 211.8 },
+            { load: 63, sfoc: 211.6 },
+            { load: 64, sfoc: 211.3 },
+            { load: 65, sfoc: 211.1 },
+            { load: 66, sfoc: 210.8 },
+            { load: 67, sfoc: 210.6 },
+            { load: 68, sfoc: 210.4 },
+            { load: 69, sfoc: 210.3 },
+            { load: 70, sfoc: 210.1 },
+            { load: 71, sfoc: 209.9 },
+            { load: 72, sfoc: 209.8 },
+            { load: 73, sfoc: 209.7 },
+            { load: 74, sfoc: 209.6 },
+            { load: 75, sfoc: 209.5 },
+            { load: 76, sfoc: 209.4 },
+            { load: 77, sfoc: 209.3 },
+            { load: 78, sfoc: 209.3 },
+            { load: 79, sfoc: 209.3 },
+            { load: 80, sfoc: 209.2 },
+            { load: 81, sfoc: 209.2 },
+            { load: 82, sfoc: 209.3 },
+            { load: 83, sfoc: 209.3 },
+            { load: 84, sfoc: 209.3 },
+            { load: 85, sfoc: 209.4 },
+            { load: 86, sfoc: 209.5 },
+            { load: 87, sfoc: 209.6 },
+            { load: 88, sfoc: 209.7 },
+            { load: 89, sfoc: 209.8 },
+            { load: 90, sfoc: 209.9 },
+            { load: 91, sfoc: 210.1 },
+            { load: 92, sfoc: 210.2 },
+            { load: 93, sfoc: 210.4 },
+            { load: 94, sfoc: 210.6 },
+            { load: 95, sfoc: 210.8 },
+            { load: 96, sfoc: 211.0 },
+            { load: 97, sfoc: 211.3 },
+            { load: 98, sfoc: 211.5 },
+            { load: 99, sfoc: 211.8 },
+            { load: 100, sfoc: 212.1 },
           ];
 
         const perhitunganTahanan = (ms: number) => {
@@ -237,7 +312,6 @@
             const CFSuhuGaram = 0.075 / (Math.log10(RNSuhuGaram)-2) ** 2;
             const RAS = rt * (1 - (PsuhuGaram / p)) - rf * (1 - (CFSuhuGaram / cf));
             const obj = {PsuhuGaram: PsuhuGaram, nu: nu, RNSuhuGaram: RNSuhuGaram, CFSuhuGaram: CFSuhuGaram, RAS:RAS};
-            //console.log("Rt", toFixNumber(RT, 4));
             return JSON.stringify(obj);
         }
         const efekGelombang = (h: number, ms: number, PsuhuGaram: number, fita: number) => {
@@ -300,39 +374,42 @@
            const SHP = DHP / nS;
            const nG = 0.98;
            const BHP = SHP / nG;
-           console.log("NB", nB);
     
            const obj = {EHP: EHP, THP: THP, DHP: DHP, SHP: SHP, BHP: BHP};
            
            return JSON.stringify(obj);
         }
     
-        const getSfoc = (load: number) => {
+        const getSfoc = (load: number, multiplier: number, dataSfoc: any) => {
             let result: number = 0;
-            if(load < sfocData[0].load){
-                result = sfocData[0].sfoc;
+            if(load < dataSfoc[0].load){
+                result = dataSfoc[0].sfoc * multiplier;
             } else {
-                const searchResult = sfocData.find(item => item.load === load);
+                const searchResult = dataSfoc.find((item: { load: number; }) => item.load === load);
                 if(searchResult){
-                    result = searchResult?.sfoc;
+                    result = searchResult?.sfoc * multiplier;
                 }
             }
     
             return result;
         }
     
-        const foc = (ms: number, time: number , powerObj: string) => {
+        const foc = (ms: number, time: number , powerObj: string, type: string, sfocList: any, powerGE: number) => {
+            const multiplier = type == "ME" ? 1.095 : 1.1;
             const parsePower = JSON.parse(powerObj);
+            const bhp = type == "ME" ? parsePower.BHP : powerGE;
             const usedEngine = 2;
-            const powerEngine = 2500;
-            const engineLoad = Math.round(((parsePower.BHP / (usedEngine * powerEngine)) * 100));
-            const sfoc = engineLoad > 0 ? getSfoc(engineLoad) : 0;
+            const powerEngine = type == "ME" ? 2500 : 276;
+            const engineLoad = Math.round(((bhp / (usedEngine * powerEngine)) * 100));
+            const sfoc = engineLoad > 0 ? getSfoc(engineLoad, multiplier, sfocList) : 0;
             const hour = time / 60;
-            const gram = sfoc * (parsePower.BHP * hour);
+            const gram = sfoc * (bhp * hour);
             const ton = gram / 1000000;
             const densityDO = (1000/859.1)*1000;
             const liter = ton * densityDO;
-            return {gr: gram, ton: ton, liter: liter, load: engineLoad, sfoc: sfoc, hour: hour}
+            const obj = {gr: gram, ton: ton, liter: liter, load: engineLoad, sfoc: sfoc, hour: hour, power: bhp}
+            return obj;
+            
         }
 
         const ms = knot * 0.514444;
@@ -356,7 +433,8 @@
         const waveResistance = efekGelombang(H, ms, PsuhuGaram, fita);
         const waveMethod = stawaveMethod(draft.N, angin.raa, rt, efekSuhuGaram, waveResistance);
         const powerShip = power(ms, waveMethod.RTotal);
-        const dataFoc = foc(ms, time, powerShip);
+        const dataFocME = foc(ms, time, powerShip, "ME", sfocDataME, powerGE);
+        const dataFocGE = foc(ms, time, powerShip, "GE", sfocDataGE, powerGE);
 
-        return {rt: rt, Rtotal: waveMethod.RTotal, foc: dataFoc.liter}
+        return {rt: rt, Rtotal: waveMethod.RTotal, focMe: dataFocME, focGE: dataFocGE}
     }
