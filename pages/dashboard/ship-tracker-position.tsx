@@ -407,33 +407,6 @@ const ShipTrackerPosition = () => {
           anchor="right"
         >
           <Toolbar />
-          <List>
-            <ListItem>
-              <Typography>
-                Lat: {coordinates.lat}
-              </Typography>
-            </ListItem>
-            <ListItem>
-              <Typography>
-                Lon: {coordinates.lon}
-              </Typography>
-            </ListItem>
-            <ListItem>
-              <Typography>
-                Speed: {speed}
-              </Typography>
-            </ListItem>
-            <ListItem>
-              <Typography>
-                RT: {toFixNumber(rt, 2)}
-              </Typography>
-            </ListItem>
-            <ListItem>
-              <Typography>
-                RTotal: {toFixNumber(Rtotal, 2)}
-              </Typography>
-            </ListItem>
-          </List>
           <Divider />
           <Toolbar variant="dense">
             <Typography variant="h6" color="inherit" component="div">

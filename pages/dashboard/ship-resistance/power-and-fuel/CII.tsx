@@ -73,33 +73,8 @@ const Ship = () => {
         return <div>Loading...</div>;
     }
 
-    const [dataAis, setDataAis] = useState<any[]>([]);
-
-
-
-//   const GetDataAis = async() => {
-//       await axios.get('http://api.focnciimonitoring.com/api/getAis?mmsi=525125017')
-//       .then(function (response) {
-//         setDataAis(response.data);
-//       })
-//       .catch(function (error) {
-//         // handle error
-//         console.log(error);
-//       })
-//   }
-
-  useEffect(() => {
-    setDataAis([{
-      lat: -6.567723333333333,
-      lon: 114.47997333333333
-    }
-    ])
-    //GetDataAis();
-  }, [])
-
     return (
         <Box>
-            <button onClick={() => console.log(dataAis)}>Tets</button>
             <DashboardCard title="CII">
                 <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                     <TableContainer>
