@@ -12,9 +12,9 @@ const ShipVoyage = () => {
 
     const [date, setDate] = useState(moment().format("YYYY-MM-DD"))
 
-    // useEffect(()=>{
-    //     alert(date)
-    // })
+    const [mmsi, setMMSI] = useState("525125017")
+    const [name, setName] = useState("MERATUS PADANG")
+    const [company, setCompany] = useState("PT. Meratus")
 
   return (
     <PageContainer title="Ship Voyage">
@@ -37,6 +37,7 @@ const ShipVoyage = () => {
                         required
                         label="Nama Kapal"
                         type="text"
+                        value={name}
                     />
                     <TextField
                         required
@@ -47,11 +48,13 @@ const ShipVoyage = () => {
                         required
                         label="MMSI"
                         type="text"
+                        value={mmsi}
                     />
                     <TextField
                         required
                         label="Owner"
                         type="text"
+                        value={company}
                     />
                 </div>
             </Box>

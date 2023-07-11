@@ -77,6 +77,7 @@ const ShipTrackerPosition = () => {
   const [power, setPower] = useState(250);
 
   const [dataAis, setDataAis] = useState<any[]>([]);
+  const [dataAis2, setDataAis2] = useState<any[]>([]);
   
   const [isLoading, setIsLoading] = useState(true);
 
@@ -95,7 +96,8 @@ const ShipTrackerPosition = () => {
           lastLon: 0
         };
         const dataResult: any[] = [];
-        response.data.map((item: any) => {
+        const dataResult2: any[] = [];
+        response.data.map((item: any, index: number) => {
           const result = calculateData(
             item.speedOverGround, 
             aops, 
@@ -123,6 +125,32 @@ const ShipTrackerPosition = () => {
           paramCII['lastFocGEKom'] = CII.lastFocGEKom;
           paramCII['lastLat'] = item.lat;
           paramCII['lastLon'] = item.lon;
+
+          // if(index > 897){  
+          //   dataResult2.push(
+          //     {
+          //       lat: item.lat,
+          //       lon: item.lon,
+          //       rt: result.rt,
+          //       foc: result.focMe.liter,
+          //       cii: CII.rating,
+          //       s: CII.s,
+          //       speed: item.speedOverGround
+          //     }
+          //   )
+          // } else {
+          //   dataResult.push(
+          //     {
+          //       lat: item.lat,
+          //       lon: item.lon,
+          //       rt: result.rt,
+          //       foc: result.focMe.liter,
+          //       cii: CII.rating,
+          //       s: CII.s,
+          //       speed: item.speedOverGround
+          //     }
+          //   )
+          // }
           dataResult.push(
             {
               lat: item.lat,
@@ -136,6 +164,7 @@ const ShipTrackerPosition = () => {
           )
         })
         setDataAis(dataResult);
+        // setDataAis2(dataResult2);
         setIsLoading(false);
       })
       .catch(function (error) {
@@ -143,6 +172,26 @@ const ShipTrackerPosition = () => {
         console.log(error);
       })
   }, [])
+  // let count = 0;
+  // useEffect(() => {
+  //   if(dataAis2){
+  //     const interval = setInterval(() => {
+  //       const newData = dataAis2[count];
+  //       if(newData){
+  //          setDataAis(prevData => [...prevData, dataAis2[count]]);
+  //          console.log()
+  //         console.log(count)
+  //       }
+  //       count++;
+       
+  //     }, 20000);
+  
+  //     return () => {
+  //       clearInterval(interval);
+  //     };
+  //   }
+    
+  // }, [dataAis2]); 
 
 
   // useEffect(() => {
@@ -231,20 +280,22 @@ const ShipTrackerPosition = () => {
     if(props.indexData == dataAis.length -1){
      
       return (
-        <Marker position={[props.data.lat, props.data.lon]}>
+        <Marker key={props.indexData} position={[props.data.lat, props.data.lon]}>
             <Popup>
               KM. Meratus Padang <br />
               Speed: {props.data.speed} Knot <br />
               RT: {toFixNumber(props.data.rt, 2)} <br />
               FOC: {toFixNumber(props.data.foc, 2)} <br />
               CII Rating: {props.data.cii} <br />
+            
+              {/* index: {props.indexData} */}
             </Popup>
         </Marker>
       )
     } else {
       return (
         <Circle
-            key={props.key}
+            key={props.indexData}
             center={[props.data.lat, props.data.lon]}
             radius={circleOptions.radius}
             pathOptions={{
@@ -259,6 +310,8 @@ const ShipTrackerPosition = () => {
               RT: {toFixNumber(props.data.rt, 2)} <br />
               FOC: {toFixNumber(props.data.foc, 2)} <br />
               CII Rating: {props.data.cii} <br />
+              {/* {props.data.lat} : {props.data.lon} <br />
+              index: {props.indexData} */}
             </Popup>
         </Circle>
       )
